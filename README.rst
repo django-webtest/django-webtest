@@ -83,7 +83,6 @@ Twill is also a great tool and it also can be easily integrated with django
 (see django-test-utils package) and I also enjoy it much. But I prefer WebTest
 over twill because twill is old (last release is in 2007), communicate via HTTP
 instead of WSGI (though there is workaround for that), lacks support for
-non-latin text (not to mention unicode) and have a much larger codebase to
-hack on. Twill however understands HTML better and is more mature so
-consider it (and django-test-utils package) if WebTest doesn't fit for some
-reason.
+unicode and have a much larger codebase to hack on. Twill however understands
+HTML better and is more mature so consider it if WebTest doesn't fit for
+some reason.

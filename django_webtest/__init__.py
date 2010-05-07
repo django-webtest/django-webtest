@@ -60,6 +60,8 @@ class DjangoTestApp(TestApp):
 
 class WebTest(TestCase):
 
+    extra_environ = {}
+
     def _patch_settings(self):
         ''' Patch settings to add support for REMOTE_USER authorization '''
         self._MIDDLEWARE_CLASSES = settings.MIDDLEWARE_CLASSES[:]
@@ -84,7 +86,7 @@ class WebTest(TestCase):
 
     def __call__(self, result=None):
         self._patch_settings()
-        self.app = DjangoTestApp()
+        self.app = DjangoTestApp(extra_environ=self.extra_environ)
         res = super(WebTest, self).__call__(result)
         self._unpatch_settings()
         return res

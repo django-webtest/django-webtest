@@ -48,6 +48,9 @@ it is nice to have some sort of integration instantly.
         # we want some initial data to be able to login
         fixtures = ['users', 'blog_posts']
 
+        # default extra_environ for this TestCase
+        extra_environ = {'REMOTE_ADDR': '10.20.30.1'}
+
         def testBlog(self):
             # pretend to be logged in as user `kmike` and go to the index page
             index = self.app.get('/', user='kmike')

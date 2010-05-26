@@ -54,8 +54,10 @@ class DjangoTestApp(TestApp):
         if user:
             extra_environ = extra_environ or {}
             extra_environ['REMOTE_USER'] = user
-        return super(DjangoTestApp, self).post(url, params, headers, extra_environ,
-                                               status, expect_errors, content_type)
+        return super(DjangoTestApp, self).post(url, params, headers,
+                                               extra_environ, status,
+                                               upload_files, expect_errors,
+                                               content_type)
 
 
 class WebTest(TestCase):

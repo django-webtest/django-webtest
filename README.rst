@@ -45,10 +45,10 @@ it is nice to have some sort of integration instantly.
 
     class MyTestCase(WebTest):
 
-        # we want some initial data to be able to login
+        # optional: we want some initial data to be able to login
         fixtures = ['users', 'blog_posts']
 
-        # default extra_environ for this TestCase
+        # optional: default extra_environ for this TestCase
         extra_environ = {'REMOTE_ADDR': '10.20.30.1'}
 
         def testBlog(self):

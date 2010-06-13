@@ -6,38 +6,8 @@ django-webtest is an almost trivial app for instant integration of
 Ian Bicking's WebTest (http://pythonpaste.org/webtest/) with django's
 testing framework.
 
-
-Installation
-============
-
-::
-
-    $ pip install webtest
-    $ pip install django-webtest
-
-or ::
-
-    $ easy_install webtest
-    $ easy_install django-webtest
-
-or grab latest versions from bitbucket
-(http://bitbucket.org/ianb/webtest, http://bitbucket.org/kmike/django-webtest)
-
 Usage
 =====
-
-django-webtest provides django.test.TestCase subclass (``WebTest``) that creates
-``webtest.TestApp`` around django wsgi interface and make it available in
-tests as ``self.app``.
-
-It also features optional ``user`` argument for ``self.app.get`` and
-``self.app.post`` methods to help making authorized requests. This argument
-should be django.contrib.auth.models.User's ``username`` for user who is
-supposed to be logged in.
-
-All of these features can be easily set up manually (thanks to WebTest
-architecture) and they are even not neccessary for using WebTest with django but
-it is nice to have some sort of integration instantly.
 
 ::
 
@@ -62,9 +32,40 @@ it is nice to have some sort of integration instantly.
             # it's body.
             assert 'My Article' in index.click('Blog')
 
+django-webtest provides django.test.TestCase subclass (``WebTest``) that creates
+``webtest.TestApp`` around django wsgi interface and make it available in
+tests as ``self.app``.
+
+It also features optional ``user`` argument for ``self.app.get`` and
+``self.app.post`` methods to help making authorized requests. This argument
+should be django.contrib.auth.models.User's ``username`` for user who is
+supposed to be logged in.
+
+All of these features can be easily set up manually (thanks to WebTest
+architecture) and they are even not neccessary for using WebTest with django but
+it is nice to have some sort of integration instantly.
+
 See http://pythonpaste.org/webtest/ for API help. It can follow links, submit
 forms, parse html, xml and json responses with different parsing libraries,
 upload files and more.
+
+
+Installation
+============
+
+::
+
+    $ pip install webtest
+    $ pip install django-webtest
+
+or ::
+
+    $ easy_install webtest
+    $ easy_install django-webtest
+
+or grab latest versions from bitbucket
+(http://bitbucket.org/ianb/webtest, http://bitbucket.org/kmike/django-webtest)
+
 
 Why?
 ====

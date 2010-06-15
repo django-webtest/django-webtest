@@ -6,6 +6,7 @@ from django.db import close_connection
 from django.core import signals
 from django.test import TestCase
 from webtest import TestApp, TestRequest
+from django.http import HttpResponseServerError
 
 
 class DjangoWsgiFix(object):
@@ -32,10 +33,16 @@ class DjangoWsgiFix(object):
             signals.request_finished.connect(close_connection)
 
 
+class WebtestExceptionHandler(WSGIHandler):
+    """ Show original traceback instead of HTML 500 page """
+    def handle_uncaught_exception(self, request, resolver, exc_info):
+        return HttpResponseServerError(self._get_traceback(exc_info))
+
+
 class DjangoTestApp(TestApp):
 
     def __init__(self, extra_environ=None, relative_to=None):
-        app = DjangoWsgiFix(AdminMediaHandler(WSGIHandler()))
+        app = DjangoWsgiFix(AdminMediaHandler(WebtestExceptionHandler()))
         super(DjangoTestApp, self).__init__(app, extra_environ, relative_to)
 
 

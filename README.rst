@@ -41,6 +41,9 @@ It also features optional ``user`` argument for ``self.app.get`` and
 should be django.contrib.auth.models.User's ``username`` for user who is
 supposed to be logged in.
 
+For 500 errors original traceback is shown instead of usual html result
+from handler500.
+
 All of these features can be easily set up manually (thanks to WebTest
 architecture) and they are even not neccessary for using WebTest with django but
 it is nice to have some sort of integration instantly.

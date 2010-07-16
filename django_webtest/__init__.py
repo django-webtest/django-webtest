@@ -5,8 +5,9 @@ from django.core.servers.basehttp import AdminMediaHandler
 from django.db import close_connection
 from django.core import signals
 from django.test import TestCase
-from webtest import TestApp, TestRequest
 from django.http import HttpResponseServerError
+from django.contrib.auth.models import User
+from webtest import TestApp, TestRequest
 
 
 class DjangoWsgiFix(object):
@@ -45,26 +46,29 @@ class DjangoTestApp(TestApp):
         app = DjangoWsgiFix(AdminMediaHandler(WebtestExceptionHandler()))
         super(DjangoTestApp, self).__init__(app, extra_environ, relative_to)
 
+    def _update_environ(self, environ, user):
+        if user:
+            environ = environ or {}
+            if isinstance(user, User):
+                environ['REMOTE_USER'] = str(user.username)
+            else:
+                environ['REMOTE_USER'] = user
+        return environ
 
     def get(self, url, params=None, headers=None, extra_environ=None,
             status=None, expect_errors=False, user=None):
-        if user:
-            extra_environ = extra_environ or {}
-            extra_environ['REMOTE_USER'] = user
-        return super(DjangoTestApp, self).get(url, params, headers, extra_environ,
-                                              status, expect_errors)
+        extra_environ = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).get(
+                  url, params, headers, extra_environ, status, expect_errors)
 
 
     def post(self, url, params=None, headers=None, extra_environ=None,
              status=None, upload_files=None, expect_errors=False,
              content_type=None, user=None):
-        if user:
-            extra_environ = extra_environ or {}
-            extra_environ['REMOTE_USER'] = user
-        return super(DjangoTestApp, self).post(url, params, headers,
-                                               extra_environ, status,
-                                               upload_files, expect_errors,
-                                               content_type)
+        extra_environ = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).post(
+                   url, params, headers, extra_environ, status,
+                   upload_files, expect_errors, content_type)
 
 
 class WebTest(TestCase):

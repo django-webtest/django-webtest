@@ -20,7 +20,7 @@ setup(
     long_description = open('README.rst').read(),
     requires = ['WebTest'],
 
-    classifiers=(
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
@@ -28,5 +28,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
-    ),
+        'Topic :: Software Development :: Testing',
+    ],
 )

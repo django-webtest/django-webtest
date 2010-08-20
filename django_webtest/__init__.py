@@ -58,14 +58,14 @@ class DjangoTestApp(TestApp):
                 environ['REMOTE_USER'] = user
         return environ
 
-    def do_request(self, *args, **kwargs):
+    def do_request(self, req, status, expect_errors):
         # Curry a data dictionary into an instance of the template renderer
         # callback function.
         data = {}
         on_template_render = curry(store_rendered_templates, data)
         template_rendered.connect(on_template_render)
 
-        response = super(DjangoTestApp, self).do_request(*args, **kwargs)
+        response = super(DjangoTestApp, self).do_request(req, status, expect_errors)
 
         # Add any rendered template detail to the response.
         # If there was only one template rendered (the most likely case),
@@ -105,6 +105,10 @@ class WebTest(TestCase):
         ''' Patch settings to add support for REMOTE_USER authorization '''
         self._MIDDLEWARE_CLASSES = settings.MIDDLEWARE_CLASSES[:]
         self._AUTHENTICATION_BACKENDS = settings.AUTHENTICATION_BACKENDS[:]
+
+        disable_csrf_middleware = 'django_webtest.middleware.DisableCSRFCheckMiddleware'
+        if not disable_csrf_middleware in settings.MIDDLEWARE_CLASSES:
+            settings.MIDDLEWARE_CLASSES = (disable_csrf_middleware,) + settings.MIDDLEWARE_CLASSES
 
         remote_user_middleware = 'django.contrib.auth.middleware.RemoteUserMiddleware'
         if not remote_user_middleware in settings.MIDDLEWARE_CLASSES:

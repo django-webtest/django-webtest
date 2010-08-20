@@ -1,12 +1,15 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.core import signals
+from django.test.signals import template_rendered
 from django.core.handlers.wsgi import WSGIHandler
 from django.core.servers.basehttp import AdminMediaHandler
 from django.db import close_connection
-from django.core import signals
-from django.test import TestCase
 from django.http import HttpResponseServerError
-from django.contrib.auth.models import User
+from django.test import TestCase
+from django.test.client import store_rendered_templates
+from django.utils.functional import curry
 from webtest import TestApp, TestRequest
 
 
@@ -55,6 +58,29 @@ class DjangoTestApp(TestApp):
                 environ['REMOTE_USER'] = user
         return environ
 
+    def do_request(self, *args, **kwargs):
+        # Curry a data dictionary into an instance of the template renderer
+        # callback function.
+        data = {}
+        on_template_render = curry(store_rendered_templates, data)
+        template_rendered.connect(on_template_render)
+
+        response = super(DjangoTestApp, self).do_request(*args, **kwargs)
+
+        # Add any rendered template detail to the response.
+        # If there was only one template rendered (the most likely case),
+        # flatten the list to a single element.
+        for detail in ('template', 'context'):
+            if data.get(detail):
+                if len(data[detail]) == 1:
+                    setattr(response, detail, data[detail][0]);
+                else:
+                    setattr(response, detail, data[detail])
+            else:
+                setattr(response, detail, None)
+
+        return response
+
     def get(self, url, params=None, headers=None, extra_environ=None,
             status=None, expect_errors=False, user=None):
         extra_environ = self._update_environ(extra_environ, user)
@@ -62,7 +88,7 @@ class DjangoTestApp(TestApp):
                   url, params, headers, extra_environ, status, expect_errors)
 
 
-    def post(self, url, params=None, headers=None, extra_environ=None,
+    def post(self, url, params='', headers=None, extra_environ=None,
              status=None, upload_files=None, expect_errors=False,
              content_type=None, user=None):
         extra_environ = self._update_environ(extra_environ, user)

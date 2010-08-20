@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<h1>Hello :)</h1>
+
+{% if bar %}
+<ul>
+{% for bar in foo %}
+    <li>{{ object }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<p>Do we want spam? {{ spam|yesno }}</p>

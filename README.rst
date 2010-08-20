@@ -44,6 +44,11 @@ should be django.contrib.auth.models.User instance or a string with user's
 For 500 errors original traceback is shown instead of usual html result
 from handler500.
 
+You also get the ``response.template`` and ``response.context`` goodness that
+is usually only available if you use django's native test client. These
+attributes contain a list of templates that were used to render the response
+and the context used to render these templates.
+
 All of these features can be easily set up manually (thanks to WebTest
 architecture) and they are even not neccessary for using WebTest with django but
 it is nice to have some sort of integration instantly.

@@ -24,3 +24,8 @@ build/
 dist/
 .build/
 MANIFEST
+
+#virtualenv files
+bin/
+lib/
+include/

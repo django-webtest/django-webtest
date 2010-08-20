@@ -1,8 +1,18 @@
 # -*- coding: utf-8 -*-
-from django.core import mail
-from django.test import TestCase
+from webtest import AppError
+from django_webtest import WebTest
 
 
-class GetPostRequestTest(TestCase):
-    def test_fail(self):
-        self.fail(1)
+class GetPostRequestTest(WebTest):
+    def test_get_request(self):
+        response = self.app.get('/')
+        self.assertEqual(response.status_int, 200)
+        self.assertTrue('GET' in response)
+
+    def test_post_request(self):
+        response = self.app.post('/')
+        self.assertEqual(response.status_int, 200)
+        self.assertTrue('POST' in response)
+
+    def test_404_response(self):
+        self.assertRaises(AppError, self.app.get, '/404/')

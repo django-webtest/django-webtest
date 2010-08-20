@@ -1,16 +1,15 @@
 from django.conf.urls.defaults import *
+from django.http import HttpResponse
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Example:
-    # (r'^django_webtest_tests/', include('django_webtest_tests.foo.urls')),
+def simple_method_test(request):
+    return HttpResponse(unicode(request.method))
 
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
-    # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+urlpatterns = patterns('',
+    url(r'^$', simple_method_test, name='simple-method-test'),
 
     # Uncomment the next line to enable the admin:
     # (r'^admin/', include(admin.site.urls)),

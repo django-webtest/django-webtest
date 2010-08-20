@@ -18,7 +18,7 @@ setup(
 (http://pythonpaste.org/webtest/) with django's testing framework.""",
 
     long_description = open('README.rst').read(),
-    install_requires = ['webtest'],
+    requires = ['webtest'],
 
     classifiers=[
         'Development Status :: 4 - Beta',

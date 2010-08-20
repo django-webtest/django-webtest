@@ -1,0 +1,27 @@
+CHANGES
+=======
+
+1.2 (2010-08-21)
+----------------
+
+- `response.template` and `response.context` goodness (thanks Gregor Müllegger)
+- tests (thanks Gregor Müllegger)
+- csrf checks are now optional (thanks Gregor Müllegger)
+
+1.1.1 (2010-07-16)
+------------------
+
+- User instance can be passed to `get` and `post` methods instead
+  of user's username
+
+1.1 (2010-06-15)
+----------------
+
+- original traceback instead of html 500 error page
+- per-TestCase extra_environ (thanks Gael Pasgrimaud)
+- fixed a bug with app.post parameters (thanks anonymous)
+
+
+1.0 (2010-04-20)
+----------------
+Initial release (thanks Ian Bicking for WebTest)

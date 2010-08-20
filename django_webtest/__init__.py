@@ -100,15 +100,19 @@ class DjangoTestApp(TestApp):
 class WebTest(TestCase):
 
     extra_environ = {}
+    csrf_checks = True
 
     def _patch_settings(self):
-        ''' Patch settings to add support for REMOTE_USER authorization '''
+        ''' Patch settings to add support for REMOTE_USER authorization
+            and (optional) to disable CSRF checks
+        '''
         self._MIDDLEWARE_CLASSES = settings.MIDDLEWARE_CLASSES[:]
         self._AUTHENTICATION_BACKENDS = settings.AUTHENTICATION_BACKENDS[:]
 
-        disable_csrf_middleware = 'django_webtest.middleware.DisableCSRFCheckMiddleware'
-        if not disable_csrf_middleware in settings.MIDDLEWARE_CLASSES:
-            settings.MIDDLEWARE_CLASSES = (disable_csrf_middleware,) + settings.MIDDLEWARE_CLASSES
+        if not self.csrf_checks:
+            disable_csrf_middleware = 'django_webtest.middleware.DisableCSRFCheckMiddleware'
+            if not disable_csrf_middleware in settings.MIDDLEWARE_CLASSES:
+                settings.MIDDLEWARE_CLASSES = (disable_csrf_middleware,) + settings.MIDDLEWARE_CLASSES
 
         remote_user_middleware = 'django.contrib.auth.middleware.RemoteUserMiddleware'
         if not remote_user_middleware in settings.MIDDLEWARE_CLASSES:

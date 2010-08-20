@@ -3,11 +3,14 @@ from webtest import AppError
 from django_webtest import WebTest
 
 
-class GetPostRequestTest(WebTest):
+class GetRequestTest(WebTest):
     def test_get_request(self):
         response = self.app.get('/')
         self.assertEqual(response.status_int, 200)
         self.assertTrue('GET' in response)
+
+class PostRequestTest(WebTest):
+    csrf_checks = False
 
     def test_post_request(self):
         response = self.app.post('/')

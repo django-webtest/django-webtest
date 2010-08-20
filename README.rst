@@ -2,8 +2,8 @@
 django-webtest
 ==============
 
-django-webtest is an almost trivial app for instant integration of
-Ian Bicking's WebTest (http://pythonpaste.org/webtest/) with django's
+django-webtest is an app for instant integration of Ian Bicking's
+WebTest (http://pythonpaste.org/webtest/) with django's
 testing framework.
 
 Usage
@@ -48,6 +48,31 @@ You also get the ``response.template`` and ``response.context`` goodness that
 is usually only available if you use django's native test client. These
 attributes contain a list of templates that were used to render the response
 and the context used to render these templates.
+
+Unlike django's native test client CSRF checks are not suppressed so
+missing CSRF tokens will cause test fails (and that's good).
+
+If forms are submitted via WebTest forms API then all form fields (including
+CSRF token) are submitted automagically::
+
+    class AuthTest(WebTest):
+        fixtures = ['users.json']
+
+        def test_login(self)
+            login_form = self.app.get(reverse('auth_login')).form
+            form['username'] = 'foo'
+            form['password'] = 'bar'
+            response = form.submit().follow()
+            self.assertEqual(response.context['user'].username, 'foo')
+
+However if forms are submitted via raw POST requests using ``app.post`` then
+csrf tokens become hard to construct. CSRF checks can be disabled by setting
+``csrf_checks`` attribute to False in this case::
+
+    class MyTestCase(WebTest):
+        csrf_checks = False
+        def test_post(self)
+            self.app.post('/')
 
 All of these features can be easily set up manually (thanks to WebTest
 architecture) and they are even not neccessary for using WebTest with django but

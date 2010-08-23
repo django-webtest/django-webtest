@@ -101,6 +101,7 @@ class WebTest(TestCase):
 
     extra_environ = {}
     csrf_checks = True
+    setup_auth = True
 
     def _patch_settings(self):
         ''' Patch settings to add support for REMOTE_USER authorization
@@ -110,10 +111,22 @@ class WebTest(TestCase):
         self._AUTHENTICATION_BACKENDS = settings.AUTHENTICATION_BACKENDS[:]
 
         if not self.csrf_checks:
-            disable_csrf_middleware = 'django_webtest.middleware.DisableCSRFCheckMiddleware'
-            if not disable_csrf_middleware in settings.MIDDLEWARE_CLASSES:
-                settings.MIDDLEWARE_CLASSES = (disable_csrf_middleware,) + settings.MIDDLEWARE_CLASSES
+            self._disable_csrf_checks()
 
+        if self.setup_auth:
+            self._setup_auth()
+
+    def _unpatch_settings(self):
+        ''' Restore settings to before-patching state '''
+        settings.MIDDLEWARE_CLASSES = self._MIDDLEWARE_CLASSES
+        settings.AUTHENTICATION_BACKENDS = self._AUTHENTICATION_BACKENDS
+
+    def _disable_csrf_checks(self):
+        disable_csrf_middleware = 'django_webtest.middleware.DisableCSRFCheckMiddleware'
+        if not disable_csrf_middleware in settings.MIDDLEWARE_CLASSES:
+            settings.MIDDLEWARE_CLASSES = (disable_csrf_middleware,) + settings.MIDDLEWARE_CLASSES
+
+    def _setup_auth(self):
         remote_user_middleware = 'django.contrib.auth.middleware.RemoteUserMiddleware'
         if not remote_user_middleware in settings.MIDDLEWARE_CLASSES:
             settings.MIDDLEWARE_CLASSES += (remote_user_middleware,)
@@ -125,11 +138,6 @@ class WebTest(TestCase):
         except ValueError:
             auth_backends.append('django.contrib.auth.backends.RemoteUserBackend')
         settings.AUTHENTICATION_BACKENDS = auth_backends
-
-    def _unpatch_settings(self):
-        ''' Restore settings to before-patching state '''
-        settings.MIDDLEWARE_CLASSES = self._MIDDLEWARE_CLASSES
-        settings.AUTHENTICATION_BACKENDS = self._AUTHENTICATION_BACKENDS
 
     def __call__(self, result=None):
         self._patch_settings()

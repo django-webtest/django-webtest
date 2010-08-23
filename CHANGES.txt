@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.2.1 (2010-08-24)
+------------------
+
+- REMOTE_USER authorization can be disabled
+
 1.2 (2010-08-21)
 ----------------
 

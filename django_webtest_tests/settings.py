@@ -81,7 +81,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'django_webtest_tests.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     join('templates'),

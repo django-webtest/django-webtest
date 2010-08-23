@@ -51,6 +51,16 @@ class TemplateContextTest(WebTest):
         self.assertEqual(response.context['bar'], True)
         self.assertEqual(response.context['spam'], None)
 
+    def test_django_assert_api(self):
+        response = self.app.get('/template/index.html')
+        self.assertTemplateUsed(response, 'index.html')
+        self.assertTemplateNotUsed(response, 'complex.html')
+
+        complex_response = self.app.get('/template/complex.html')
+        self.assertTemplateUsed(complex_response, 'complex.html')
+        self.assertTemplateUsed(complex_response, 'include.html')
+        self.assertTemplateNotUsed(complex_response, 'foo.html')
+
 
 class AuthTest(WebTest):
     def setUp(self):

@@ -49,8 +49,8 @@ is usually only available if you use django's native test client. These
 attributes contain a list of templates that were used to render the response
 and the context used to render these templates.
 
-Unlike django's native test client CSRF checks are not suppressed so
-missing CSRF tokens will cause test fails (and that's good).
+Unlike django's native test client CSRF checks are not suppressed
+by default so missing CSRF tokens will cause test fails (and that's good).
 
 If forms are submitted via WebTest forms API then all form fields (including
 CSRF token) are submitted automagically::
@@ -120,6 +120,9 @@ Twill is also a great tool and it also can be easily integrated with django
 (see django-test-utils package) and I also enjoy it much. But I prefer WebTest
 over twill because twill is old (last release is in 2007), communicate via HTTP
 instead of WSGI (though there is workaround for that), lacks support for
-unicode and have a much larger codebase to hack on. Twill however understands
+unicode and have a much larger codebase to hack on. django-webtest also
+is able to provide access to the names of rendered templates and
+template context just like native django TestClient. Twill however understands
 HTML better and is more mature so consider it if WebTest doesn't fit for
 some reason.
+

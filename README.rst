@@ -47,7 +47,9 @@ from handler500.
 You also get the ``response.template`` and ``response.context`` goodness that
 is usually only available if you use django's native test client. These
 attributes contain a list of templates that were used to render the response
-and the context used to render these templates.
+and the context used to render these templates. This also means that django's
+native ``self.assertFormError``,  ``self.assertTemplateUsed`` and
+``self.assertTemplateNotUsed`` API is also supported for WebTest responses.
 
 Unlike django's native test client CSRF checks are not suppressed
 by default so missing CSRF tokens will cause test fails (and that's good).

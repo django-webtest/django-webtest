@@ -20,7 +20,5 @@ def simple_template_render(request, template_name):
 urlpatterns = patterns('',
     url(r'^$', simple_method_test, name='simple-method-test'),
     url(r'^template/(.*)$', simple_template_render, name='simple-template-test'),
-
-    # Uncomment the next line to enable the admin:
-    # (r'^admin/', include(admin.site.urls)),
+    url(r'^check-password/$', 'testapp_tests.views.check_password', name='check_password')
 )

@@ -2,6 +2,8 @@
 from webtest import AppError
 from django_webtest import WebTest
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from testapp_tests.views import PasswordForm
 
 class GetRequestTest(WebTest):
     def test_get_request(self):
@@ -25,6 +27,19 @@ class CsrfProtectionTest(WebTest):
     def test_csrf_failed(self):
         response = self.app.post('/', expect_errors=True)
         self.assertEqual(response.status_int, 403)
+
+
+class FormSubmitTest(WebTest):
+
+    def test_form_submit(self):
+        page = self.app.get(reverse('check_password'))
+        page.form['password'] = 'bar'
+        page_with_errors = page.form.submit()
+
+        self.assertFormError(page_with_errors, 'form', 'password', 'Incorrect password.')
+
+        page_with_errors.form['password'] = 'foo'
+        page_with_errors.form.submit().follow() # check for 302 response
 
 
 class TemplateContextTest(WebTest):
@@ -84,6 +99,7 @@ class AuthTest(WebTest):
 
     def test_auth_is_enabled(self):
         from django.conf import settings
+
         remote_user_middleware = 'django.contrib.auth.middleware.RemoteUserMiddleware'
         assert remote_user_middleware in settings.MIDDLEWARE_CLASSES
         assert 'django.contrib.auth.backends.RemoteUserBackend' in settings.AUTHENTICATION_BACKENDS

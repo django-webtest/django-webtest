@@ -3,7 +3,6 @@ from webtest import AppError
 from django_webtest import WebTest
 from django.contrib.auth.models import User
 
-
 class GetRequestTest(WebTest):
     def test_get_request(self):
         response = self.app.get('/')
@@ -85,8 +84,13 @@ class AuthTest(WebTest):
 
     def test_auth_is_enabled(self):
         from django.conf import settings
-        assert 'django.contrib.auth.middleware.RemoteUserMiddleware' in settings.MIDDLEWARE_CLASSES
+        remote_user_middleware = 'django.contrib.auth.middleware.RemoteUserMiddleware'
+        assert remote_user_middleware in settings.MIDDLEWARE_CLASSES
         assert 'django.contrib.auth.backends.RemoteUserBackend' in settings.AUTHENTICATION_BACKENDS
+        self.assertEqual(
+            settings.MIDDLEWARE_CLASSES.index(remote_user_middleware),
+            len(settings.MIDDLEWARE_CLASSES)-1
+        )
 
 
 class DisableAuthSetupTest(WebTest):

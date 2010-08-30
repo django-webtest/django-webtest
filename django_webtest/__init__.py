@@ -107,8 +107,12 @@ class WebTest(TestCase):
         ''' Patch settings to add support for REMOTE_USER authorization
             and (optional) to disable CSRF checks
         '''
+
         self._MIDDLEWARE_CLASSES = settings.MIDDLEWARE_CLASSES[:]
         self._AUTHENTICATION_BACKENDS = settings.AUTHENTICATION_BACKENDS[:]
+
+        settings.MIDDLEWARE_CLASSES = list(settings.MIDDLEWARE_CLASSES)
+        settings.AUTHENTICATION_BACKENDS = list(settings.AUTHENTICATION_BACKENDS)
 
         if not self.csrf_checks:
             self._disable_csrf_checks()
@@ -121,17 +125,23 @@ class WebTest(TestCase):
         settings.MIDDLEWARE_CLASSES = self._MIDDLEWARE_CLASSES
         settings.AUTHENTICATION_BACKENDS = self._AUTHENTICATION_BACKENDS
 
+    def _setup_auth(self):
+        ''' Setup REMOTE_USER authorization '''
+        self._setup_remote_user_middleware()
+        self._setup_remote_user_backend()
+
     def _disable_csrf_checks(self):
         disable_csrf_middleware = 'django_webtest.middleware.DisableCSRFCheckMiddleware'
         if not disable_csrf_middleware in settings.MIDDLEWARE_CLASSES:
-            settings.MIDDLEWARE_CLASSES = (disable_csrf_middleware,) + settings.MIDDLEWARE_CLASSES
+            settings.MIDDLEWARE_CLASSES = [disable_csrf_middleware] + settings.MIDDLEWARE_CLASSES
 
-    def _setup_auth(self):
+    def _setup_remote_user_middleware(self):
         remote_user_middleware = 'django.contrib.auth.middleware.RemoteUserMiddleware'
         if not remote_user_middleware in settings.MIDDLEWARE_CLASSES:
-            settings.MIDDLEWARE_CLASSES += (remote_user_middleware,)
+            settings.MIDDLEWARE_CLASSES += [remote_user_middleware]
 
-        auth_backends = list(settings.AUTHENTICATION_BACKENDS)
+    def _setup_remote_user_backend(self):
+        auth_backends = settings.AUTHENTICATION_BACKENDS
         try:
             index = auth_backends.index('django.contrib.auth.backends.ModelBackend')
             auth_backends[index] = 'django.contrib.auth.backends.RemoteUserBackend'

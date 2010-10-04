@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 from distutils.core import setup
 
+for cmd in ('egg_info', 'develop'):
+    import sys
+    if cmd in sys.argv:
+        from setuptools import setup
+
 version='1.2.2'
 
 setup(

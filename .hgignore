@@ -7,15 +7,18 @@ syntax: glob
 .cache/*
 
 #temp files
+*.swp
 *.pyc
 *.pyo
 *.orig
+*.egg-info
 *~
 
 #misc files
 pip-log.txt
 
 #os files
+.Python
 .DS_Store
 Thumbs.db
 

@@ -61,7 +61,7 @@ CSRF token) are submitted automagically::
         fixtures = ['users.json']
 
         def test_login(self)
-            login_form = self.app.get(reverse('auth_login')).form
+            form = self.app.get(reverse('auth_login')).form
             form['username'] = 'foo'
             form['password'] = 'bar'
             response = form.submit().follow()

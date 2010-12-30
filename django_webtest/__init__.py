@@ -66,14 +66,22 @@ class DjangoTestApp(TestApp):
         # Add any rendered template detail to the response.
         # If there was only one template rendered (the most likely case),
         # flatten the list to a single element.
-        for detail in ('template', 'context'):
-            if data.get(detail):
-                if len(data[detail]) == 1:
-                    setattr(response, detail, data[detail][0]);
-                else:
-                    setattr(response, detail, data[detail])
-            else:
-                setattr(response, detail, None)
+        def flattend(detail):
+            if len(data[detail]) == 1:
+                return data[detail][0]
+            return data[detail]
+
+        response.context = None
+        response.template = None
+        response.templates = data.get('templates', None)
+
+        if data.get('context'):
+            response.context = flattend('context')
+
+        if data.get('template'):
+            response.template = flattend('template')
+        elif data.get('templates'):
+            response.template = flattend('templates')
 
         return response
 

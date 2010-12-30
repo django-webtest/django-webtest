@@ -15,3 +15,4 @@ def check_password(request):
     if form.is_valid():
         return HttpResponseRedirect('/')
     return direct_to_template(request, 'form.html', {'form': form})
+

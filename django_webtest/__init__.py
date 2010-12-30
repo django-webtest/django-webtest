@@ -82,11 +82,16 @@ class DjangoTestApp(TestApp):
         return response
 
     def get(self, url, params=None, headers=None, extra_environ=None,
-            status=None, expect_errors=False, user=None):
+            status=None, expect_errors=False, user=None, auto_follow=False):
         extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).get(
+        response = super(DjangoTestApp, self).get(
                   url, params, headers, extra_environ, status, expect_errors)
 
+        is_redirect = lambda r: r.status_int >= 300 and r.status_int < 400
+        while auto_follow and is_redirect(response):
+            response = response.follow()
+
+        return response
 
     def post(self, url, params='', headers=None, extra_environ=None,
              status=None, upload_files=None, expect_errors=False,

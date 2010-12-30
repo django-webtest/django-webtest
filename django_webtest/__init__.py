@@ -37,19 +37,13 @@ class DjangoWsgiFix(object):
             signals.request_finished.connect(close_connection)
 
 
-class WebtestExceptionHandler(WSGIHandler):
-    """ Show original traceback instead of HTML 500 page """
-    def handle_uncaught_exception(self, request, resolver, exc_info):
-        return HttpResponseServerError(self._get_traceback(exc_info))
-
-
 class DjangoTestApp(TestApp):
 
     def __init__(self, extra_environ=None, relative_to=None):
         super(DjangoTestApp, self).__init__(self.get_wsgi_handler(), extra_environ, relative_to)
 
     def get_wsgi_handler(self):
-        return DjangoWsgiFix(AdminMediaHandler(WebtestExceptionHandler()))
+        return DjangoWsgiFix(AdminMediaHandler(WSGIHandler()))
 
     def _update_environ(self, environ, user):
         if user:
@@ -115,11 +109,13 @@ class WebTest(TestCase):
             and (optional) to disable CSRF checks
         '''
 
+        self._DEBUG_PROPAGATE_EXCEPTIONS = settings.DEBUG_PROPAGATE_EXCEPTIONS
         self._MIDDLEWARE_CLASSES = settings.MIDDLEWARE_CLASSES[:]
         self._AUTHENTICATION_BACKENDS = settings.AUTHENTICATION_BACKENDS[:]
 
         settings.MIDDLEWARE_CLASSES = list(settings.MIDDLEWARE_CLASSES)
         settings.AUTHENTICATION_BACKENDS = list(settings.AUTHENTICATION_BACKENDS)
+        settings.DEBUG_PROPAGATE_EXCEPTIONS = True
 
         if not self.csrf_checks:
             self._disable_csrf_checks()
@@ -131,6 +127,7 @@ class WebTest(TestCase):
         ''' Restore settings to before-patching state '''
         settings.MIDDLEWARE_CLASSES = self._MIDDLEWARE_CLASSES
         settings.AUTHENTICATION_BACKENDS = self._AUTHENTICATION_BACKENDS
+        settings.DEBUG_PROPAGATE_EXCEPTIONS = self._DEBUG_PROPAGATE_EXCEPTIONS
 
     def _setup_auth(self):
         ''' Setup REMOTE_USER authorization '''

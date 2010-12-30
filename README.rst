@@ -44,7 +44,7 @@ should be django.contrib.auth.models.User instance or a string with user's
 For 500 errors original traceback is shown instead of usual html result
 from handler500.
 
-You also get the ``response.template`` and ``response.context`` goodness that
+You also get the ``response.templates`` and ``response.context`` goodness that
 is usually only available if you use django's native test client. These
 attributes contain a list of templates that were used to render the response
 and the context used to render these templates. This also means that django's

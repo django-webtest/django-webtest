@@ -6,7 +6,7 @@ for cmd in ('egg_info', 'develop'):
     if cmd in sys.argv:
         from setuptools import setup
 
-version='1.2.2'
+version='1.3'
 
 setup(
     name='django-webtest',
@@ -22,7 +22,7 @@ setup(
     description = """ Instant integration of Ian Bicking's WebTest
 (http://pythonpaste.org/webtest/) with django's testing framework.""",
 
-    long_description = open('README.rst').read(),
+    long_description = open('README.rst').read() + open('CHANGES.txt').read(),
     requires = ['webtest'],
 
     classifiers=[

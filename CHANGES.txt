@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+1.3 (2010-12-31)
+
+- Django 1.3 compatibility: test responses are now having 'templates' attribute
+- Django 1.3 compatibility: the way exceptions are handled is changed
+- auto_follow parameter for app.get method (redirect chains will be
+  auto-followed with auto_follow=True)
+
 1.2.1 (2010-08-24)
 ------------------
 

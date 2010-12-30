@@ -46,8 +46,10 @@ class WebtestExceptionHandler(WSGIHandler):
 class DjangoTestApp(TestApp):
 
     def __init__(self, extra_environ=None, relative_to=None):
-        app = DjangoWsgiFix(AdminMediaHandler(WebtestExceptionHandler()))
-        super(DjangoTestApp, self).__init__(app, extra_environ, relative_to)
+        super(DjangoTestApp, self).__init__(self.get_wsgi_handler(), extra_environ, relative_to)
+
+    def get_wsgi_handler(self):
+        return DjangoWsgiFix(AdminMediaHandler(WebtestExceptionHandler()))
 
     def _update_environ(self, environ, user):
         if user:

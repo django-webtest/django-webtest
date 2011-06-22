@@ -99,3 +99,5 @@ INSTALLED_APPS = (
     'django_webtest_tests',
     'django_webtest_tests.testapp_tests',
 )
+
+LOGIN_REDIRECT_URL = '/template/index.html'

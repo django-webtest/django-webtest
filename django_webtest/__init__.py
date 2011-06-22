@@ -6,7 +6,6 @@ from django.test.signals import template_rendered
 from django.core.handlers.wsgi import WSGIHandler
 from django.core.servers.basehttp import AdminMediaHandler
 from django.db import close_connection
-from django.http import HttpResponseServerError
 from django.test import TestCase
 from django.test.client import store_rendered_templates
 from django.utils.functional import curry
@@ -49,9 +48,9 @@ class DjangoTestApp(TestApp):
         if user:
             environ = environ or {}
             if isinstance(user, User):
-                environ['REMOTE_USER'] = str(user.username)
+                environ['WEBTEST_USER'] = str(user.username)
             else:
-                environ['REMOTE_USER'] = user
+                environ['WEBTEST_USER'] = user
         return environ
 
     def do_request(self, req, status, expect_errors):
@@ -113,7 +112,7 @@ class WebTest(TestCase):
     setup_auth = True
 
     def _patch_settings(self):
-        ''' Patch settings to add support for REMOTE_USER authorization
+        ''' Patch settings to add support for django-webtest authorization
             and (optional) to disable CSRF checks
         '''
 
@@ -139,27 +138,21 @@ class WebTest(TestCase):
 
     def _setup_auth(self):
         ''' Setup REMOTE_USER authorization '''
-        self._setup_remote_user_middleware()
-        self._setup_remote_user_backend()
+        self._setup_auth_middleware()
+        self._setup_auth_backend()
 
     def _disable_csrf_checks(self):
         disable_csrf_middleware = 'django_webtest.middleware.DisableCSRFCheckMiddleware'
         if not disable_csrf_middleware in settings.MIDDLEWARE_CLASSES:
-            settings.MIDDLEWARE_CLASSES = [disable_csrf_middleware] + settings.MIDDLEWARE_CLASSES
+            settings.MIDDLEWARE_CLASSES.insert(0, disable_csrf_middleware)
 
-    def _setup_remote_user_middleware(self):
-        remote_user_middleware = 'django.contrib.auth.middleware.RemoteUserMiddleware'
-        if not remote_user_middleware in settings.MIDDLEWARE_CLASSES:
-            settings.MIDDLEWARE_CLASSES += [remote_user_middleware]
+    def _setup_auth_middleware(self):
+        auth_middleware = 'django_webtest.middleware.WebtestUserMiddleware'
+        settings.MIDDLEWARE_CLASSES += [auth_middleware]
 
-    def _setup_remote_user_backend(self):
-        auth_backends = settings.AUTHENTICATION_BACKENDS
-        try:
-            index = auth_backends.index('django.contrib.auth.backends.ModelBackend')
-            auth_backends[index] = 'django.contrib.auth.backends.RemoteUserBackend'
-        except ValueError:
-            auth_backends.append('django.contrib.auth.backends.RemoteUserBackend')
-        settings.AUTHENTICATION_BACKENDS = auth_backends
+    def _setup_auth_backend(self):
+        backend_name = 'django_webtest.backends.WebtestUserBackend'
+        settings.AUTHENTICATION_BACKENDS.insert(0, backend_name)
 
     def __call__(self, result=None):
         self._patch_settings()

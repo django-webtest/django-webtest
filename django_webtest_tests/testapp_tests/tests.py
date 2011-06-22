@@ -100,13 +100,22 @@ class AuthTest(WebTest):
     def test_auth_is_enabled(self):
         from django.conf import settings
 
-        remote_user_middleware = 'django.contrib.auth.middleware.RemoteUserMiddleware'
-        assert remote_user_middleware in settings.MIDDLEWARE_CLASSES
-        assert 'django.contrib.auth.backends.RemoteUserBackend' in settings.AUTHENTICATION_BACKENDS
+        auth_middleware = 'django_webtest.middleware.WebtestUserMiddleware'
+        assert auth_middleware in settings.MIDDLEWARE_CLASSES
+        assert 'django_webtest.backends.WebtestUserBackend' in settings.AUTHENTICATION_BACKENDS
         self.assertEqual(
-            settings.MIDDLEWARE_CLASSES.index(remote_user_middleware),
+            settings.MIDDLEWARE_CLASSES.index(auth_middleware),
             len(settings.MIDDLEWARE_CLASSES)-1
         )
+
+    def test_standard_auth(self):
+        form = self.app.get(reverse('auth_login')).form
+        form['username'] = self.user.username
+        form['password'] = '123'
+        resp = form.submit().follow()
+        user = resp.context['user']
+        self.assertEqual(user, self.user)
+
 
 
 class DisableAuthSetupTest(WebTest):
@@ -114,5 +123,5 @@ class DisableAuthSetupTest(WebTest):
 
     def test_no_auth(self):
         from django.conf import settings
-        assert 'django.contrib.auth.middleware.RemoteUserMiddleware' not in settings.MIDDLEWARE_CLASSES
-        assert 'django.contrib.auth.backends.RemoteUserBackend' not in settings.AUTHENTICATION_BACKENDS
+        assert 'django_webtest.middleware.WebtestUserMiddleware' not in settings.MIDDLEWARE_CLASSES
+        assert 'django_webtest.backends.WebtestUserBackend' not in settings.AUTHENTICATION_BACKENDS

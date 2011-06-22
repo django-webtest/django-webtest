@@ -14,4 +14,3 @@ if len(sys.argv) == 2:
 
 if __name__ == "__main__":
     execute_manager(settings)
-

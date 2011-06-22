@@ -19,7 +19,7 @@ Usage
         fixtures = ['users', 'blog_posts']
 
         # optional: default extra_environ for this TestCase
-        extra_environ = {'REMOTE_ADDR': '10.20.30.1'}
+        extra_environ = {'HTTP_ACCEPT_LANGUAGE': 'ru'}
 
         def testBlog(self):
             # pretend to be logged in as user `kmike` and go to the index page

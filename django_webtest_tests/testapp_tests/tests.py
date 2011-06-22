@@ -36,7 +36,7 @@ class FormSubmitTest(WebTest):
         page.form['password'] = 'bar'
         page_with_errors = page.form.submit()
 
-        self.assertFormError(page_with_errors, 'form', 'password', 'Incorrect password.')
+        assert 'Incorrect password' in page_with_errors
 
         page_with_errors.form['password'] = 'foo'
         page_with_errors.form.submit().follow() # check for 302 response
@@ -64,16 +64,6 @@ class TemplateContextTest(WebTest):
         self.assertEqual(response.context['foo'], ('a', 'b', 'c'))
         self.assertEqual(response.context['bar'], True)
         self.assertEqual(response.context['spam'], None)
-
-    def test_django_assert_api(self):
-        response = self.app.get('/template/index.html')
-        self.assertTemplateUsed(response, 'index.html')
-        self.assertTemplateNotUsed(response, 'complex.html')
-
-        complex_response = self.app.get('/template/complex.html')
-        self.assertTemplateUsed(complex_response, 'complex.html')
-        self.assertTemplateUsed(complex_response, 'include.html')
-        self.assertTemplateNotUsed(complex_response, 'foo.html')
 
 
 class AuthTest(WebTest):
@@ -116,6 +106,39 @@ class AuthTest(WebTest):
         user = resp.context['user']
         self.assertEqual(user, self.user)
 
+
+class DjangoAssertsTest(WebTest):
+
+    def test_assert_template_used(self):
+        response = self.app.get('/template/index.html')
+        self.assertTemplateUsed(response, 'index.html')
+        self.assertTemplateNotUsed(response, 'complex.html')
+
+        complex_response = self.app.get('/template/complex.html')
+        self.assertTemplateUsed(complex_response, 'complex.html')
+        self.assertTemplateUsed(complex_response, 'include.html')
+        self.assertTemplateNotUsed(complex_response, 'foo.html')
+
+    def test_assert_form_error(self):
+        page = self.app.get(reverse('check_password'))
+        page.form['password'] = 'bar'
+        page_with_errors = page.form.submit()
+        self.assertFormError(page_with_errors, 'form', 'password', 'Incorrect password.')
+
+    def test_assert_contains(self):
+        response = self.app.get('/template/index.html')
+        self.assertContains(response, 'Hello', 1)
+        self.assertNotContains(response, 'Good bye!')
+
+    def test_assert_contains_unicode(self):
+        response = self.app.get('/template/index.html')
+        self.assertContains(response, u'привет', 2)
+
+    def test_assert_redirects(self):
+        page = self.app.get(reverse('check_password'))
+        page.form['password'] = 'foo'
+        resp = page.form.submit()
+        self.assertRedirects(resp, '/')
 
 
 class DisableAuthSetupTest(WebTest):

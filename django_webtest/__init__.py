@@ -10,6 +10,8 @@ from django.utils.functional import curry
 from webtest import TestApp
 
 from django_webtest.middleware import DjangoWsgiFix
+from django_webtest.response import DjangoWebtestResponse
+
 
 class DjangoTestApp(TestApp):
 
@@ -57,6 +59,7 @@ class DjangoTestApp(TestApp):
         elif data.get('templates'):
             response.template = flattend('templates')
 
+        response.__class__ = DjangoWebtestResponse
         return response
 
     def get(self, url, params=None, headers=None, extra_environ=None,

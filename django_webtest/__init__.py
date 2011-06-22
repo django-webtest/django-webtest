@@ -1,40 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core import signals
 from django.test.signals import template_rendered
 from django.core.handlers.wsgi import WSGIHandler
 from django.core.servers.basehttp import AdminMediaHandler
-from django.db import close_connection
 from django.test import TestCase
 from django.test.client import store_rendered_templates
 from django.utils.functional import curry
-from webtest import TestApp, TestRequest
+from webtest import TestApp
 
-
-class DjangoWsgiFix(object):
-    """Django closes the database connection after every request;
-    this breaks the use of transactions in your tests. This wraps
-    around Django's WSGI interface and will disable the critical
-    signal handler for every request served.
-
-    Note that we really do need to do this individually a every
-    request, not just once when our WSGI hook is installed, since
-    Django's own test client does the same thing; it would reinstall
-    the signal handler if used in combination with us.
-
-    From django-test-utils.
-    """
-    def __init__(self, app):
-        self.app = app
-
-    def __call__(self, environ, start_response):
-        signals.request_finished.disconnect(close_connection)
-        try:
-            return self.app(environ, start_response)
-        finally:
-            signals.request_finished.connect(close_connection)
-
+from django_webtest.middleware import DjangoWsgiFix
 
 class DjangoTestApp(TestApp):
 

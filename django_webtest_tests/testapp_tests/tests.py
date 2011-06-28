@@ -66,9 +66,19 @@ class TemplateContextTest(WebTest):
         self.assertEqual(response.context['spam'], None)
 
 
-class AuthTest(WebTest):
+class BaseAuthTest(WebTest):
+
     def setUp(self):
         self.user = User.objects.create_user('foo', 'example@example.com', '123')
+
+    def _login(self, username, password):
+        form = self.app.get(reverse('auth_login')).form
+        form['username'] = username
+        form['password'] = password
+        return form.submit()
+
+
+class AuthTest(BaseAuthTest):
 
     def test_not_logged_in(self):
         response = self.app.get('/template/index.html')
@@ -99,12 +109,30 @@ class AuthTest(WebTest):
         )
 
     def test_standard_auth(self):
-        form = self.app.get(reverse('auth_login')).form
-        form['username'] = self.user.username
-        form['password'] = '123'
-        resp = form.submit().follow()
+        resp = self._login(self.user.username, '123').follow()
         user = resp.context['user']
         self.assertEqual(user, self.user)
+
+
+class RenewAppTest(BaseAuthTest):
+
+    def test_renew_app(self):
+        self._login(self.user.username, '123').follow()
+
+        # auth cookie is preserved between self.app.get calls
+        page1 = self.app.get('/template/form.html')
+        self.assertEqual(page1.context['user'], self.user)
+
+        self.renew_app()
+
+        # cookies were dropped
+        page2 = self.app.get('/template/form.html')
+        self.assertTrue(page2.context['user'].is_anonymous())
+
+        # but cookies are still there while browsing from stored page
+        page1_1 = page1.click('Login')
+        self.assertEqual(page1_1.context['user'], self.user)
+
 
 
 class DjangoAssertsTest(WebTest):

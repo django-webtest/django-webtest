@@ -132,9 +132,16 @@ class WebTest(TestCase):
         backend_name = 'django_webtest.backends.WebtestUserBackend'
         settings.AUTHENTICATION_BACKENDS.insert(0, backend_name)
 
+    def renew_app(self):
+        """
+        Resets self.app (drops the stored state): cookies, etc.
+        Note: this renews only self.app, not the responses fetched by self.app.
+        """
+        self.app = DjangoTestApp(extra_environ=self.extra_environ)
+
     def __call__(self, result=None):
         self._patch_settings()
-        self.app = DjangoTestApp(extra_environ=self.extra_environ)
+        self.renew_app()
         res = super(WebTest, self).__call__(result)
         self._unpatch_settings()
         return res

@@ -5,3 +5,4 @@ Authors
 * Gregor Müllegger <gregor@muellegger.de>
 * Gael Pasgrimaud
 * Anonymous contributor
+* Ilya Shalyapin

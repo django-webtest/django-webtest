@@ -3,7 +3,7 @@ django-webtest
 ==============
 
 django-webtest is an app for instant integration of Ian Bicking's
-WebTest (http://pythonpaste.org/webtest/) with django's
+WebTest (http://webtest.pythonpaste.org/) with django's
 testing framework.
 
 Usage
@@ -47,9 +47,10 @@ from handler500.
 You also get the ``response.templates`` and ``response.context`` goodness that
 is usually only available if you use django's native test client. These
 attributes contain a list of templates that were used to render the response
-and the context used to render these templates. This also means that django's
-native ``self.assertFormError``,  ``self.assertTemplateUsed`` and
-``self.assertTemplateNotUsed`` API is also supported for WebTest responses.
+and the context used to render these templates. All django's native asserts (
+``assertFormError``,  ``assertTemplateUsed``, ``assertTemplateNotUsed``,
+``assertContains``, ``assertNotContains``, ``assertRedirects``) are
+also supported for WebTest responses.
 
 Unlike django's native test client CSRF checks are not suppressed
 by default so missing CSRF tokens will cause test fails (and that's good).
@@ -80,7 +81,7 @@ All of these features can be easily set up manually (thanks to WebTest
 architecture) and they are even not neccessary for using WebTest with django but
 it is nice to have some sort of integration instantly.
 
-See http://pythonpaste.org/webtest/ for API help. It can follow links, submit
+See http://webtest.pythonpaste.org/ for API help. It can follow links, submit
 forms, parse html, xml and json responses with different parsing libraries,
 upload files and more.
 
@@ -92,15 +93,6 @@ Installation
 
     $ pip install webtest
     $ pip install django-webtest
-
-or ::
-
-    $ easy_install webtest
-    $ easy_install django-webtest
-
-or grab latest versions from bitbucket
-(http://bitbucket.org/ianb/webtest, http://bitbucket.org/kmike/django-webtest)
-
 
 Why?
 ====

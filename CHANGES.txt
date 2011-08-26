@@ -4,7 +4,18 @@ CHANGES
 1.4.2 (2011-08-26)
 ------------------
 
-- ``REMOTE_ADDR`` is now 127.0.0.1 by default
+- ``REMOTE_ADDR`` is now ``'127.0.0.1'`` by default. This is how
+  standard django's test client behave.
+
+  Please note that this can slow tests down if django-debug-toolbar 0.9.x is
+  installed+configured and ``INTERNAL_IPS`` contain ``'127.0.0.1'`` because
+  debug toolbar will become turned on during tests. The workaround is to
+  remove django-debug-toolbar middleware during tests in your test settings::
+
+      DEBUG_MIDDLEWARE = 'debug_toolbar.middleware.DebugToolbarMiddleware'
+      if DEBUG_MIDDLEWARE in MIDDLEWARE_CLASSES:
+          MIDDLEWARE_CLASSES.remove(DEBUG_MIDDLEWARE)
+
 
 1.4.1 (2011-06-29)
 ------------------

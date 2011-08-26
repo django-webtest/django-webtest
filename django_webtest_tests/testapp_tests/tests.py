@@ -114,6 +114,27 @@ class AuthTest(BaseAuthTest):
         self.assertEqual(user, self.user)
 
 
+class EnvironTest(BaseAuthTest):
+
+    extra_environ = {'REMOTE_ADDR': '127.0.0.2'}
+
+    def test_extra_environ_reset(self):
+        resp = self.app.get('/template/index.html', user=self.user)
+        environ = resp.request.environ
+        self.assertEqual(environ['WEBTEST_USER'], 'foo')
+        self.assertEqual(environ['REMOTE_ADDR'], '127.0.0.2')
+
+        resp2 = self.app.get('/template/index.html')
+        environ = resp2.request.environ
+        self.assertNotIn('WEBTEST_USER', environ)
+        self.assertEqual(environ['REMOTE_ADDR'], '127.0.0.2')
+
+        resp3 = self.app.get('/template/index.html',
+                             extra_environ={'REMOTE_ADDR': '127.0.0.1'})
+        environ = resp3.request.environ
+        self.assertEqual(environ['REMOTE_ADDR'], '127.0.0.1')
+
+
 class RenewAppTest(BaseAuthTest):
 
     def test_renew_app(self):

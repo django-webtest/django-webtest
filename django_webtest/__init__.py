@@ -33,6 +33,7 @@ class DjangoTestApp(TestApp):
     def do_request(self, req, status, expect_errors):
         # Curry a data dictionary into an instance of the template renderer
         # callback function.
+        req.environ.setdefault('REMOTE_ADDR', '127.0.0.1')
         data = {}
         on_template_render = curry(store_rendered_templates, data)
         template_rendered.connect(on_template_render)

@@ -7,6 +7,7 @@ from django.core.servers.basehttp import AdminMediaHandler
 from django.test import TestCase
 from django.test.client import store_rendered_templates
 from django.utils.functional import curry
+from django.utils.importlib import import_module
 from webtest import TestApp
 
 from django_webtest.middleware import DjangoWsgiFix
@@ -82,7 +83,18 @@ class DjangoTestApp(TestApp):
         return super(DjangoTestApp, self).post(
                    url, params, headers, extra_environ, status,
                    upload_files, expect_errors, content_type)
-
+    
+    @property
+    def session(self):
+        """
+        Obtains the current session variables.
+        """
+        if 'django.contrib.sessions' in settings.INSTALLED_APPS:
+            engine = import_module(settings.SESSION_ENGINE)
+            cookie = self.cookies.get(settings.SESSION_COOKIE_NAME, None)
+            if cookie:
+                return engine.SessionStore(cookie)
+        return {}
 
 class WebTest(TestCase):
 

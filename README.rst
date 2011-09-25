@@ -52,6 +52,9 @@ and the context used to render these templates. All django's native asserts (
 ``assertContains``, ``assertNotContains``, ``assertRedirects``) are
 also supported for WebTest responses.
 
+The session dictionary is available via ``self.app.session``, and has the
+content as django's native test client.
+
 Unlike django's native test client CSRF checks are not suppressed
 by default so missing CSRF tokens will cause test fails (and that's good).
 

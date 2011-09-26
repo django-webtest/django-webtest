@@ -22,4 +22,5 @@ urlpatterns = patterns('',
     url(r'^template/(.*)$', simple_template_render, name='simple-template-test'),
     url(r'^check-password/$', 'testapp_tests.views.check_password', name='check_password'),
     url(r'^login/$', 'django.contrib.auth.views.login', name='auth_login'),
+    url(r'^set-session/$', 'testapp_tests.views.set_session', name='set_session')
 )

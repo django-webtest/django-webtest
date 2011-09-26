@@ -197,3 +197,25 @@ class DisableAuthSetupTest(WebTest):
         from django.conf import settings
         assert 'django_webtest.middleware.WebtestUserMiddleware' not in settings.MIDDLEWARE_CLASSES
         assert 'django_webtest.backends.WebtestUserBackend' not in settings.AUTHENTICATION_BACKENDS
+
+class TestSession(WebTest):
+
+    def test_session_not_set(self):
+        response = self.app.get('/')
+        self.assertEqual(response.status_int, 200)
+        self.assertEquals({}, self.app.session)
+
+    def test_sessions_disabled(self):
+        from django.conf import settings
+
+        apps = list(settings.INSTALLED_APPS)
+        apps.remove("django.contrib.sessions")
+        settings.INSTALLED_APPS= apps
+
+        response = self.app.get('/')
+        self.assertEqual(response.status_int, 200)
+        self.assertEquals({}, self.app.session)
+    
+    def test_session_not_empty(self):
+        response = self.app.get(reverse('set_session'))
+        self.assertEquals('foo', self.app.session['test'])

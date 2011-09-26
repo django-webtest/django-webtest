@@ -16,3 +16,6 @@ def check_password(request):
         return HttpResponseRedirect('/')
     return direct_to_template(request, 'form.html', {'form': form})
 
+def set_session(request):
+    request.session['test'] = 'foo'
+    return HttpResponseRedirect('/')

@@ -83,7 +83,23 @@ class DjangoTestApp(TestApp):
         return super(DjangoTestApp, self).post(
                    url, params, headers, extra_environ, status,
                    upload_files, expect_errors, content_type)
-    
+
+    def put(self, url, params='', headers=None, extra_environ=None,
+             status=None, upload_files=None, expect_errors=False,
+             content_type=None, user=None):
+        extra_environ = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).put(
+                   url, params, headers, extra_environ, status,
+                   upload_files, expect_errors, content_type)
+
+    def delete(self, url, params='', headers=None, extra_environ=None,
+             status=None, expect_errors=False,
+             content_type=None, user=None):
+        extra_environ = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).delete(
+                   url, params, headers, extra_environ, status,
+                   expect_errors, content_type)
+
     @property
     def session(self):
         """

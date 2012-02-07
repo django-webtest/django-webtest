@@ -6,7 +6,7 @@ for cmd in ('egg_info', 'develop'):
     if cmd in sys.argv:
         from setuptools import setup
 
-version='1.4.3'
+version='1.4.4'
 
 setup(
     name='django-webtest',
@@ -16,8 +16,8 @@ setup(
 
     packages=['django_webtest'],
 
-    url='http://bitbucket.org/kmike/django-webtest/',
-    download_url = 'http://bitbucket.org/kmike/django-webtest/get/tip.zip',
+    url='https://bitbucket.org/kmike/django-webtest/',
+    download_url = 'https://bitbucket.org/kmike/django-webtest/get/tip.zip',
     license = 'MIT license',
     description = """ Instant integration of Ian Bicking's WebTest
 (http://pythonpaste.org/webtest/) with django's testing framework.""",

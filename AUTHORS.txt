@@ -7,3 +7,4 @@ Authors
 * Anonymous contributor
 * Ilya Shalyapin
 * Joe Crobak
+* Ruslan Popov

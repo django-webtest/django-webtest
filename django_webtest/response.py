@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-import urlparse
+try:
+    import urlparse
+except ImportError: #python 3
+    from urllib import parse as urlparse
+
 from webtest import TestResponse
 from django.test import Client
 

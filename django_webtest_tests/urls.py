@@ -8,7 +8,7 @@ from django.template import RequestContext
 # admin.autodiscover()
 
 def simple_method_test(request):
-    return HttpResponse(unicode(request.method))
+    return HttpResponse(str(request.method))
 
 def simple_template_render(request, template_name):
     return render_to_response(template_name, {

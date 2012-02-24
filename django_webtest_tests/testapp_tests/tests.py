@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals, absolute_import
 from webtest import AppError
+
 from django_webtest import WebTest
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from testapp_tests.views import PasswordForm
 
 class GetRequestTest(WebTest):
     def test_get_request(self):
@@ -191,7 +192,7 @@ class DjangoAssertsTest(WebTest):
 
     def test_assert_contains_unicode(self):
         response = self.app.get('/template/index.html')
-        self.assertContains(response, u'привет', 2)
+        self.assertContains(response, 'привет', 2)
 
     def test_assert_redirects(self):
         page = self.app.get(reverse('check_password'))

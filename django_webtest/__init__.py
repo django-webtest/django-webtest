@@ -9,6 +9,7 @@ from django.test.client import store_rendered_templates
 from django.utils.functional import curry
 from django.utils.importlib import import_module
 from webtest import TestApp
+from webtest.compat import to_string
 
 from django_webtest.middleware import DjangoWsgiFix
 from django_webtest.response import DjangoWebtestResponse
@@ -26,15 +27,20 @@ class DjangoTestApp(TestApp):
         if user:
             environ = environ or {}
             if isinstance(user, User):
-                environ['WEBTEST_USER'] = str(user.username)
+                environ['WEBTEST_USER'] = to_string(user.username)
             else:
-                environ['WEBTEST_USER'] = user
+                environ['WEBTEST_USER'] = to_string(user)
         return environ
 
     def do_request(self, req, status, expect_errors):
+        req.environ.setdefault('REMOTE_ADDR', '127.0.0.1')
+
+        # is this a workaround for https://code.djangoproject.com/ticket/11111 ?
+        req.environ['REMOTE_ADDR'] = to_string(req.environ['REMOTE_ADDR'])
+        req.environ['PATH_INFO'] = to_string(req.environ['PATH_INFO'])
+
         # Curry a data dictionary into an instance of the template renderer
         # callback function.
-        req.environ.setdefault('REMOTE_ADDR', '127.0.0.1')
         data = {}
         on_template_render = curry(store_rendered_templates, data)
         template_rendered.connect(on_template_render)

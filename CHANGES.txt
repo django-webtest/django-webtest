@@ -1,8 +1,8 @@
 CHANGES
 =======
 
-(dev)
------
+1.5 (2012-02-24)
+----------------
 
 - WebtestUserBackend is inserted after AuthenticationMiddleware, not to
   the end of middleware list (thanks bigkevmcd);

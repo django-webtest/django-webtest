@@ -23,7 +23,7 @@ setup(
 (http://pythonpaste.org/webtest/) with django's testing framework.""",
 
     long_description = open('README.rst').read() + open('CHANGES.txt').read(),
-    requires = ['webtest'],
+    requires = ['webtest (>= 1.3.3)'],
 
     classifiers=[
         'Development Status :: 5 - Production/Stable',

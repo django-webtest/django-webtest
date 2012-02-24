@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+(dev)
+-----
+
+- WebtestUserBackend is inserted after AuthenticationMiddleware, not to
+  the end of middleware list (thanks bigkevmcd);
+- don't list python 2.5 as supported because WebOb dropped 2.5 support;
+- test running using tox.
+
 1.4.4 (2012-02-08)
 ------------------
 

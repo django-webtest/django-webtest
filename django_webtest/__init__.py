@@ -155,7 +155,9 @@ class WebTest(TestCase):
 
     def _setup_auth_middleware(self):
         auth_middleware = 'django_webtest.middleware.WebtestUserMiddleware'
-        settings.MIDDLEWARE_CLASSES += [auth_middleware]
+        index = settings.MIDDLEWARE_CLASSES.index(
+           'django.contrib.auth.middleware.AuthenticationMiddleware')
+        settings.MIDDLEWARE_CLASSES.insert(index+1, auth_middleware)
 
     def _setup_auth_backend(self):
         backend_name = 'django_webtest.backends.WebtestUserBackend'

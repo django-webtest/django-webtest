@@ -13,6 +13,7 @@ syntax: glob
 *.orig
 *.egg-info
 *~
+.tox/
 
 db.sqlite
 

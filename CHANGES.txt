@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.5.1 (2012-03-22)
+------------------
+
+- Fixed handling of forms with method="get". Thanks Jeroen Vloothuis.
+
 1.5 (2012-02-24)
 ----------------
 

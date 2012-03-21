@@ -43,6 +43,15 @@ class FormSubmitTest(WebTest):
         page_with_errors.form.submit().follow() # check for 302 response
 
 
+class GetFormSubmitTest(WebTest):
+
+    def test_form_submit(self):
+        page = self.app.get(reverse('search'))
+        page.form['q'] = 'bar'
+        response = page.form.submit()
+        self.assertEqual(response.context['q'], 'bar')
+
+
 class TemplateContextTest(WebTest):
     def test_rendered_templates(self):
         response = self.app.get('/template/index.html')

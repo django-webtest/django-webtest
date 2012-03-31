@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+1.5.2 (2012-04-01)
+------------------
+
+- if AuthenticationMiddleware is not in a middleware list,
+  WebtestUserMiddleware is put to the end of middlewares in order to
+  provide better backward compatibility with 1.4.x in case of custom
+  auth middlewares.
+
 1.5.1 (2012-03-22)
 ------------------
 
@@ -9,7 +17,7 @@ CHANGES
 1.5 (2012-02-24)
 ----------------
 
-- WebtestUserBackend is inserted after AuthenticationMiddleware, not to
+- WebtestUserMiddleware is inserted after AuthenticationMiddleware, not to
   the end of middleware list (thanks bigkevmcd);
 - don't list python 2.5 as supported because WebOb dropped 2.5 support;
 - python 3 support;

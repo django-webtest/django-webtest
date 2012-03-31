@@ -21,11 +21,13 @@ class WebtestUserMiddleware(RemoteUserMiddleware):
         # AuthenticationMiddleware is required so that request.user exists.
         if not hasattr(request, 'user'):
             raise ImproperlyConfigured(
-                "The django-webtest auth middleware requires the"
-                " authentication middleware to be installed.  Edit your"
-                " MIDDLEWARE_CLASSES setting to insert"
-                " 'django.contrib.auth.middleware.AuthenticationMiddleware'"
-                " class.")
+                "The django-webtest auth middleware requires the "
+                "'django.contrib.auth.middleware.AuthenticationMiddleware' "
+                "to be installed. Add it to your MIDDLEWARE_CLASSES setting "
+                "or disable django-webtest auth support "
+                "by setting 'setup_auth' property of your WebTest subclass "
+                "to False."
+            )
         try:
             username = request.META[self.header]
         except KeyError:

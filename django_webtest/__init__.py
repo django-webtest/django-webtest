@@ -126,8 +126,9 @@ class WebTest(TestCase):
     setup_auth = True
 
     def _patch_settings(self):
-        ''' Patch settings to add support for django-webtest authorization
-            and (optional) to disable CSRF checks
+        '''
+        Patches settings to add support for django-webtest authorization
+        and (optional) to disable CSRF checks.
         '''
 
         self._DEBUG_PROPAGATE_EXCEPTIONS = settings.DEBUG_PROPAGATE_EXCEPTIONS
@@ -145,13 +146,13 @@ class WebTest(TestCase):
             self._setup_auth()
 
     def _unpatch_settings(self):
-        ''' Restore settings to before-patching state '''
+        ''' Restores settings to before-patching state '''
         settings.MIDDLEWARE_CLASSES = self._MIDDLEWARE_CLASSES
         settings.AUTHENTICATION_BACKENDS = self._AUTHENTICATION_BACKENDS
         settings.DEBUG_PROPAGATE_EXCEPTIONS = self._DEBUG_PROPAGATE_EXCEPTIONS
 
     def _setup_auth(self):
-        ''' Setup REMOTE_USER authorization '''
+        ''' Setups django-webtest authorization '''
         self._setup_auth_middleware()
         self._setup_auth_backend()
 
@@ -161,10 +162,18 @@ class WebTest(TestCase):
             settings.MIDDLEWARE_CLASSES.insert(0, disable_csrf_middleware)
 
     def _setup_auth_middleware(self):
-        auth_middleware = 'django_webtest.middleware.WebtestUserMiddleware'
-        index = settings.MIDDLEWARE_CLASSES.index(
-           'django.contrib.auth.middleware.AuthenticationMiddleware')
-        settings.MIDDLEWARE_CLASSES.insert(index+1, auth_middleware)
+        webtest_auth_middleware = 'django_webtest.middleware.WebtestUserMiddleware'
+        django_auth_middleware = 'django.contrib.auth.middleware.AuthenticationMiddleware'
+
+        if django_auth_middleware not in settings.MIDDLEWARE_CLASSES:
+            # There can be a custom AuthenticationMiddleware subclass or replacement,
+            # we can't compute its index so just put our auth middleware to the end.
+            # If appending causes problems _setup_auth_middleware method can
+            # be overriden by a subclass.
+            settings.MIDDLEWARE_CLASSES.append(webtest_auth_middleware)
+        else:
+            index = settings.MIDDLEWARE_CLASSES.index(django_auth_middleware)
+            settings.MIDDLEWARE_CLASSES.insert(index+1, webtest_auth_middleware)
 
     def _setup_auth_backend(self):
         backend_name = 'django_webtest.backends.WebtestUserBackend'

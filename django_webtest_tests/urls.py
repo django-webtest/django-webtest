@@ -23,5 +23,7 @@ urlpatterns = patterns('',
     url(r'^check-password/$', 'testapp_tests.views.check_password', name='check_password'),
     url(r'^search/$', 'testapp_tests.views.search', name='search'),
     url(r'^login/$', 'django.contrib.auth.views.login', name='auth_login'),
-    url(r'^set-session/$', 'testapp_tests.views.set_session', name='set_session')
+    url(r'^set-session/$', 'testapp_tests.views.set_session', name='set_session'),
+    url(r'^protected/$', 'testapp_tests.views.protected', name='protected'),
+    url(r'^redirect-to-protected/$', 'testapp_tests.views.redirect_to_protected', name='redirect-to-protected'),
 )

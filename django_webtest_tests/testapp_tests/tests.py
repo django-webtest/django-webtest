@@ -176,7 +176,7 @@ class RenewAppTest(BaseAuthTest):
 
 
 
-class DjangoAssertsTest(WebTest):
+class DjangoAssertsTest(BaseAuthTest):
 
     def test_assert_template_used(self):
         response = self.app.get('/template/index.html')
@@ -208,6 +208,17 @@ class DjangoAssertsTest(WebTest):
         page.form['password'] = 'foo'
         resp = page.form.submit()
         self.assertRedirects(resp, '/')
+
+    def test_redirects_noauth(self):
+        self.app.get(reverse('redirect-to-protected')).follow(status=302)
+
+    def test_redirects(self):
+        self.app.get(reverse('redirect-to-protected'), user=self.user).follow()
+
+    def test_assert_redirects_auth(self):
+        page = self.app.get(reverse('redirect-to-protected'), user=self.user)
+        self.assertRedirects(page, reverse('protected'))
+
 
 
 class DisableAuthSetupTest(WebTest):

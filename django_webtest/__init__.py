@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.test.signals import template_rendered
 from django.core.handlers.wsgi import WSGIHandler
-from django.core.servers.basehttp import AdminMediaHandler
 from django.test import TestCase
 from django.test.client import store_rendered_templates
 from django.utils.functional import curry
@@ -14,6 +13,11 @@ from webtest.compat import to_string
 from django_webtest.middleware import DjangoWsgiFix
 from django_webtest.response import DjangoWebtestResponse
 
+try:
+    from django.core.servers.basehttp import AdminMediaHandler as StaticFilesHandler
+except ImportError:
+    from django.contrib.staticfiles.handlers import StaticFilesHandler
+
 
 class DjangoTestApp(TestApp):
 
@@ -21,7 +25,7 @@ class DjangoTestApp(TestApp):
         super(DjangoTestApp, self).__init__(self.get_wsgi_handler(), extra_environ, relative_to)
 
     def get_wsgi_handler(self):
-        return DjangoWsgiFix(AdminMediaHandler(WSGIHandler()))
+        return DjangoWsgiFix(StaticFilesHandler(WSGIHandler()))
 
     def _update_environ(self, environ, user):
         if user:

@@ -123,3 +123,28 @@ template context just like native django TestClient. Twill however understands
 HTML better and is more mature so consider it if WebTest doesn't fit for
 some reason.
 
+Contributing
+============
+
+Development happens at github and bitbucket:
+
+* https://github.com/kmike/django-webtest
+* https://bitbucket.org/kmike/django-webtest
+
+The issue tracker is at bitbucket.
+
+Feel free to submit ideas, bugs, pull requests (git or hg) or
+regular patches.
+
+Running tests
+-------------
+
+Make sure `tox`_ is installed and run
+
+::
+
+    $ tox
+
+from the source checkout.
+
+.. _tox: http://tox.testrun.org

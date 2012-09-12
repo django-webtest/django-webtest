@@ -10,3 +10,4 @@ Authors
 * Ruslan Popov
 * bigkevmcd
 * Jeroen Vloothuis
+* Tai Lee

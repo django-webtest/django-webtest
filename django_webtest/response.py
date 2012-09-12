@@ -31,7 +31,9 @@ class DjangoWebtestResponse(TestResponse):
     @property
     def client(self):
         client = Client()
-        client.cookies = SimpleCookie(self.test_app.cookies)
+        client.cookies = SimpleCookie()
+        for k,v in self.test_app.cookies.items():
+            client.cookies[k] = v
         return client
 
     def __getitem__(self, item):

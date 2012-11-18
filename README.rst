@@ -6,6 +6,14 @@ django-webtest is an app for instant integration of Ian Bicking's
 WebTest (http://webtest.pythonpaste.org/) with django's
 testing framework.
 
+Installation
+============
+
+::
+
+    $ pip install webtest
+    $ pip install django-webtest
+
 Usage
 =====
 
@@ -87,15 +95,6 @@ it is nice to have some sort of integration instantly.
 See http://webtest.pythonpaste.org/ for API help. It can follow links, submit
 forms, parse html, xml and json responses with different parsing libraries,
 upload files and more.
-
-
-Installation
-============
-
-::
-
-    $ pip install webtest
-    $ pip install django-webtest
 
 Why?
 ====

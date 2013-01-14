@@ -6,7 +6,7 @@ for cmd in ('egg_info', 'develop'):
     if cmd in sys.argv:
         from setuptools import setup
 
-version='1.5.4'
+version='1.5.5'
 
 setup(
     name='django-webtest',
@@ -17,13 +17,12 @@ setup(
     packages=['django_webtest'],
 
     url='https://bitbucket.org/kmike/django-webtest/',
-    download_url = 'https://bitbucket.org/kmike/django-webtest/get/tip.zip',
     license = 'MIT license',
     description = """ Instant integration of Ian Bicking's WebTest
-(http://pythonpaste.org/webtest/) with django's testing framework.""",
+(http://webtest.pythonpaste.org/) with django's testing framework.""",
 
     long_description = open('README.rst').read() + open('CHANGES.txt').read(),
-    requires = ['webtest (>= 1.3.3)'],
+    requires = ['webtest (>= 1.3.3)', 'django (>= 1.2.7)'],
 
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -37,6 +36,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Software Development :: Testing',
     ],

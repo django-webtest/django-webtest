@@ -2,6 +2,12 @@
 CHANGES
 =======
 
+1.5.5 (2013-01-14)
+------------------
+
+- Fixed django 1.5 support: DjangoWebtestResponse.streaming attribute
+  is added (thanks David Winterbottom).
+
 1.5.4 (2012-09-13)
 ------------------
 

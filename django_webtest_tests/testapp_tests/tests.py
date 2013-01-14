@@ -235,7 +235,7 @@ class TestSession(WebTest):
     def test_session_not_set(self):
         response = self.app.get('/')
         self.assertEqual(response.status_int, 200)
-        self.assertEquals({}, self.app.session)
+        self.assertEqual({}, self.app.session)
 
     def test_sessions_disabled(self):
         from django.conf import settings
@@ -246,8 +246,8 @@ class TestSession(WebTest):
 
         response = self.app.get('/')
         self.assertEqual(response.status_int, 200)
-        self.assertEquals({}, self.app.session)
+        self.assertEqual({}, self.app.session)
 
     def test_session_not_empty(self):
         response = self.app.get(reverse('set_session'))
-        self.assertEquals('foo', self.app.session['test'])
+        self.assertEqual('foo', self.app.session['test'])

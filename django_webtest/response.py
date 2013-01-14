@@ -9,6 +9,7 @@ from webtest import TestResponse
 from django.test import Client
 from django.http import SimpleCookie
 
+
 class DjangoWebtestResponse(TestResponse):
     """
     WebOb's Response quacking more like django's HttpResponse.
@@ -16,6 +17,8 @@ class DjangoWebtestResponse(TestResponse):
     This is here to make more django's TestCase asserts work,
     not to provide a generally useful proxy.
     """
+    streaming = False
+
     @property
     def status_code(self):
         return self.status_int

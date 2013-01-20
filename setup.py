@@ -6,7 +6,7 @@ for cmd in ('egg_info', 'develop'):
     if cmd in sys.argv:
         from setuptools import setup
 
-version='1.5.5'
+version='1.5.6'
 
 setup(
     name='django-webtest',

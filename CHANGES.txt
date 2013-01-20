@@ -2,6 +2,11 @@
 CHANGES
 =======
 
+1.5.6 (2013-01-21)
+------------------
+
+- django 1.5 support: transaction handling is fixed (thanks Marco Braak).
+
 1.5.5 (2013-01-14)
 ------------------
 

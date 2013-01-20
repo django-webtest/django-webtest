@@ -1,4 +1,10 @@
-from django.conf.urls.defaults import *
+
+# prevent DeprecationWarning for more recent django versions
+try:
+    from django.conf.urls import patterns, url
+except ImportError:
+    from django.conf.urls.defaults import patterns, url, handler404, handler500
+
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext

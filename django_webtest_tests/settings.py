@@ -26,6 +26,10 @@ DATABASES = {
     }
 }
 
+if os.environ.get('USE_POSTGRES'):
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+    DATABASES['default']['NAME'] = 'django_webtest_tests'
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.

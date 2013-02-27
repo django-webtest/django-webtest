@@ -146,7 +146,7 @@ class EnvironTest(BaseAuthTest):
 
         resp2 = self.app.get('/template/index.html')
         environ = resp2.request.environ
-        self.assertNotIn('WEBTEST_USER', environ)
+        self.assertTrue('WEBTEST_USER' not in environ)
         self.assertEqual(environ['REMOTE_ADDR'], '127.0.0.2')
 
         resp3 = self.app.get('/template/index.html',

@@ -15,9 +15,9 @@ except ImportError:
     from django.contrib.staticfiles.handlers import StaticFilesHandler
 
 from webtest import TestApp
-from webtest.compat import to_string
 
 from django_webtest.response import DjangoWebtestResponse
+from django_webtest.compat import to_string
 
 
 class DjangoTestApp(TestApp):

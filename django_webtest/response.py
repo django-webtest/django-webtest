@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
-
-try:
-    import urlparse
-except ImportError: #python 3
-    from urllib import parse as urlparse
-
-from webtest import TestResponse
 from django.test import Client
 from django.http import SimpleCookie
-
+from webtest import TestResponse
+from django_webtest.compat import urlparse
 
 class DjangoWebtestResponse(TestResponse):
     """

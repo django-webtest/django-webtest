@@ -14,31 +14,24 @@ env:
 
 matrix:
     include:
-        - python: 2.7
-          env: OLD_WEBTEST=1
+        - python: "2.7"
+          env: DJANGO_VERSION=1.5 OLD_WEBTEST=1
     exclude:
-        - python: 3.2
+        - python: "3.2"
           env: DJANGO_VERSION=1.2.7
-
-        - python: 3.2
+        - python: "3.2"
           env: DJANGO_VERSION=1.3.7
-
-        - python: 3.2
+        - python: "3.2"
           env: DJANGO_VERSION=1.4.5
-
-        - python: 3.3
+        - python: "3.3"
           env: DJANGO_VERSION=1.2.7
-
-        - python: 3.3
+        - python: "3.3"
           env: DJANGO_VERSION=1.3.7
-
-        - python: 3.3
+        - python: "3.3"
           env: DJANGO_VERSION=1.4.5
-
-        - python: pypy
+        - python: "pypy"
           env: DJANGO_VERSION=1.2.7
-
-        - python: pypy
+        - python: "pypy"
           env: DJANGO_VERSION=1.3.7
 
 

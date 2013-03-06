@@ -251,3 +251,16 @@ class TestSession(WebTest):
     def test_session_not_empty(self):
         response = self.app.get(reverse('set_session'))
         self.assertEqual('foo', self.app.session['test'])
+
+
+class TestHeaderAccess(WebTest):
+    def test_headers(self):
+        response = self.app.get('/')
+        self.assertEqual(response['Content-Type'], 'text/html; charset=utf-8')
+        self.assertEqual(response['content-type'], 'text/html; charset=utf-8')
+
+    def test_bad_header(self):
+        response = self.app.get('/')
+        with self.assertRaises(KeyError):
+            response['X-Unknown-Header']
+

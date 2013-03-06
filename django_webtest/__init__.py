@@ -21,6 +21,7 @@ from django_webtest.compat import to_string
 
 
 class DjangoTestApp(TestApp):
+    response_class = DjangoWebtestResponse
 
     def __init__(self, extra_environ=None, relative_to=None):
         super(DjangoTestApp, self).__init__(self.get_wsgi_handler(), extra_environ, relative_to)
@@ -78,7 +79,7 @@ class DjangoTestApp(TestApp):
             elif data.get('templates'):
                 response.template = flattend('templates')
 
-            response.__class__ = DjangoWebtestResponse
+            response.__class__ = self.response_class
             return response
         finally:
             signals.request_finished.connect(close_connection)
@@ -138,6 +139,7 @@ class WebTest(TestCase):
     extra_environ = {}
     csrf_checks = True
     setup_auth = True
+    app_class = DjangoTestApp
 
     def _patch_settings(self):
         '''
@@ -198,7 +200,7 @@ class WebTest(TestCase):
         Resets self.app (drops the stored state): cookies, etc.
         Note: this renews only self.app, not the responses fetched by self.app.
         """
-        self.app = DjangoTestApp(extra_environ=self.extra_environ)
+        self.app = self.app_class(extra_environ=self.extra_environ)
 
     def __call__(self, result=None):
         self._patch_settings()

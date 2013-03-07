@@ -13,3 +13,4 @@ Authors
 * Tai Lee
 * David Winterbottom
 * Marco Braak
+* Bruno Renié

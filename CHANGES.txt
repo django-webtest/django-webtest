@@ -2,6 +2,14 @@
 CHANGES
 =======
 
+1.6 (2013-03-07)
+----------------
+
+- Added ability to pass a custom response_class and app_class to WebTest
+  (thanks Bruno Renié);
+- Added case-insensitive header access in DjangoWebtestResponse (thanks
+  Bruno Renié).
+
 1.5.7 (2013-02-27)
 ------------------
 

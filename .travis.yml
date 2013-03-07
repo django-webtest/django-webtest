@@ -33,6 +33,10 @@ matrix:
           env: DJANGO_VERSION=1.2.7
         - python: "pypy"
           env: DJANGO_VERSION=1.3.7
+        # pypy 1.9 is known not to work with django 1.5, see
+        # https://code.djangoproject.com/ticket/19944
+        - python: "pypy"
+          env: DJANGO_VERSION=1.5
 
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors

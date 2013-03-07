@@ -260,7 +260,8 @@ class TestHeaderAccess(WebTest):
         self.assertEqual(response['content-type'], 'text/html; charset=utf-8')
 
     def test_bad_header(self):
-        response = self.app.get('/')
-        with self.assertRaises(KeyError):
+        def access_bad_header():
+            response = self.app.get('/')
             response['X-Unknown-Header']
+        self.assertRaises(KeyError, access_bad_header)
 

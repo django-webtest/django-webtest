@@ -152,6 +152,12 @@ class AuthTest(BaseAuthTest):
             assert user.is_authenticated()
             self.assertEqual(user, custom_user)
 
+    def test_normal_user(self):
+        """Make sure the fix for custom users in django 1.5 doesn't break
+        normal django users"""
+        self.app.get('/template/index.html', user=self.user)
+        self.app.get('/template/index.html', user=self.user)
+
 
 class EnvironTest(BaseAuthTest):
 

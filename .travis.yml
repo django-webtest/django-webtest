@@ -15,7 +15,7 @@ env:
 matrix:
     include:
         - python: "2.7"
-          env: DJANGO_VERSION=1.5 OLD_WEBTEST=1
+          env: DJANGO_VERSION=1.5.1 OLD_WEBTEST=1
     exclude:
         - python: "3.2"
           env: DJANGO_VERSION=1.2.7

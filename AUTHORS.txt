@@ -14,3 +14,4 @@ Authors
 * David Winterbottom
 * Marco Braak
 * Bruno Renié
+* Gautier Hayoun

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.test.signals import template_rendered
 from django.core.handlers.wsgi import WSGIHandler
 from django.test import TestCase
@@ -32,9 +31,14 @@ class DjangoTestApp(TestApp):
     def _update_environ(self, environ, user):
         if user:
             environ = environ or {}
-            if isinstance(user, User):
+            if hasattr(user, 'get_username'):
+                # custom user, django 1.5+
+                environ['WEBTEST_USER'] = to_string(user.get_username())
+            elif hasattr(user, 'username'):
+                # standard User
                 environ['WEBTEST_USER'] = to_string(user.username)
             else:
+                # username
                 environ['WEBTEST_USER'] = to_string(user)
         return environ
 

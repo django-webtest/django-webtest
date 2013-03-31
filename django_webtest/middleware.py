@@ -37,7 +37,7 @@ class WebtestUserMiddleware(RemoteUserMiddleware):
         # getting passed in the headers, then the correct user is already
         # persisted in the session and we don't need to continue.
         if request.user.is_authenticated():
-            if request.user.username == self.clean_username(username, request):
+            if request.user.get_username() == self.clean_username(username, request):
                 return
         # We are seeing this user for the first time in this session, attempt
         # to authenticate the user.

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, absolute_import
-import unittest
 from webtest import AppError
 
 import django
@@ -134,23 +133,24 @@ class AuthTest(BaseAuthTest):
         user = resp.context['user']
         self.assertEqual(user, self.user)
 
-    @unittest.skipIf(django.get_version() < '1.5',
-            "Only matters with custom users")
     def test_reusing_custom_user(self):
-        from testapp_tests.models import CustomUser
-        with self.settings(AUTH_USER_MODEL = 'testapp_tests.CustomUser'):
-            custom_user = CustomUser.objects.create(email="custom@example.com")
-            custom_user.set_password("123")
-            custom_user.save()
+        if django.get_version() >= "1.5":
+            from testapp_tests.models import CustomUser
+            with self.settings(AUTH_USER_MODEL = 'testapp_tests.CustomUser'):
+                custom_user = CustomUser.objects.create(
+                        email="custom@example.com")
+                custom_user.set_password("123")
+                custom_user.save()
 
-            # Let the middleware logs the user in
-            self.app.get('/template/index.html', user=custom_user)
+                # Let the middleware logs the user in
+                self.app.get('/template/index.html', user=custom_user)
 
-            # Middleware authentication check shouldn't crash
-            response = self.app.get('/template/index.html', user=custom_user)
-            user = response.context['user']
-            assert user.is_authenticated()
-            self.assertEqual(user, custom_user)
+                # Middleware authentication check shouldn't crash
+                response = self.app.get('/template/index.html',
+                        user=custom_user)
+                user = response.context['user']
+                assert user.is_authenticated()
+                self.assertEqual(user, custom_user)
 
     def test_normal_user(self):
         """Make sure the fix for custom users in django 1.5 doesn't break

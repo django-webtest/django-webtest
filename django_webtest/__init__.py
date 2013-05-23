@@ -7,7 +7,11 @@ from django.test.client import store_rendered_templates
 from django.utils.functional import curry
 from django.utils.importlib import import_module
 from django.core import signals
-from django.db import close_connection
+try:
+    from django.db import close_old_connections
+except ImportError:
+    from django.db import close_connection
+    close_old_connections = None
 try:
     from django.core.servers.basehttp import AdminMediaHandler as StaticFilesHandler
 except ImportError:
@@ -46,7 +50,11 @@ class DjangoTestApp(TestApp):
 
         # Django closes the database connection after every request;
         # this breaks the use of transactions in your tests.
-        signals.request_finished.disconnect(close_connection)
+        if close_old_connections is not None: # Django 1.6+
+            signals.request_started.disconnect(close_old_connections)
+            signals.request_finished.disconnect(close_old_connections)
+        else: # Django < 1.6
+            signals.request_finished.disconnect(close_connection)
 
         try:
             req.environ.setdefault('REMOTE_ADDR', '127.0.0.1')
@@ -86,7 +94,11 @@ class DjangoTestApp(TestApp):
             response.__class__ = self.response_class
             return response
         finally:
-            signals.request_finished.connect(close_connection)
+            if close_old_connections: # Django 1.6+
+                signals.request_started.connect(close_old_connections)
+                signals.request_finished.connect(close_old_connections)
+            else: # Django < 1.6
+                signals.request_finished.connect(close_connection)
 
 
     def get(self, url, params=None, headers=None, extra_environ=None,

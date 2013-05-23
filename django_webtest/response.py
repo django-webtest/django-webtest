@@ -26,6 +26,10 @@ class DjangoWebtestResponse(TestResponse):
         return self.body
 
     @property
+    def url(self):
+        return self['location']
+
+    @property
     def client(self):
         client = Client()
         client.cookies = SimpleCookie()

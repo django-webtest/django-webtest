@@ -2,10 +2,15 @@
 CHANGES
 =======
 
+1.7 (2013-05-23)
+----------------
+
+- Added support for django 1.6 (thanks Carl Meyer).
+
 1.6.1 (2013-03-31)
 ------------------
 
-- Added support for django 1.5+ custom user models.
+- Added support for django 1.5+ custom user models (thanks Gautier Hayoun).
 
 1.6 (2013-03-07)
 ----------------

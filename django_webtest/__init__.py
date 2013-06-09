@@ -20,7 +20,7 @@ except ImportError:
 from webtest import TestApp
 
 from django_webtest.response import DjangoWebtestResponse
-from django_webtest.compat import to_string
+from django_webtest.compat import to_string, to_wsgi_safe_string
 
 
 class DjangoTestApp(TestApp):
@@ -35,15 +35,8 @@ class DjangoTestApp(TestApp):
     def _update_environ(self, environ, user):
         if user:
             environ = environ or {}
-            if hasattr(user, 'get_username'):
-                # custom user, django 1.5+
-                environ['WEBTEST_USER'] = to_string(user.get_username())
-            elif hasattr(user, 'username'):
-                # standard User
-                environ['WEBTEST_USER'] = to_string(user.username)
-            else:
-                # username
-                environ['WEBTEST_USER'] = to_string(user)
+            username = _get_username(user)
+            environ['WEBTEST_USER'] = to_wsgi_safe_string(username)
         return environ
 
     def do_request(self, req, status, expect_errors):
@@ -150,6 +143,7 @@ class DjangoTestApp(TestApp):
                 return engine.SessionStore(cookie)
         return {}
 
+
 class WebTest(TestCase):
 
     extra_environ = {}
@@ -224,3 +218,17 @@ class WebTest(TestCase):
         res = super(WebTest, self).__call__(result)
         self._unpatch_settings()
         return res
+
+
+def _get_username(user):
+    """
+    Return user's username. ``user`` can be standard Django User
+    instance, a custom user model or just an username (as string).
+    """
+    if hasattr(user, 'get_username'):  # custom user, django 1.5+
+        return user.get_username()
+    elif hasattr(user, 'username'):    # standard User
+        return user.username
+    else:                              # assume user is just an username
+        return user
+

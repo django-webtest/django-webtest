@@ -88,6 +88,16 @@ class BaseAuthTest(WebTest):
         form['password'] = password
         return form.submit()
 
+    def assertCanLogin(self, user):
+        response = self.app.get('/template/index.html', user=user)
+        res_user = response.context['user']
+        assert res_user.is_authenticated()
+
+        if isinstance(user, User):
+            self.assertEqual(res_user, user)
+        else:
+            self.assertEqual(res_user.username, user)
+
 
 class AuthTest(BaseAuthTest):
 
@@ -97,16 +107,20 @@ class AuthTest(BaseAuthTest):
         assert not user.is_authenticated()
 
     def test_logged_using_username(self):
-        response = self.app.get('/template/index.html', user='foo')
-        user = response.context['user']
-        assert user.is_authenticated()
-        self.assertEqual(user, self.user)
+        self.assertCanLogin('foo')
+
+    def test_logged_using_native_username(self):
+        self.assertCanLogin(str('foo'))
+
+    def test_logged_using_unicode_username(self):
+        self.assertCanLogin('ƒøø')
 
     def test_logged_using_instance(self):
-        response = self.app.get('/template/index.html', user=self.user)
-        user = response.context['user']
-        assert user.is_authenticated()
-        self.assertEqual(user, self.user)
+        self.assertCanLogin(self.user)
+
+    def test_logged_using_unicode_instance(self):
+        user = User.objects.create_user('ƒøø', 'example@example.com', '123')
+        self.assertCanLogin(user)
 
     def test_auth_is_enabled(self):
         from django.conf import settings

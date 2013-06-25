@@ -215,7 +215,7 @@ class WebTestMixin(object):
     def __call__(self, result=None):
         self._patch_settings()
         self.renew_app()
-        res = super(WebTest, self).__call__(result)
+        res = super(WebTestMixin, self).__call__(result)
         self._unpatch_settings()
         return res
 

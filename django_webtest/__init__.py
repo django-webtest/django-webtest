@@ -144,14 +144,6 @@ class DjangoTestApp(TestApp):
         return {}
 
 
-class WebTest(WebTestMixin, TestCase):
-    pass
-
-
-class TransactionWebTest(WebTestMixin, TestCase):
-    pass
-
-
 class WebTestMixin(object):
 
     extra_environ = {}
@@ -226,6 +218,14 @@ class WebTestMixin(object):
         res = super(WebTest, self).__call__(result)
         self._unpatch_settings()
         return res
+
+
+class WebTest(WebTestMixin, TestCase):
+    pass
+
+
+class TransactionWebTest(WebTestMixin, TestCase):
+    pass
 
 
 def _get_username(user):

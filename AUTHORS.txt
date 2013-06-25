@@ -16,3 +16,4 @@ Authors
 * Bruno Renié
 * Gautier Hayoun
 * Carl Meyer
+* Iurii Kriachko

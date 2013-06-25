@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.test.signals import template_rendered
 from django.core.handlers.wsgi import WSGIHandler
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 from django.test.client import store_rendered_templates
 from django.utils.functional import curry
 from django.utils.importlib import import_module
@@ -144,7 +144,7 @@ class DjangoTestApp(TestApp):
         return {}
 
 
-class WebTest(TestCase):
+class WebTestMixin(object):
 
     extra_environ = {}
     csrf_checks = True
@@ -215,9 +215,17 @@ class WebTest(TestCase):
     def __call__(self, result=None):
         self._patch_settings()
         self.renew_app()
-        res = super(WebTest, self).__call__(result)
+        res = super(WebTestMixin, self).__call__(result)
         self._unpatch_settings()
         return res
+
+
+class WebTest(WebTestMixin, TestCase):
+    pass
+
+
+class TransactionWebTest(WebTestMixin, TestCase):
+    pass
 
 
 def _get_username(user):

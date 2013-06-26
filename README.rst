@@ -43,9 +43,9 @@ Usage
             # it's body.
             assert 'My Article' in index.click('Blog')
 
-django-webtest provides django.test.TestCase subclass (``WebTest``) that creates
-``webtest.TestApp`` around django wsgi interface and make it available in
-tests as ``self.app``.
+django-webtest provides django.test.TestCase subclass
+(``django_webtest.WebTest``) that creates ``webtest.TestApp`` around
+django wsgi interface and makes it available in tests as ``self.app``.
 
 It also features optional ``user`` argument for ``self.app.get`` and
 ``self.app.post`` methods to help making authorized requests. This argument
@@ -91,13 +91,16 @@ csrf tokens become hard to construct. CSRF checks can be disabled by setting
         def test_post(self)
             self.app.post('/')
 
+When a subclass of django's ``TransactionTestCase`` is desired,
+use ``django_webtest.TransactionWebTest``.
+
 All of these features can be easily set up manually (thanks to WebTest
 architecture) and they are even not neccessary for using WebTest with django but
 it is nice to have some sort of integration instantly.
 
-See http://webtest.pythonpaste.org/ for API help. It can follow links, submit
-forms, parse html, xml and json responses with different parsing libraries,
-upload files and more.
+See http://webtest.pythonpaste.org/ for API help. Webtest can follow links,
+submit forms, parse html, xml and json responses with different
+parsing libraries, upload files and more.
 
 Why?
 ====

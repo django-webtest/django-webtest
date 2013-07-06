@@ -17,3 +17,4 @@ Authors
 * Gautier Hayoun
 * Carl Meyer
 * Iurii Kriachko
+* Will Bradley

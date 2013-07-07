@@ -2,6 +2,11 @@
 CHANGES
 =======
 
+1.7.3 (2013-07-07)
+------------------
+
+- Added support for PATCH and OPTIONS HTTP methods (thanks Will Bradley).
+
 1.7.2 (2013-06-27)
 ------------------
 

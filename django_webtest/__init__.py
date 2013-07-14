@@ -240,7 +240,7 @@ class WebTest(WebTestMixin, TestCase):
     pass
 
 
-class TransactionWebTest(WebTestMixin, TestCase):
+class TransactionWebTest(WebTestMixin, TransactionTestCase):
     pass
 
 

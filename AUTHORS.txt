@@ -18,3 +18,4 @@ Authors
 * Carl Meyer
 * Iurii Kriachko
 * Will Bradley
+* Julien Aubert

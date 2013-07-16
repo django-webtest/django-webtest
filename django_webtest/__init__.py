@@ -18,6 +18,10 @@ except ImportError:
     from django.contrib.staticfiles.handlers import StaticFilesHandler
 
 from webtest import TestApp
+try:
+    from webtest.utils import NoDefault
+except ImportError:
+    NoDefault = ''
 
 from django_webtest.response import DjangoWebtestResponse
 from django_webtest.compat import to_string, to_wsgi_safe_string
@@ -138,7 +142,7 @@ class DjangoTestApp(TestApp):
         return super(DjangoTestApp, self).options(
                    url, params, headers, extra_environ, status)
 
-    def delete(self, url, params='', headers=None, extra_environ=None,
+    def delete(self, url, params=NoDefault, headers=None, extra_environ=None,
              status=None, expect_errors=False,
              content_type=None, user=None):
         extra_environ = self._update_environ(extra_environ, user)

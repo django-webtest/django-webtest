@@ -2,6 +2,13 @@
 CHANGES
 =======
 
+1.7.5 (2013-07-17)
+------------------
+
+- OPTIONS method is fixed;
+- added workaround for DELETE method warnings
+  (see https://github.com/Pylons/webtest/issues/50).
+
 1.7.4 (2013-07-14)
 ------------------
 

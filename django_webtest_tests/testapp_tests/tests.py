@@ -1,17 +1,46 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, absolute_import
-from webtest import AppError
+from webtest import AppError, TestApp
 
 import django
 from django_webtest import WebTest
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-class GetRequestTest(WebTest):
-    def test_get_request(self):
-        response = self.app.get('/')
+class MethodsTest(WebTest):
+
+    csrf_checks = False
+
+    def assertMethodWorks(self, meth, name):
+        response = meth('/')
         self.assertEqual(response.status_int, 200)
-        self.assertTrue('GET' in response)
+        response.mustcontain(name)
+        #self.assertTrue(name in response)
+
+    def test_get(self):
+        self.assertMethodWorks(self.app.get, 'GET')
+
+    def test_post(self):
+        self.assertMethodWorks(self.app.post, 'POST')
+
+    def test_put(self):
+        self.assertMethodWorks(self.app.put, 'PUT')
+
+    def test_delete(self):
+        self.assertMethodWorks(self.app.delete, 'DELETE')
+
+    if hasattr(TestApp, 'patch'):  # old WebTest versions doesn't have patch method
+        def test_patch(self):
+            self.assertMethodWorks(self.app.patch, 'PATCH')
+
+    def test_head(self):
+        response = self.app.head('/')
+        self.assertEqual(response.status_int, 200)
+        assert response.body == b''
+
+    def test_options(self):
+        self.assertMethodWorks(self.app.options, 'OPTIONS')
+
 
 class PostRequestTest(WebTest):
     csrf_checks = False

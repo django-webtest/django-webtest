@@ -136,8 +136,7 @@ class DjangoTestApp(TestApp):
              content_type=None, user=None):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).options(
-                   url, params, headers, extra_environ, status,
-                   upload_files, expect_errors, content_type)
+                   url, params, headers, extra_environ, status)
 
     def delete(self, url, params='', headers=None, extra_environ=None,
              status=None, expect_errors=False,

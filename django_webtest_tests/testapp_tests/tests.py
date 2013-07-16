@@ -29,7 +29,7 @@ class MethodsTest(WebTest):
     def test_delete(self):
         self.assertMethodWorks(self.app.delete, 'DELETE')
 
-    if hasattr(TestApp, 'patch'):  # old WebTest versions doesn't have patch method
+    if hasattr(TestApp, 'patch'):  # old WebTest versions don't have 'patch' method
         def test_patch(self):
             self.assertMethodWorks(self.app.patch, 'PATCH')
 

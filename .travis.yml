@@ -38,7 +38,7 @@ matrix:
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - pip install "django $DJANGO_INSTALL"
+  - pip install "django $DJANGO"
   - if [[ $OLD_WEBTEST ]]; then pip install 'WebTest < 2.0'; else pip install WebTest; fi
   - python setup.py install
 

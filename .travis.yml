@@ -7,33 +7,33 @@ python:
   - "pypy"
 
 env:
-  - DJANGO_VERSION=1.2 DJANGO_INSTALL=">= 1.2, < 1.3"
-  - DJANGO_VERSION=1.3 DJANGO_INSTALL=">= 1.3, < 1.4"
-  - DJANGO_VERSION=1.4 DJANGO_INSTALL=">= 1.4, < 1.5"
-  - DJANGO_VERSION=1.5 DJANGO_INSTALL=">= 1.5, < 1.6"
-  - DJANGO_VERSION='latest' DJANGO_INSTALL=""
+  - DJANGO=">= 1.2, < 1.3"
+  - DJANGO=">= 1.3, < 1.4"
+  - DJANGO=">= 1.4, < 1.5"
+  - DJANGO=">= 1.5, < 1.6"
+  - DJANGO=""
 
 matrix:
     include:
         - python: "2.7"
-          env: DJANGO_VERSION=1.5 OLD_WEBTEST=1
+          env: DJANGO=">= 1.5, < 1.6" OLD_WEBTEST=1
     exclude:
         - python: "3.2"
-          env: DJANGO_VERSION=1.2
+          env: DJANGO=">= 1.2, < 1.3"
         - python: "3.2"
-          env: DJANGO_VERSION=1.3
+          env: DJANGO=">= 1.3, < 1.4"
         - python: "3.2"
-          env: DJANGO_VERSION=1.4
+          env: DJANGO=">= 1.4, < 1.5"
         - python: "3.3"
-          env: DJANGO_VERSION=1.2
+          env: DJANGO=">= 1.2, < 1.3"
         - python: "3.3"
-          env: DJANGO_VERSION=1.3
+          env: DJANGO=">= 1.3, < 1.4"
         - python: "3.3"
-          env: DJANGO_VERSION=1.4
+          env: DJANGO=">= 1.4, < 1.5"
         - python: "pypy"
-          env: DJANGO_VERSION=1.2
+          env: DJANGO=">= 1.2, < 1.3"
         - python: "pypy"
-          env: DJANGO_VERSION=1.3
+          env: DJANGO=">= 1.3, < 1.4"
 
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors

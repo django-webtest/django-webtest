@@ -7,10 +7,12 @@ from django.test.client import store_rendered_templates
 from django.utils.functional import curry
 from django.utils.importlib import import_module
 from django.core import signals
+
 try:
     from django.db import close_old_connections
 except ImportError:
     from django.db import close_connection
+
     close_old_connections = None
 try:
     from django.core.servers.basehttp import AdminMediaHandler as StaticFilesHandler
@@ -18,6 +20,7 @@ except ImportError:
     from django.contrib.staticfiles.handlers import StaticFilesHandler
 
 from webtest import TestApp
+
 try:
     from webtest.utils import NoDefault
 except ImportError:
@@ -100,10 +103,10 @@ class DjangoTestApp(TestApp):
 
     def get(self, url, params=None, headers=None, extra_environ=None,
             status=None, expect_errors=False, user=None, auto_follow=False,
-            content_type=None):
+            content_type=None, xhr=False):
         extra_environ = self._update_environ(extra_environ, user)
         response = super(DjangoTestApp, self).get(
-                  url, params, headers, extra_environ, status, expect_errors)
+            url, params, headers, extra_environ, status, expect_errors, xhr)
 
         is_redirect = lambda r: r.status_int >= 300 and r.status_int < 400
         while auto_follow and is_redirect(response):
@@ -113,42 +116,42 @@ class DjangoTestApp(TestApp):
 
     def post(self, url, params='', headers=None, extra_environ=None,
              status=None, upload_files=None, expect_errors=False,
-             content_type=None, user=None):
+             content_type=None, user=None, xhr=False):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).post(
-                   url, params, headers, extra_environ, status,
-                   upload_files, expect_errors, content_type)
+            url, params, headers, extra_environ, status,
+            upload_files, expect_errors, content_type, xhr)
 
     def put(self, url, params='', headers=None, extra_environ=None,
-             status=None, upload_files=None, expect_errors=False,
-             content_type=None, user=None):
+            status=None, upload_files=None, expect_errors=False,
+            content_type=None, user=None, xhr=False):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).put(
-                   url, params, headers, extra_environ, status,
-                   upload_files, expect_errors, content_type)
+            url, params, headers, extra_environ, status,
+            upload_files, expect_errors, content_type, xhr)
 
     def patch(self, url, params='', headers=None, extra_environ=None,
-             status=None, upload_files=None, expect_errors=False,
-             content_type=None, user=None):
+              status=None, upload_files=None, expect_errors=False,
+              content_type=None, user=None, xhr=False):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).patch(
-                   url, params, headers, extra_environ, status,
-                   upload_files, expect_errors, content_type)
+            url, params, headers, extra_environ, status,
+            upload_files, expect_errors, content_type, xhr)
 
     def options(self, url, params='', headers=None, extra_environ=None,
-             status=None, upload_files=None, expect_errors=False,
-             content_type=None, user=None):
+                status=None, upload_files=None, expect_errors=False,
+                content_type=None, user=None, xhr=False):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).options(
-                   url, params, headers, extra_environ, status)
+            url, headers, extra_environ, status, expect_errors, xhr)
 
     def delete(self, url, params=NoDefault, headers=None, extra_environ=None,
-             status=None, expect_errors=False,
-             content_type=None, user=None):
+               status=None, expect_errors=False,
+               content_type=None, user=None, xhr=False):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).delete(
-                   url, params, headers, extra_environ, status,
-                   expect_errors, content_type)
+            url, params, headers, extra_environ, status,
+            expect_errors, content_type, xhr)
 
     @property
     def session(self):
@@ -164,7 +167,6 @@ class DjangoTestApp(TestApp):
 
 
 class WebTestMixin(object):
-
     extra_environ = {}
     csrf_checks = True
     setup_auth = True
@@ -218,7 +220,7 @@ class WebTestMixin(object):
             settings.MIDDLEWARE_CLASSES.append(webtest_auth_middleware)
         else:
             index = settings.MIDDLEWARE_CLASSES.index(django_auth_middleware)
-            settings.MIDDLEWARE_CLASSES.insert(index+1, webtest_auth_middleware)
+            settings.MIDDLEWARE_CLASSES.insert(index + 1, webtest_auth_middleware)
 
     def _setup_auth_backend(self):
         backend_name = 'django_webtest.backends.WebtestUserBackend'

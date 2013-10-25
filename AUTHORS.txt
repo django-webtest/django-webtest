@@ -19,3 +19,4 @@ Authors
 * Iurii Kriachko
 * Will Bradley
 * Julien Aubert
+* Vadim Chinyaev

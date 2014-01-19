@@ -17,6 +17,17 @@ class MethodsTest(WebTest):
         response.mustcontain(name)
         #self.assertTrue(name in response)
 
+    def assertMethodWorksXHR(self, meth, name):
+        try:
+            response = meth('/', xhr=True)
+        except TypeError as e:
+            # for webtest < 2
+            self.assertIn('xhr', e.message)
+        else:
+            # for webtest == 2
+            self.assertEqual(response.status_int, 200)
+            response.mustcontain(name)
+
     def test_get(self):
         self.assertMethodWorks(self.app.get, 'GET')
 
@@ -28,6 +39,18 @@ class MethodsTest(WebTest):
 
     def test_delete(self):
         self.assertMethodWorks(self.app.delete, 'DELETE')
+
+    def test_get_xhr(self):
+        self.assertMethodWorksXHR(self.app.get, 'GET')
+
+    def test_post_xhr(self):
+        self.assertMethodWorksXHR(self.app.post, 'POST')
+
+    def test_put_xhr(self):
+        self.assertMethodWorksXHR(self.app.put, 'PUT')
+
+    def test_delete_xhr(self):
+        self.assertMethodWorksXHR(self.app.delete, 'DELETE')
 
     if hasattr(TestApp, 'patch'):  # old WebTest versions don't have 'patch' method
         def test_patch(self):

@@ -19,4 +19,5 @@ Authors
 * Iurii Kriachko
 * Will Bradley
 * Julien Aubert
+* Darian Moody <https://github.com/djm>
 * Max Kharandziuk <https://github.com/kharandziuk>

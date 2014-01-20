@@ -2,6 +2,13 @@
 CHANGES
 =======
 
+1.7.6 (2014-01-20)
+------------------
+
+- DjangoTestApp methods pass all custom keyword arguments to webtest.TestApp;
+  this allows to use ``xhr=True`` feature (thanks Max Kharandziuk).
+- Travis CI testing fixes (thanks Darian Moody).
+
 1.7.5 (2013-07-17)
 ------------------
 

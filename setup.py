@@ -34,7 +34,7 @@ setup(
 (http://webtest.pythonpaste.org/) with django's testing framework.""",
 
     long_description = get_long_description(),
-    install_requires = ['webtest (>= 1.3.3)'],
+    install_requires = ['webtest >= 1.3.3'],
 
     classifiers=[
         'Development Status :: 5 - Production/Stable',

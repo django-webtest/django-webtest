@@ -5,7 +5,12 @@ from django.core.handlers.wsgi import WSGIHandler
 from django.test import TestCase, TransactionTestCase
 from django.test.client import store_rendered_templates
 from django.utils.functional import curry
-from django.utils.importlib import import_module
+
+try:
+    from importlib import import_module
+except ImportError:
+    from django.utils.importlib import import_module
+
 from django.core import signals
 try:
     from django.db import close_old_connections

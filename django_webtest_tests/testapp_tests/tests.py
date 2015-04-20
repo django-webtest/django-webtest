@@ -186,7 +186,7 @@ class AuthTest(BaseAuthTest):
 
         self.assertEqual(
             settings.MIDDLEWARE_CLASSES.index(auth_middleware),
-            dependency_index +1,
+            dependency_index + 1,
         )
 
     def test_custom_middleware(self):
@@ -201,9 +201,9 @@ class AuthTest(BaseAuthTest):
 
     def test_reusing_custom_user(self):
         if django.get_version() >= "1.5":
-            from testapp_tests.models import CustomUser
-            with self.settings(AUTH_USER_MODEL = 'testapp_tests.CustomUser'):
-                custom_user = CustomUser.objects.create(
+            from django_webtest_tests.testapp_tests.models import MyCustomUser
+            with self.settings(AUTH_USER_MODEL = 'testapp_tests.MyCustomUser'):
+                custom_user = MyCustomUser.objects.create(
                         email="custom@example.com")
                 custom_user.set_password("123")
                 custom_user.save()

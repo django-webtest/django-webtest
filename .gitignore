@@ -1,1 +1,6 @@
 *.pyc
+__pycache__
+.tox/
+MANIFEST
+build/
+dist/

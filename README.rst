@@ -131,15 +131,10 @@ some reason.
 Contributing
 ============
 
-Development happens at github and bitbucket:
+Development happens at github: https://github.com/kmike/django-webtest
+Issue tracker: https://github.com/kmike/django-webtest/issues
 
-* https://github.com/kmike/django-webtest
-* https://bitbucket.org/kmike/django-webtest
-
-The issue tracker is at bitbucket.
-
-Feel free to submit ideas, bugs, pull requests (git or hg) or
-regular patches.
+Feel free to submit ideas, bugs or pull requests.
 
 Running tests
 -------------

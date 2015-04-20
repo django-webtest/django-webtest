@@ -31,7 +31,7 @@ setup(
 
     packages=['django_webtest'],
 
-    url='https://bitbucket.org/kmike/django-webtest/',
+    url='https://github.com/kmike/django-webtest/',
     license = 'MIT license',
     description = """ Instant integration of Ian Bicking's WebTest
 (http://webtest.pythonpaste.org/) with django's testing framework.""",

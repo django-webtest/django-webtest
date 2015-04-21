@@ -6,13 +6,13 @@ django-webtest
    :target: https://pypi.python.org/pypi/django-webtest
    :alt: PyPI Version
 
-.. image:: https://img.shields.io/travis/kmike/django-webtest/master.svg
-   :target: http://travis-ci.org/kmike/django-webtest
-   :alt: Build Status
-
 .. image:: https://img.shields.io/github/license/kmike/django-webtest.svg
    :target: https://github.com/kmike/django-webtest/blob/master/LICENSE.txt
    :alt: License
+
+.. image:: https://img.shields.io/travis/kmike/django-webtest/master.svg
+   :target: http://travis-ci.org/kmike/django-webtest
+   :alt: Build Status
 
 django-webtest is an app for instant integration of Ian Bicking's
 WebTest (http://webtest.pythonpaste.org/) with django's
@@ -122,19 +122,11 @@ docstring:
     contexts and templates produced by a view, rather than the
     HTML rendered to the end-user.
 
-WebTest plays on the same field as twill. WebTest has a nice API, is fast, small,
-talks to the django application via WSGI instead of HTTP and is an easy way to
-write functional/integration/acceptance tests.
-
-Twill is also a great tool and it also can be easily integrated with django
-(see django-test-utils package) and I also enjoy it much. But I prefer WebTest
-over twill because twill is old (last release is in 2007), communicates via HTTP
-instead of WSGI (though there is workaround for that), lacks support for
-unicode and have a much larger codebase to hack on. django-webtest is also
-able to provide access to the names of rendered templates and
-template context just like native django TestClient. Twill however understands
-HTML better and is more mature so consider it if WebTest doesn't fit for
-some reason.
+WebTest plays on the same field as twill. WebTest has a nice API,
+is fast, small, talks to the django application via WSGI instead of HTTP
+and is an easy way to write functional/integration/acceptance tests.
+django-webtest is able to provide access to the names of rendered templates
+and template context just like native django TestClient.
 
 Contributing
 ============

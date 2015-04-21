@@ -2,8 +2,17 @@
 django-webtest
 ==============
 
-.. image:: https://travis-ci.org/kmike/django-webtest.png?branch=master
-    :target: https://travis-ci.org/kmike/django-webtest
+.. image:: https://img.shields.io/pypi/v/django-webtest.svg
+   :target: https://pypi.python.org/pypi/django-webtest
+   :alt: PyPI Version
+
+.. image:: https://img.shields.io/travis/kmike/django-webtest/master.svg
+   :target: http://travis-ci.org/kmike/django-webtest
+   :alt: Build Status
+
+.. image:: https://img.shields.io/github/license/kmike/django-webtest.svg
+   :target: https://github.com/kmike/django-webtest/blob/master/LICENSE.txt
+   :alt: License
 
 django-webtest is an app for instant integration of Ian Bicking's
 WebTest (http://webtest.pythonpaste.org/) with django's

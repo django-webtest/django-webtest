@@ -9,7 +9,8 @@ CHANGES
   (thanks Eric Araujo);
 - importlib from stdlib is used when available, for django 1.9 compatibility
   (thanks Helen Sherwood-Taylor);
-- django-webtest's own tests are fixed to work in django 1.6+.
+- django-webtest's own tests are fixed to work in django 1.6+;
+- https://bitbucket.org/kmike/django-webtest repository is no longer supported.
 
 1.7.7 (2014-03-25)
 ------------------

@@ -14,7 +14,6 @@ Installation
 
 ::
 
-    $ pip install webtest
     $ pip install django-webtest
 
 Usage
@@ -40,17 +39,17 @@ Usage
             # on a <a href='/tech-blog/'>Blog</a> link, check that it
             # works (result page doesn't raise exceptions and returns 200 http
             # code) and test if result page have 'My Article' text in
-            # it's body.
+            # its body.
             assert 'My Article' in index.click('Blog')
 
-django-webtest provides django.test.TestCase subclass
+django-webtest provides a django.test.TestCase subclass
 (``django_webtest.WebTest``) that creates ``webtest.TestApp`` around
 django wsgi interface and makes it available in tests as ``self.app``.
 
 It also features optional ``user`` argument for ``self.app.get`` and
 ``self.app.post`` methods to help making authorized requests. This argument
-should be django.contrib.auth.models.User instance or a string with user's
-``username`` for user who is supposed to be logged in.
+should be a django.contrib.auth.models.User instance or a string with user's
+``username`` for the user who is supposed to be logged in.
 
 For 500 errors original traceback is shown instead of usual html result
 from handler500.
@@ -58,13 +57,13 @@ from handler500.
 You also get the ``response.templates`` and ``response.context`` goodness that
 is usually only available if you use django's native test client. These
 attributes contain a list of templates that were used to render the response
-and the context used to render these templates. All django's native asserts (
+and the context used to render these templates. All of django's native asserts (
 ``assertFormError``,  ``assertTemplateUsed``, ``assertTemplateNotUsed``,
 ``assertContains``, ``assertNotContains``, ``assertRedirects``) are
 also supported for WebTest responses.
 
 The session dictionary is available via ``self.app.session``, and has the
-content as django's native test client.
+same content than django's native test client.
 
 Unlike django's native test client CSRF checks are not suppressed
 by default so missing CSRF tokens will cause test fails (and that's good).
@@ -105,7 +104,7 @@ parsing libraries, upload files and more.
 Why?
 ====
 
-While django.test.client.Client is fine for it's purposes, it is not
+While django.test.client.Client is fine for its purposes, it is not
 well-suited for functional or integration testing. From django's test client
 docstring:
 
@@ -114,16 +113,16 @@ docstring:
     contexts and templates produced by a view, rather than the
     HTML rendered to the end-user.
 
-WebTest plays on the same field as twill. WebTest has nice API, is fast, small,
-talk to django application via WSGI instead of HTTP and is an easy way to
+WebTest plays on the same field as twill. WebTest has a nice API, is fast, small,
+talks to the django application via WSGI instead of HTTP and is an easy way to
 write functional/integration/acceptance tests.
 
 Twill is also a great tool and it also can be easily integrated with django
 (see django-test-utils package) and I also enjoy it much. But I prefer WebTest
-over twill because twill is old (last release is in 2007), communicate via HTTP
+over twill because twill is old (last release is in 2007), communicates via HTTP
 instead of WSGI (though there is workaround for that), lacks support for
-unicode and have a much larger codebase to hack on. django-webtest also
-is able to provide access to the names of rendered templates and
+unicode and have a much larger codebase to hack on. django-webtest is also
+able to provide access to the names of rendered templates and
 template context just like native django TestClient. Twill however understands
 HTML better and is more mature so consider it if WebTest doesn't fit for
 some reason.

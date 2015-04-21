@@ -1,10 +1,7 @@
 #!/usr/bin/env python
-from distutils.core import setup
+import sys
 
-for cmd in ('egg_info', 'develop'):
-    import sys
-    if cmd in sys.argv:
-        from setuptools import setup
+from setuptools import setup
 
 
 version='1.7.7'
@@ -37,7 +34,7 @@ setup(
 (http://webtest.pythonpaste.org/) with django's testing framework.""",
 
     long_description = get_long_description(),
-    requires = ['webtest (>= 1.3.3)', 'django (>= 1.2.7)'],
+    install_requires = ['webtest >= 1.3.3'],
 
     classifiers=[
         'Development Status :: 5 - Production/Stable',

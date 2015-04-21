@@ -4,7 +4,7 @@ import sys
 from setuptools import setup
 
 
-version='1.7.7'
+version = '1.7.7'
 
 
 def _read(name):
@@ -29,12 +29,12 @@ setup(
     packages=['django_webtest'],
 
     url='https://github.com/kmike/django-webtest/',
-    license = 'MIT license',
-    description = """ Instant integration of Ian Bicking's WebTest
+    license='MIT license',
+    description=""" Instant integration of Ian Bicking's WebTest
 (http://webtest.pythonpaste.org/) with django's testing framework.""",
 
-    long_description = get_long_description(),
-    install_requires = ['webtest >= 1.3.3'],
+    long_description=get_long_description(),
+    install_requires=['webtest >= 1.3.3'],
 
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -49,6 +49,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development :: Libraries :: Python Modules',

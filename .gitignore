@@ -4,3 +4,4 @@ __pycache__
 MANIFEST
 build/
 dist/
+django_webtest.egg-info

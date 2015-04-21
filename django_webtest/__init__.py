@@ -214,6 +214,7 @@ class WebTestMixin(object):
     def _setup_auth_middleware(self):
         webtest_auth_middleware = 'django_webtest.middleware.WebtestUserMiddleware'
         django_auth_middleware = 'django.contrib.auth.middleware.AuthenticationMiddleware'
+        django_remote_middleware = 'django.contrib.auth.middleware.RemoteUserMiddleware'
 
         if django_auth_middleware not in settings.MIDDLEWARE_CLASSES:
             # There can be a custom AuthenticationMiddleware subclass or replacement,
@@ -224,6 +225,9 @@ class WebTestMixin(object):
         else:
             index = settings.MIDDLEWARE_CLASSES.index(django_auth_middleware)
             settings.MIDDLEWARE_CLASSES.insert(index+1, webtest_auth_middleware)
+            
+        if django_remote_middleware in settings.MIDDLEWARE_CLASSES:
+            settings.MIDDLEWARE_CLASSES.remove(django_remote_middleware)
 
     def _setup_auth_backend(self):
         backend_name = 'django_webtest.backends.WebtestUserBackend'

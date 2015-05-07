@@ -107,12 +107,14 @@ class DjangoTestApp(TestApp):
             status=None, expect_errors=False, user=None, auto_follow=False,
             content_type=None, **kwargs):
         extra_environ = self._update_environ(extra_environ, user)
-        response = super(DjangoTestApp, self).get(
-                url, params, headers, extra_environ, status, expect_errors, **kwargs)
+        all_kwargs_but_url = dict(
+            params=params, headers=headers, extra_environ=extra_environ,
+            status=status, expect_errors=expect_errors, **kwargs)
+        response = super(DjangoTestApp, self).get(url, **all_kwargs_but_url)
 
         is_redirect = lambda r: r.status_int >= 300 and r.status_int < 400
         while auto_follow and is_redirect(response):
-            response = response.follow()
+            response = response.follow(**all_kwargs_but_url)
 
         return response
 

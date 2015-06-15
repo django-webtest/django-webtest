@@ -164,6 +164,7 @@ class DjangoTestApp(TestApp):
             engine = import_module(settings.SESSION_ENGINE)
             cookie = self.cookies.get(settings.SESSION_COOKIE_NAME, None)
             if cookie:
+                cookie = cookie[1:-1]  # Remove surrounding quotes
                 return engine.SessionStore(cookie)
             else:
                 session = engine.SessionStore()

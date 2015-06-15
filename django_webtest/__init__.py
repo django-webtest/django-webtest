@@ -165,6 +165,11 @@ class DjangoTestApp(TestApp):
             cookie = self.cookies.get(settings.SESSION_COOKIE_NAME, None)
             if cookie:
                 return engine.SessionStore(cookie)
+            else:
+                session = engine.SessionStore()
+                session.save()
+                self.set_cookie(settings.SESSION_COOKIE_NAME, to_string(session.session_key))
+                return session
         return {}
 
 

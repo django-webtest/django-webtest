@@ -40,6 +40,18 @@ class MethodsTest(WebTest):
     def test_delete(self):
         self.assertMethodWorks(self.app.delete, 'DELETE')
 
+    def test_get_json(self):
+        self.assertMethodWorks(self.app.get, 'GET')
+
+    def test_post_json(self):
+        self.assertMethodWorks(self.app.post_json, 'POST')
+
+    def test_put_json(self):
+        self.assertMethodWorks(self.app.put_json, 'PUT')
+
+    def test_delete_json(self):
+        self.assertMethodWorks(self.app.delete_json, 'DELETE')
+
     def test_get_xhr(self):
         self.assertMethodWorksXHR(self.app.get, 'GET')
 

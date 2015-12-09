@@ -155,6 +155,39 @@ class DjangoTestApp(TestApp):
                    url, params, headers, extra_environ, status,
                    expect_errors, content_type, **kwargs)
 
+    def post_json(self, url, params='', headers=None, extra_environ=None,
+                  status=None, upload_files=None, expect_errors=False,
+                  user=None, **kwargs):
+        extra_environ = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).post_json(
+                   url, params, headers=headers, extra_environ=extra_environ,
+                   status=status, expect_errors=expect_errors, **kwargs)
+
+    def put_json(self, url, params='', headers=None, extra_environ=None,
+                 status=None, expect_errors=False,
+                 user=None, **kwargs):
+        extra_environ = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).put_json(
+                   url, params, headers=headers, extra_environ=extra_environ,
+                   status=status, expect_errors=expect_errors, **kwargs)
+
+    def patch_json(self, url, params='', headers=None, extra_environ=None,
+                   status=None, upload_files=None, expect_errors=False,
+                   user=None, **kwargs):
+        extra_environ = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).patch_json(
+                   url, params, headers=headers, extra_environ=extra_environ,
+                   status=status, upload_files=upload_files,
+                   expect_errors=expect_errors, **kwargs)
+
+    def delete_json(self, url, params=NoDefault, headers=None,
+                    extra_environ=None, status=None, expect_errors=False,
+                    user=None, **kwargs):
+        extra_environ = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).delete_json(
+                   url, params, headers=headers, extra_environ=extra_environ,
+                   status=status, expect_errors=expect_errors, **kwargs)
+
     @property
     def session(self):
         """

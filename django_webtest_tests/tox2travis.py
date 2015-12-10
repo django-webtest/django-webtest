@@ -3,6 +3,8 @@
 TRAVIS_CONF = '''
 language: python
 
+sudo: false
+
 addons:
   postgresql: "9.3"
 services:

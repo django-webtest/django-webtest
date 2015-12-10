@@ -1,81 +1,67 @@
+
 language: python
+
+addons:
+  postgresql: "9.3"
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database django_webtest_tests;' -U postgres
+
 install:
   - pip install tox
 script:
   - tox
 env:
-  - TOXENV=py26-django12
-  - TOXENV=py26-django14
-  - TOXENV=py26-django15
-  - TOXENV=py26-django16
-  - TOXENV=py26-django17
-  - TOXENV=py26-django18
-  - TOXENV=py26-djangocurrent
-  - TOXENV=py27-django12
-  - TOXENV=py27-django14
-  - TOXENV=py27-django15
-  - TOXENV=py27-django16
-  - TOXENV=py27-django17
-  - TOXENV=py27-django18
-  - TOXENV=py27-djangocurrent
-  - TOXENV=py33-django12
-  - TOXENV=py33-django14
-  - TOXENV=py33-django15
-  - TOXENV=py33-django16
-  - TOXENV=py33-django17
-  - TOXENV=py33-django18
-  - TOXENV=py33-djangocurrent
-  - TOXENV=py34-django12
-  - TOXENV=py34-django14
-  - TOXENV=py34-django15
-  - TOXENV=py34-django16
-  - TOXENV=py34-django17
-  - TOXENV=py34-django18
-  - TOXENV=py34-djangocurrent
-  - TOXENV=pypy-django12
-  - TOXENV=pypy-django14
-  - TOXENV=pypy-django15
-  - TOXENV=pypy-django16
-  - TOXENV=pypy-django17
-  - TOXENV=pypy-django18
-  - TOXENV=pypy-djangocurrent
+  - TOXENV=pypy-django12-std
+  - TOXENV=pypy-django19-std
+  - TOXENV=py26-django12-std
+  - TOXENV=py26-django13-std
+  - TOXENV=py26-django14-std
+  - TOXENV=py26-django15-std
+  - TOXENV=py26-django16-std
+  - TOXENV=py27-django15-std
   - TOXENV=py27-django15-clocale
-  - TOXENV=py27-django16-clocale
-  - TOXENV=py27-django17-clocale
-  - TOXENV=py27-django18-clocale
-  - TOXENV=py27-djangocurrent-clocale
-  - TOXENV=py33-django15-clocale
-  - TOXENV=py33-django16-clocale
-  - TOXENV=py33-django17-clocale
-  - TOXENV=py33-django18-clocale
-  - TOXENV=py33-djangocurrent-clocale
-  - TOXENV=py34-django15-clocale
-  - TOXENV=py34-django16-clocale
-  - TOXENV=py34-django17-clocale
-  - TOXENV=py34-django18-clocale
-  - TOXENV=py34-djangocurrent-clocale
-  - TOXENV=pypy-django15-clocale
-  - TOXENV=pypy-django16-clocale
-  - TOXENV=pypy-django17-clocale
-  - TOXENV=pypy-django18-clocale
-  - TOXENV=pypy-djangocurrent-clocale
   - TOXENV=py27-django15-postgres
+  - TOXENV=py27-django16-std
+  - TOXENV=py27-django16-clocale
   - TOXENV=py27-django16-postgres
+  - TOXENV=py27-django17-std
+  - TOXENV=py27-django17-clocale
   - TOXENV=py27-django17-postgres
+  - TOXENV=py27-django18-std
+  - TOXENV=py27-django18-clocale
   - TOXENV=py27-django18-postgres
-  - TOXENV=py27-djangocurrent-postgres
+  - TOXENV=py27-django19-std
+  - TOXENV=py27-django19-clocale
+  - TOXENV=py27-django19-postgres
+  - TOXENV=py33-django15-std
+  - TOXENV=py33-django15-clocale
   - TOXENV=py33-django15-postgres
+  - TOXENV=py33-django16-std
+  - TOXENV=py33-django16-clocale
   - TOXENV=py33-django16-postgres
+  - TOXENV=py33-django17-std
+  - TOXENV=py33-django17-clocale
   - TOXENV=py33-django17-postgres
+  - TOXENV=py33-django18-std
+  - TOXENV=py33-django18-clocale
   - TOXENV=py33-django18-postgres
-  - TOXENV=py33-djangocurrent-postgres
+  - TOXENV=py33-django19-std
+  - TOXENV=py33-django19-clocale
+  - TOXENV=py33-django19-postgres
+  - TOXENV=py34-django15-std
+  - TOXENV=py34-django15-clocale
   - TOXENV=py34-django15-postgres
+  - TOXENV=py34-django16-std
+  - TOXENV=py34-django16-clocale
   - TOXENV=py34-django16-postgres
+  - TOXENV=py34-django17-std
+  - TOXENV=py34-django17-clocale
   - TOXENV=py34-django17-postgres
+  - TOXENV=py34-django18-std
+  - TOXENV=py34-django18-clocale
   - TOXENV=py34-django18-postgres
-  - TOXENV=py34-djangocurrent-postgres
-  - TOXENV=pypy-django15-postgres
-  - TOXENV=pypy-django16-postgres
-  - TOXENV=pypy-django17-postgres
-  - TOXENV=pypy-django18-postgres
-  - TOXENV=pypy-djangocurrent-postgres
+  - TOXENV=py34-django19-std
+  - TOXENV=py34-django19-clocale
+  - TOXENV=py34-django19-postgres

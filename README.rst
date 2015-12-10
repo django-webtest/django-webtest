@@ -7,11 +7,11 @@ django-webtest
    :alt: PyPI Version
 
 .. image:: https://img.shields.io/github/license/kmike/django-webtest.svg
-   :target: https://github.com/kmike/django-webtest/blob/master/LICENSE.txt
+   :target: https://github.com/django-webtest/django-webtest/blob/master/LICENSE.txt
    :alt: License
 
-.. image:: https://img.shields.io/travis/kmike/django-webtest/master.svg
-   :target: http://travis-ci.org/kmike/django-webtest
+.. image:: https://img.shields.io/travis/django-webtest/django-webtest/master.svg
+   :target: http://travis-ci.org/django-webtest/django-webtest
    :alt: Build Status
 
 django-webtest is an app for instant integration of Ian Bicking's
@@ -131,8 +131,8 @@ and template context just like native django TestClient.
 Contributing
 ============
 
-Development happens at github: https://github.com/kmike/django-webtest
-Issue tracker: https://github.com/kmike/django-webtest/issues
+Development happens at github: https://github.com/django-webtest/django-webtest
+Issue tracker: https://github.com/django-webtest/django-webtest/issues
 
 Feel free to submit ideas, bugs or pull requests.
 

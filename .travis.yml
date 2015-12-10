@@ -6,6 +6,8 @@ script:
 env:
   - TOXENV=py26
   - TOXENV=py27
+  - TOXENV=py33
+  - TOXENV=py34
   - TOXENV=pypy
   - TOXENV=dj12-py26
   - TOXENV=dj12
@@ -16,6 +18,7 @@ env:
   - TOXENV=dj15-py32
   - TOXENV=dj15-py33
   - TOXENV=dj15-py33-postgres
-  - TOXENV=py26-wtx1
+  - TOXENV=py26-wt1x
   - TOXENV=py27-clocale
   - TOXENV=py33-clocale
+  - TOXENV=py34-clocale

@@ -1,57 +1,68 @@
+
 language: python
-python:
-  - "3.4"
-  - "3.2"
-  - "2.7"
-  - "2.6"
-  - "pypy"
 
-env:
-  - DJANGO=">= 1.2, < 1.3"
-  - DJANGO=">= 1.3, < 1.4"
-  - DJANGO=">= 1.4, < 1.5"
-  - DJANGO=">= 1.5, < 1.6"
-  - DJANGO=">= 1.6, < 1.7"
-  - DJANGO=">= 1.7, < 1.8"
-  - DJANGO=">= 1.8, < 1.9"
-  - DJANGO=""
+sudo: false
 
-matrix:
-    include:
-        - python: "2.7"
-          env: DJANGO=">= 1.5, < 1.6" OLD_WEBTEST=1
-    exclude:
-        - python: "2.6"
-          env: DJANGO=""
-        - python: "2.6"
-          env: DJANGO=">= 1.7, < 1.8"
-        - python: "2.6"
-          env: DJANGO=">= 1.8, < 1.9"
-
-        - python: "3.2"
-          env: DJANGO=">= 1.2, < 1.3"
-        - python: "3.2"
-          env: DJANGO=">= 1.3, < 1.4"
-        - python: "3.2"
-          env: DJANGO=">= 1.4, < 1.5"
-
-        - python: "3.4"
-          env: DJANGO=">= 1.2, < 1.3"
-        - python: "3.4"
-          env: DJANGO=">= 1.3, < 1.4"
-        - python: "3.4"
-          env: DJANGO=">= 1.4, < 1.5"
-
-        - python: "pypy"
-          env: DJANGO=">= 1.2, < 1.3"
-        - python: "pypy"
-          env: DJANGO=">= 1.3, < 1.4"
-
+addons:
+  postgresql: "9.3"
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database django_webtest_tests;' -U postgres
 
 install:
-  - pip install "django $DJANGO"
-  - if [[ $OLD_WEBTEST ]]; then pip install 'WebTest < 2.0'; fi
-  - python setup.py install
-
-# command to run tests, e.g. python setup.py test
-script: python django_webtest_tests/runtests.py
+  - pip install tox
+script:
+  - tox
+env:
+  - TOXENV=pypy-django19-std
+  - TOXENV=py26-django12-std
+  - TOXENV=py26-django13-std
+  - TOXENV=py26-django14-std
+  - TOXENV=py26-django15-std
+  - TOXENV=py26-django16-std
+  - TOXENV=py27-django15-std
+  - TOXENV=py27-django15-clocale
+  - TOXENV=py27-django15-postgres
+  - TOXENV=py27-django16-std
+  - TOXENV=py27-django16-clocale
+  - TOXENV=py27-django16-postgres
+  - TOXENV=py27-django17-std
+  - TOXENV=py27-django17-clocale
+  - TOXENV=py27-django17-postgres
+  - TOXENV=py27-django18-std
+  - TOXENV=py27-django18-clocale
+  - TOXENV=py27-django18-postgres
+  - TOXENV=py27-django19-std
+  - TOXENV=py27-django19-clocale
+  - TOXENV=py27-django19-postgres
+  - TOXENV=py34-django15-std
+  - TOXENV=py34-django15-clocale
+  - TOXENV=py34-django15-postgres
+  - TOXENV=py34-django16-std
+  - TOXENV=py34-django16-clocale
+  - TOXENV=py34-django16-postgres
+  - TOXENV=py34-django17-std
+  - TOXENV=py34-django17-clocale
+  - TOXENV=py34-django17-postgres
+  - TOXENV=py34-django18-std
+  - TOXENV=py34-django18-clocale
+  - TOXENV=py34-django18-postgres
+  - TOXENV=py34-django19-std
+  - TOXENV=py34-django19-clocale
+  - TOXENV=py34-django19-postgres
+  - TOXENV=py35-django15-std
+  - TOXENV=py35-django15-clocale
+  - TOXENV=py35-django15-postgres
+  - TOXENV=py35-django16-std
+  - TOXENV=py35-django16-clocale
+  - TOXENV=py35-django16-postgres
+  - TOXENV=py35-django17-std
+  - TOXENV=py35-django17-clocale
+  - TOXENV=py35-django17-postgres
+  - TOXENV=py35-django18-std
+  - TOXENV=py35-django18-clocale
+  - TOXENV=py35-django18-postgres
+  - TOXENV=py35-django19-std
+  - TOXENV=py35-django19-clocale
+  - TOXENV=py35-django19-postgres

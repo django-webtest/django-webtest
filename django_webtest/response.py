@@ -3,6 +3,9 @@ from django.test import Client
 from django.http import SimpleCookie
 from webtest import TestResponse
 from django_webtest.compat import urlparse
+from django_webtest.compat import to_string, to_wsgi_safe_string
+from django_webtest.utils import update_environ
+
 
 class DjangoWebtestResponse(TestResponse):
     """
@@ -36,6 +39,14 @@ class DjangoWebtestResponse(TestResponse):
         for k,v in self.test_app.cookies.items():
             client.cookies[k] = v
         return client
+
+    def click(self, description=None, linkid=None, href=None,
+              index=None, verbose=False,
+              extra_environ=None, user=None):
+        extra_environ = update_environ(extra_environ, user)
+        return super(DjangoWebtestResponse, self).click(
+            description, linkid, href, index, verbose, extra_environ
+        )
 
     def __getitem__(self, item):
         item = item.lower()

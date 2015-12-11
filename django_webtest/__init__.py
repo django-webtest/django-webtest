@@ -29,7 +29,8 @@ except ImportError:
     NoDefault = ''
 
 from django_webtest.response import DjangoWebtestResponse
-from django_webtest.compat import to_string, to_wsgi_safe_string
+from django_webtest.compat import to_string
+from django_webtest.utils import update_environ
 
 
 class DjangoTestApp(TestApp):
@@ -40,13 +41,6 @@ class DjangoTestApp(TestApp):
 
     def get_wsgi_handler(self):
         return StaticFilesHandler(WSGIHandler())
-
-    def _update_environ(self, environ, user):
-        if user:
-            environ = environ or {}
-            username = _get_username(user)
-            environ['WEBTEST_USER'] = to_wsgi_safe_string(username)
-        return environ
 
     def do_request(self, req, status, expect_errors):
 
@@ -106,7 +100,7 @@ class DjangoTestApp(TestApp):
     def get(self, url, params=None, headers=None, extra_environ=None,
             status=None, expect_errors=False, user=None, auto_follow=False,
             content_type=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
+        extra_environ = update_environ(extra_environ, user)
         response = super(DjangoTestApp, self).get(
                 url, params, headers, extra_environ, status, expect_errors, **kwargs)
 
@@ -119,7 +113,7 @@ class DjangoTestApp(TestApp):
     def post(self, url, params='', headers=None, extra_environ=None,
              status=None, upload_files=None, expect_errors=False,
              content_type=None, user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
+        extra_environ = update_environ(extra_environ, user)
         return super(DjangoTestApp, self).post(
                    url, params, headers, extra_environ, status,
                    upload_files, expect_errors, content_type, **kwargs)
@@ -127,7 +121,7 @@ class DjangoTestApp(TestApp):
     def put(self, url, params='', headers=None, extra_environ=None,
              status=None, upload_files=None, expect_errors=False,
              content_type=None, user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
+        extra_environ = update_environ(extra_environ, user)
         return super(DjangoTestApp, self).put(
                    url, params, headers, extra_environ, status,
                    upload_files, expect_errors, content_type)
@@ -135,7 +129,7 @@ class DjangoTestApp(TestApp):
     def patch(self, url, params='', headers=None, extra_environ=None,
              status=None, upload_files=None, expect_errors=False,
              content_type=None, user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
+        extra_environ = update_environ(extra_environ, user)
         return super(DjangoTestApp, self).patch(
                    url, params, headers, extra_environ, status,
                    upload_files, expect_errors, content_type, **kwargs)
@@ -143,14 +137,14 @@ class DjangoTestApp(TestApp):
     def options(self, url, params='', headers=None, extra_environ=None,
              status=None, upload_files=None, expect_errors=False,
              content_type=None, user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
+        extra_environ = update_environ(extra_environ, user)
         return super(DjangoTestApp, self).options(
                    url, params, headers, extra_environ, status, **kwargs)
 
     def delete(self, url, params=NoDefault, headers=None, extra_environ=None,
              status=None, expect_errors=False,
              content_type=None, user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
+        extra_environ = update_environ(extra_environ, user)
         return super(DjangoTestApp, self).delete(
                    url, params, headers, extra_environ, status,
                    expect_errors, content_type, **kwargs)
@@ -283,17 +277,3 @@ class WebTest(WebTestMixin, TestCase):
 
 class TransactionWebTest(WebTestMixin, TransactionTestCase):
     pass
-
-
-def _get_username(user):
-    """
-    Return user's username. ``user`` can be standard Django User
-    instance, a custom user model or just an username (as string).
-    """
-    if hasattr(user, 'get_username'):  # custom user, django 1.5+
-        return user.get_username()
-    elif hasattr(user, 'username'):    # standard User
-        return user.username
-    else:                              # assume user is just an username
-        return user
-

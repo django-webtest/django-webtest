@@ -18,7 +18,8 @@ except ImportError:
     from django.db import close_connection
     close_old_connections = None
 try:
-    from django.core.servers.basehttp import AdminMediaHandler as StaticFilesHandler
+    from django.core.servers.basehttp import (
+            AdminMediaHandler as StaticFilesHandler)
 except ImportError:
     from django.contrib.staticfiles.handlers import StaticFilesHandler
 
@@ -36,7 +37,8 @@ class DjangoTestApp(TestApp):
     response_class = DjangoWebtestResponse
 
     def __init__(self, extra_environ=None, relative_to=None):
-        super(DjangoTestApp, self).__init__(self.get_wsgi_handler(), extra_environ, relative_to)
+        super(DjangoTestApp, self).__init__(self.get_wsgi_handler(),
+                                            extra_environ, relative_to)
 
     def get_wsgi_handler(self):
         return StaticFilesHandler(WSGIHandler())
@@ -52,16 +54,17 @@ class DjangoTestApp(TestApp):
 
         # Django closes the database connection after every request;
         # this breaks the use of transactions in your tests.
-        if close_old_connections is not None: # Django 1.6+
+        if close_old_connections is not None:  # Django 1.6+
             signals.request_started.disconnect(close_old_connections)
             signals.request_finished.disconnect(close_old_connections)
-        else: # Django < 1.6
+        else:  # Django < 1.6
             signals.request_finished.disconnect(close_connection)
 
         try:
             req.environ.setdefault('REMOTE_ADDR', '127.0.0.1')
 
-            # is this a workaround for https://code.djangoproject.com/ticket/11111 ?
+            # is this a workaround for
+            # https://code.djangoproject.com/ticket/11111 ?
             req.environ['REMOTE_ADDR'] = to_string(req.environ['REMOTE_ADDR'])
             req.environ['PATH_INFO'] = to_string(req.environ['PATH_INFO'])
 
@@ -71,7 +74,8 @@ class DjangoTestApp(TestApp):
             on_template_render = curry(store_rendered_templates, data)
             template_rendered.connect(on_template_render)
 
-            response = super(DjangoTestApp, self).do_request(req, status, expect_errors)
+            response = super(DjangoTestApp, self).do_request(req, status,
+                                                             expect_errors)
 
             # Add any rendered template detail to the response.
             # If there was only one template rendered (the most likely case),
@@ -96,21 +100,22 @@ class DjangoTestApp(TestApp):
             response.__class__ = self.response_class
             return response
         finally:
-            if close_old_connections: # Django 1.6+
+            if close_old_connections:  # Django 1.6+
                 signals.request_started.connect(close_old_connections)
                 signals.request_finished.connect(close_old_connections)
-            else: # Django < 1.6
+            else:  # Django < 1.6
                 signals.request_finished.connect(close_connection)
-
 
     def get(self, url, params=None, headers=None, extra_environ=None,
             status=None, expect_errors=False, user=None, auto_follow=False,
             content_type=None, **kwargs):
         extra_environ = self._update_environ(extra_environ, user)
         response = super(DjangoTestApp, self).get(
-                url, params, headers, extra_environ, status, expect_errors, **kwargs)
+                url, params, headers, extra_environ,
+                status, expect_errors, **kwargs)
 
-        is_redirect = lambda r: r.status_int >= 300 and r.status_int < 400
+        def is_redirect(r):
+            return r.status_int >= 300 and r.status_int < 400
         while auto_follow and is_redirect(response):
             response = response.follow()
 
@@ -125,31 +130,31 @@ class DjangoTestApp(TestApp):
                    upload_files, expect_errors, content_type, **kwargs)
 
     def put(self, url, params='', headers=None, extra_environ=None,
-             status=None, upload_files=None, expect_errors=False,
-             content_type=None, user=None, **kwargs):
+            status=None, upload_files=None, expect_errors=False,
+            content_type=None, user=None, **kwargs):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).put(
                    url, params, headers, extra_environ, status,
                    upload_files, expect_errors, content_type)
 
     def patch(self, url, params='', headers=None, extra_environ=None,
-             status=None, upload_files=None, expect_errors=False,
-             content_type=None, user=None, **kwargs):
+              status=None, upload_files=None, expect_errors=False,
+              content_type=None, user=None, **kwargs):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).patch(
                    url, params, headers, extra_environ, status,
                    upload_files, expect_errors, content_type, **kwargs)
 
     def options(self, url, params='', headers=None, extra_environ=None,
-             status=None, upload_files=None, expect_errors=False,
-             content_type=None, user=None, **kwargs):
+                status=None, upload_files=None, expect_errors=False,
+                content_type=None, user=None, **kwargs):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).options(
                    url, params, headers, extra_environ, status, **kwargs)
 
     def delete(self, url, params=NoDefault, headers=None, extra_environ=None,
-             status=None, expect_errors=False,
-             content_type=None, user=None, **kwargs):
+               status=None, expect_errors=False,
+               content_type=None, user=None, **kwargs):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).delete(
                    url, params, headers, extra_environ, status,
@@ -219,7 +224,8 @@ class WebTestMixin(object):
         self._AUTHENTICATION_BACKENDS = settings.AUTHENTICATION_BACKENDS[:]
 
         settings.MIDDLEWARE_CLASSES = list(settings.MIDDLEWARE_CLASSES)
-        settings.AUTHENTICATION_BACKENDS = list(settings.AUTHENTICATION_BACKENDS)
+        settings.AUTHENTICATION_BACKENDS = list(
+            settings.AUTHENTICATION_BACKENDS)
         settings.DEBUG_PROPAGATE_EXCEPTIONS = True
 
         if not self.csrf_checks:
@@ -240,23 +246,27 @@ class WebTestMixin(object):
         self._setup_auth_backend()
 
     def _disable_csrf_checks(self):
-        disable_csrf_middleware = 'django_webtest.middleware.DisableCSRFCheckMiddleware'
-        if not disable_csrf_middleware in settings.MIDDLEWARE_CLASSES:
+        disable_csrf_middleware = (
+            'django_webtest.middleware.DisableCSRFCheckMiddleware')
+        if disable_csrf_middleware not in settings.MIDDLEWARE_CLASSES:
             settings.MIDDLEWARE_CLASSES.insert(0, disable_csrf_middleware)
 
     def _setup_auth_middleware(self):
-        webtest_auth_middleware = 'django_webtest.middleware.WebtestUserMiddleware'
-        django_auth_middleware = 'django.contrib.auth.middleware.AuthenticationMiddleware'
+        webtest_auth_middleware = (
+            'django_webtest.middleware.WebtestUserMiddleware')
+        django_auth_middleware = (
+            'django.contrib.auth.middleware.AuthenticationMiddleware')
 
         if django_auth_middleware not in settings.MIDDLEWARE_CLASSES:
-            # There can be a custom AuthenticationMiddleware subclass or replacement,
-            # we can't compute its index so just put our auth middleware to the end.
-            # If appending causes problems _setup_auth_middleware method can
-            # be overriden by a subclass.
+            # There can be a custom AuthenticationMiddleware subclass or
+            # replacement, we can't compute its index so just put our auth
+            # middleware to the end.  If appending causes problems
+            # _setup_auth_middleware method can be overriden by a subclass.
             settings.MIDDLEWARE_CLASSES.append(webtest_auth_middleware)
         else:
             index = settings.MIDDLEWARE_CLASSES.index(django_auth_middleware)
-            settings.MIDDLEWARE_CLASSES.insert(index+1, webtest_auth_middleware)
+            settings.MIDDLEWARE_CLASSES.insert(index + 1,
+                                               webtest_auth_middleware)
 
     def _setup_auth_backend(self):
         backend_name = 'django_webtest.backends.WebtestUserBackend'
@@ -296,4 +306,3 @@ def _get_username(user):
         return user.username
     else:                              # assume user is just an username
         return user
-

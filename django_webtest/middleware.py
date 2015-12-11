@@ -3,6 +3,7 @@ from django.contrib.auth.middleware import RemoteUserMiddleware
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib import auth
 
+
 class WebtestUserMiddleware(RemoteUserMiddleware):
     """
     Middleware for utilizing django-webtest simplified auth
@@ -41,7 +42,8 @@ class WebtestUserMiddleware(RemoteUserMiddleware):
                 authenticated_username = request.user.get_username()
             else:
                 authenticated_username = request.user.username
-            if authenticated_username == self.clean_username(username, request):
+            clean_username = self.clean_username(username, request)
+            if authenticated_username == clean_username:
                 return
         # We are seeing this user for the first time in this session, attempt
         # to authenticate the user.

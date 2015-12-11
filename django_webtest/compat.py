@@ -28,6 +28,3 @@ else:
 
     def from_wsgi_safe_string(s):
         return urllib.unquote(s).decode('utf8')
-
-
-

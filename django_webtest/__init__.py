@@ -43,6 +43,14 @@ class DjangoTestApp(TestApp):
     def get_wsgi_handler(self):
         return StaticFilesHandler(WSGIHandler())
 
+    def set_user(self, user=None):
+        """Update the user used by the app globaly. If user is None then user
+        is unset"""
+        if user is None and 'WEBTEST_USER' in self.extra_environ:
+            del self.extra_environ['WEBTEST_USER']
+        if user is not None:
+            self.extra_environ = self._update_environ(self.extra_environ, user)
+
     def _update_environ(self, environ, user):
         if user:
             environ = environ or {}

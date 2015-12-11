@@ -237,6 +237,22 @@ class AuthTest(BaseAuthTest):
         self.app.get('/template/index.html', user=self.user)
 
 
+class GlobalAuthTest(BaseAuthTest):
+
+    def test_set_user(self):
+        self.app.set_user(self.user.username)
+        environ = self.app.extra_environ
+        self.assertTrue(environ['WEBTEST_USER'] == self.user.username)
+
+        resp = self.app.get('/template/index.html')
+        environ = resp.request.environ
+        self.assertTrue(environ['WEBTEST_USER'] == self.user.username)
+
+        self.app.set_user()
+        environ = self.app.extra_environ
+        self.assertTrue('WEBTEST_USER' not in environ)
+
+
 class EnvironTest(BaseAuthTest):
 
     extra_environ = {'REMOTE_ADDR': '127.0.0.2'}

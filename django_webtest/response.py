@@ -42,6 +42,8 @@ class DjangoWebtestResponse(TestResponse):
         if item == 'location':
             # django's test response returns location as http://testserver/,
             # WebTest returns it as http://localhost:80/
+            if not self.location:
+                return ''
             e_scheme, e_netloc, e_path, e_query, e_fragment = urlparse.urlsplit(self.location)
             if e_netloc == 'localhost:80':
                 e_netloc = 'testserver'

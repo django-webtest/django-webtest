@@ -4,8 +4,19 @@ from webtest import AppError, TestApp
 
 import django
 from django_webtest import WebTest
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+
+try:
+    from django.test.utils import override_settings
+except ImportError:
+    def override_settings(**kwargs):
+        """Handle old django versions; do nothing"""
+        def wrapper(func):
+            return None
+        return wrapper
+
 
 class MethodsTest(WebTest):
 
@@ -384,3 +395,12 @@ class TestHeaderAccess(WebTest):
             response['X-Unknown-Header']
         self.assertRaises(KeyError, access_bad_header)
 
+
+class TestOverrideSettings(WebTest):
+
+    @override_settings(TEST_OVERIDE=True)
+    def test_overrides(self):
+        assert settings.TEST_OVERIDE is True
+
+    def test_not_overrides(self):
+        self.assertRaises(AttributeError, getattr, settings, 'TEST_OVERIDE')

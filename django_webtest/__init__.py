@@ -227,14 +227,19 @@ class WebTestMixin(object):
         and (optional) to disable CSRF checks.
         '''
 
+        if hasattr(settings, '_wrapped'):
+            self._settings = settings._wrapped
+        else:
+            self._settings = settings
+
         self._DEBUG_PROPAGATE_EXCEPTIONS = settings.DEBUG_PROPAGATE_EXCEPTIONS
         self._MIDDLEWARE_CLASSES = settings.MIDDLEWARE_CLASSES[:]
         self._AUTHENTICATION_BACKENDS = settings.AUTHENTICATION_BACKENDS[:]
 
-        settings.MIDDLEWARE_CLASSES = list(settings.MIDDLEWARE_CLASSES)
-        settings.AUTHENTICATION_BACKENDS = list(
+        self._settings.MIDDLEWARE_CLASSES = list(settings.MIDDLEWARE_CLASSES)
+        self._settings.AUTHENTICATION_BACKENDS = list(
             settings.AUTHENTICATION_BACKENDS)
-        settings.DEBUG_PROPAGATE_EXCEPTIONS = True
+        self._settings.DEBUG_PROPAGATE_EXCEPTIONS = True
 
         if not self.csrf_checks:
             self._disable_csrf_checks()
@@ -244,9 +249,10 @@ class WebTestMixin(object):
 
     def _unpatch_settings(self):
         ''' Restores settings to before-patching state '''
-        settings.MIDDLEWARE_CLASSES = self._MIDDLEWARE_CLASSES
-        settings.AUTHENTICATION_BACKENDS = self._AUTHENTICATION_BACKENDS
-        settings.DEBUG_PROPAGATE_EXCEPTIONS = self._DEBUG_PROPAGATE_EXCEPTIONS
+        self._settings.MIDDLEWARE_CLASSES = self._MIDDLEWARE_CLASSES
+        self._settings.AUTHENTICATION_BACKENDS = self._AUTHENTICATION_BACKENDS
+        self._settings.DEBUG_PROPAGATE_EXCEPTIONS = \
+            self._DEBUG_PROPAGATE_EXCEPTIONS
 
     def _setup_auth(self):
         ''' Setups django-webtest authorization '''
@@ -257,7 +263,8 @@ class WebTestMixin(object):
         disable_csrf_middleware = (
             'django_webtest.middleware.DisableCSRFCheckMiddleware')
         if disable_csrf_middleware not in settings.MIDDLEWARE_CLASSES:
-            settings.MIDDLEWARE_CLASSES.insert(0, disable_csrf_middleware)
+            self._settings.MIDDLEWARE_CLASSES.insert(
+                0, disable_csrf_middleware)
 
     def _setup_auth_middleware(self):
         webtest_auth_middleware = (
@@ -270,15 +277,15 @@ class WebTestMixin(object):
             # replacement, we can't compute its index so just put our auth
             # middleware to the end.  If appending causes problems
             # _setup_auth_middleware method can be overriden by a subclass.
-            settings.MIDDLEWARE_CLASSES.append(webtest_auth_middleware)
+            self._settings.MIDDLEWARE_CLASSES.append(webtest_auth_middleware)
         else:
             index = settings.MIDDLEWARE_CLASSES.index(django_auth_middleware)
-            settings.MIDDLEWARE_CLASSES.insert(index + 1,
-                                               webtest_auth_middleware)
+            self._settings.MIDDLEWARE_CLASSES.insert(index + 1,
+                                                     webtest_auth_middleware)
 
     def _setup_auth_backend(self):
         backend_name = 'django_webtest.backends.WebtestUserBackend'
-        settings.AUTHENTICATION_BACKENDS.insert(0, backend_name)
+        self._settings.AUTHENTICATION_BACKENDS.insert(0, backend_name)
 
     def renew_app(self):
         """

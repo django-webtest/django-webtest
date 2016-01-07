@@ -58,7 +58,8 @@ django wsgi interface and makes it available in tests as ``self.app``.
 It also features optional ``user`` argument for ``self.app.get`` and
 ``self.app.post`` methods to help making authorized requests. This argument
 should be a django.contrib.auth.models.User instance or a string with user's
-``username`` for the user who is supposed to be logged in.
+``username`` for the user who is supposed to be logged in. To log out again,
+call ``self.app.reset``, clearing all cookies.
 
 For 500 errors original traceback is shown instead of usual html result
 from handler500.

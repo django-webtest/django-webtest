@@ -400,7 +400,13 @@ class TestOverrideSettings(WebTest):
 
     @override_settings(TEST_OVERIDE=True)
     def test_overrides(self):
+        disable_csrf_middleware = (
+            'django_webtest.middleware.DisableCSRFCheckMiddleware')
+        assert disable_csrf_middleware in settings.MIDDLEWARE_CLASSES
         assert settings.TEST_OVERIDE is True
 
     def test_not_overrides(self):
+        disable_csrf_middleware = (
+            'django_webtest.middleware.DisableCSRFCheckMiddleware')
+        assert disable_csrf_middleware in settings.MIDDLEWARE_CLASSES
         self.assertRaises(AttributeError, getattr, settings, 'TEST_OVERIDE')

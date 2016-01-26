@@ -262,9 +262,10 @@ class WebTestMixin(object):
     def _disable_csrf_checks(self):
         disable_csrf_middleware = (
             'django_webtest.middleware.DisableCSRFCheckMiddleware')
-        if disable_csrf_middleware not in settings.MIDDLEWARE_CLASSES:
+        if disable_csrf_middleware not in self._settings.MIDDLEWARE_CLASSES:
             self._settings.MIDDLEWARE_CLASSES.insert(
                 0, disable_csrf_middleware)
+            settings.MIDDLEWARE_CLASSES = self._settings.MIDDLEWARE_CLASSES
 
     def _setup_auth_middleware(self):
         webtest_auth_middleware = (
@@ -272,7 +273,7 @@ class WebTestMixin(object):
         django_auth_middleware = (
             'django.contrib.auth.middleware.AuthenticationMiddleware')
 
-        if django_auth_middleware not in settings.MIDDLEWARE_CLASSES:
+        if django_auth_middleware not in self._settings.MIDDLEWARE_CLASSES:
             # There can be a custom AuthenticationMiddleware subclass or
             # replacement, we can't compute its index so just put our auth
             # middleware to the end.  If appending causes problems

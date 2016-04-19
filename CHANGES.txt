@@ -2,6 +2,17 @@
 CHANGES
 =======
 
+1.7.9 (unreleased)
+------------------
+
+- Add set_user() to allow to set a user globaly for the app
+
+- Allow 'click' to be given a user param
+
+- Mention testapp.reset() in readme
+
+- Allow to use ``json_`` methods
+
 1.7.8 (2015-04-21)
 ------------------
 

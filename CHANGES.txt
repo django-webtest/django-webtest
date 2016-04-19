@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.7.9 (unreleased)
+1.7.9 (2016-04-19)
 ------------------
 
 - Add set_user() to allow to set a user globaly for the app

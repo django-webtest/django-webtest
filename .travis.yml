@@ -1,5 +1,6 @@
 
 language: python
+python: 3.5  # this is needed to get travis to have python3.5 as well
 
 sudo: false
 
@@ -51,15 +52,6 @@ env:
   - TOXENV=py34-django19-std
   - TOXENV=py34-django19-clocale
   - TOXENV=py34-django19-postgres
-  - TOXENV=py35-django15-std
-  - TOXENV=py35-django15-clocale
-  - TOXENV=py35-django15-postgres
-  - TOXENV=py35-django16-std
-  - TOXENV=py35-django16-clocale
-  - TOXENV=py35-django16-postgres
-  - TOXENV=py35-django17-std
-  - TOXENV=py35-django17-clocale
-  - TOXENV=py35-django17-postgres
   - TOXENV=py35-django18-std
   - TOXENV=py35-django18-clocale
   - TOXENV=py35-django18-postgres

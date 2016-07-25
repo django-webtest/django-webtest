@@ -5,8 +5,8 @@ CHANGES
 1.7.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Fixed issue #40 - combining ``app.get`` ``auto_follow=True`` with other
+  keyword args.
 
 1.7.9 (2016-04-19)
 ------------------

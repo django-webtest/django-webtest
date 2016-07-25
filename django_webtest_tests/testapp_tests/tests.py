@@ -86,6 +86,11 @@ class MethodsTest(WebTest):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Hello')
 
+    def test_get_auto_follow_and_expect_errors(self):
+        response = self.app.get(reverse('remove-prefix-redirect', args=('some-404/',)),
+                                auto_follow=True, expect_errors=True)
+        self.assertEqual(response.status_code, 404)
+
 
 class PostRequestTest(WebTest):
     csrf_checks = False

@@ -76,6 +76,16 @@ class MethodsTest(WebTest):
     def test_options(self):
         self.assertMethodWorks(self.app.options, 'OPTIONS')
 
+    def test_get_auto_follow_default(self):
+        response = self.app.get(reverse('remove-prefix-redirect', args=('template/index.html',)))
+        self.assertEqual(response.status_code, 302)
+
+    def test_get_auto_follow_true(self):
+        response = self.app.get(reverse('remove-prefix-redirect', args=('template/index.html',)),
+                                auto_follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Hello')
+
 
 class PostRequestTest(WebTest):
     csrf_checks = False

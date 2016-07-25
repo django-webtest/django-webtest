@@ -32,4 +32,5 @@ urlpatterns = patterns('',
     url(r'^set-session/$', 'testapp_tests.views.set_session', name='set_session'),
     url(r'^protected/$', 'testapp_tests.views.protected', name='protected'),
     url(r'^redirect-to-protected/$', 'testapp_tests.views.redirect_to_protected', name='redirect-to-protected'),
+    url(r'^remove-prefix-redirect/(.*)/$', 'testapp_tests.views.remove_prefix_redirect', name='remove-prefix-redirect'),
 )

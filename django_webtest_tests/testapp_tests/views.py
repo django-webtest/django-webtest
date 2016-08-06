@@ -41,3 +41,6 @@ def redirect_to_protected(request):
 @login_required
 def protected(request):
     return HttpResponse('ok')
+
+def remove_prefix_redirect(request, arg):
+    return HttpResponseRedirect("/" + arg)

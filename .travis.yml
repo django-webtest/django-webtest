@@ -37,6 +37,9 @@ env:
   - TOXENV=py27-django19-std
   - TOXENV=py27-django19-clocale
   - TOXENV=py27-django19-postgres
+  - TOXENV=py27-django110-std
+  - TOXENV=py27-django110-clocale
+  - TOXENV=py27-django110-postgres
   - TOXENV=py34-django15-std
   - TOXENV=py34-django15-clocale
   - TOXENV=py34-django15-postgres
@@ -52,9 +55,15 @@ env:
   - TOXENV=py34-django19-std
   - TOXENV=py34-django19-clocale
   - TOXENV=py34-django19-postgres
+  - TOXENV=py34-django110-std
+  - TOXENV=py34-django110-clocale
+  - TOXENV=py34-django110-postgres
   - TOXENV=py35-django18-std
   - TOXENV=py35-django18-clocale
   - TOXENV=py35-django18-postgres
   - TOXENV=py35-django19-std
   - TOXENV=py35-django19-clocale
   - TOXENV=py35-django19-postgres
+  - TOXENV=py35-django110-std
+  - TOXENV=py35-django110-clocale
+  - TOXENV=py35-django110-postgres

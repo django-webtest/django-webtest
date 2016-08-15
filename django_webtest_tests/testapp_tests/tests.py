@@ -71,7 +71,8 @@ class MethodsTest(WebTest):
     def test_head(self):
         response = self.app.head('/')
         self.assertEqual(response.status_int, 200)
-        assert response.body == b''
+        expected = b'' if django.VERSION < (1, 10) else b'HEAD'
+        self.assertEqual(response.body, expected)
 
     def test_options(self):
         self.assertMethodWorks(self.app.options, 'OPTIONS')
@@ -227,7 +228,7 @@ class AuthTest(BaseAuthTest):
         self.assertEqual(user, self.user)
 
     def test_reusing_custom_user(self):
-        if django.get_version() >= "1.5":
+        if django.VERSION >= (1, 5):
             from django_webtest_tests.testapp_tests.models import MyCustomUser
             with self.settings(AUTH_USER_MODEL = 'testapp_tests.MyCustomUser'):
                 custom_user = MyCustomUser.objects.create(

@@ -1,5 +1,6 @@
 # Django settings for django_webtest_tests project.
 import os, sys
+import django
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 join = lambda p: os.path.abspath(os.path.join(PROJECT_ROOT, p))
 
@@ -106,6 +107,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'testapp_tests.middleware.UserMiddleware',
 )
+
+if django.VERSION >= (1, 10):
+    MIDDLEWARE = MIDDLEWARE_CLASSES
 
 ROOT_URLCONF = 'urls'
 

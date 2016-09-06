@@ -206,14 +206,14 @@ class AuthTest(BaseAuthTest):
         from django.conf import settings
 
         auth_middleware = 'django_webtest.middleware.WebtestUserMiddleware'
-        assert auth_middleware in settings.MIDDLEWARE_CLASSES
+        assert auth_middleware in self.settings_middleware
         assert 'django_webtest.backends.WebtestUserBackend' in settings.AUTHENTICATION_BACKENDS
 
-        dependency_index = settings.MIDDLEWARE_CLASSES.index(
+        dependency_index = self.settings_middleware.index(
             'django.contrib.auth.middleware.AuthenticationMiddleware')
 
         self.assertEqual(
-            settings.MIDDLEWARE_CLASSES.index(auth_middleware),
+            self.settings_middleware.index(auth_middleware),
             dependency_index + 1,
         )
 
@@ -399,4 +399,3 @@ class TestHeaderAccess(WebTest):
             response = self.app.get('/')
             response['X-Unknown-Header']
         self.assertRaises(KeyError, access_bad_header)
-

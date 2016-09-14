@@ -1,5 +1,6 @@
 # Django settings for django_webtest_tests project.
 import os, sys
+import django
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 join = lambda p: os.path.abspath(os.path.join(PROJECT_ROOT, p))
 
@@ -67,11 +68,35 @@ STATIC_URL = '/static/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '5mcs97ar-(nnxhfkx0%^+0^sr!e(ax=x$2-!8dqy25ff-l1*a='
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [ ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 # List of callables that know how to import templates from various sources.
+# left here for compatibility with django < 1.8
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_DIRS = (
+    join('templates'),
 )
 
 MIDDLEWARE_CLASSES = (
@@ -83,11 +108,10 @@ MIDDLEWARE_CLASSES = (
     'testapp_tests.middleware.UserMiddleware',
 )
 
-ROOT_URLCONF = 'urls'
+if django.VERSION >= (1, 10):
+    MIDDLEWARE = MIDDLEWARE_CLASSES
 
-TEMPLATE_DIRS = (
-    join('templates'),
-)
+ROOT_URLCONF = 'urls'
 
 INSTALLED_APPS = (
     'django.contrib.auth',

@@ -71,7 +71,8 @@ class MethodsTest(WebTest):
     def test_head(self):
         response = self.app.head('/')
         self.assertEqual(response.status_int, 200)
-        assert response.body == b''
+        expected = b'' if django.VERSION < (1, 10) else b'HEAD'
+        self.assertEqual(response.body, expected)
 
     def test_options(self):
         self.assertMethodWorks(self.app.options, 'OPTIONS')
@@ -205,14 +206,14 @@ class AuthTest(BaseAuthTest):
         from django.conf import settings
 
         auth_middleware = 'django_webtest.middleware.WebtestUserMiddleware'
-        assert auth_middleware in settings.MIDDLEWARE_CLASSES
+        assert auth_middleware in self.settings_middleware
         assert 'django_webtest.backends.WebtestUserBackend' in settings.AUTHENTICATION_BACKENDS
 
-        dependency_index = settings.MIDDLEWARE_CLASSES.index(
+        dependency_index = self.settings_middleware.index(
             'django.contrib.auth.middleware.AuthenticationMiddleware')
 
         self.assertEqual(
-            settings.MIDDLEWARE_CLASSES.index(auth_middleware),
+            self.settings_middleware.index(auth_middleware),
             dependency_index + 1,
         )
 
@@ -227,7 +228,7 @@ class AuthTest(BaseAuthTest):
         self.assertEqual(user, self.user)
 
     def test_reusing_custom_user(self):
-        if django.get_version() >= "1.5":
+        if django.VERSION >= (1, 5):
             from django_webtest_tests.testapp_tests.models import MyCustomUser
             with self.settings(AUTH_USER_MODEL = 'testapp_tests.MyCustomUser'):
                 custom_user = MyCustomUser.objects.create(
@@ -398,4 +399,3 @@ class TestHeaderAccess(WebTest):
             response = self.app.get('/')
             response['X-Unknown-Header']
         self.assertRaises(KeyError, access_bad_header)
-

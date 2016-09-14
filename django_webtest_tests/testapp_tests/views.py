@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response, redirect
-from django.template.context import RequestContext
+from django.shortcuts import render, redirect
 
 class PasswordForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -16,8 +15,7 @@ def check_password(request):
     form = PasswordForm(request.POST or None)
     if form.is_valid():
         return HttpResponseRedirect('/')
-    ctx = RequestContext(request, {'form': form})
-    return render_to_response('form.html', ctx)
+    return render(request, 'form.html', {'form': form})
 
 
 class SearchForm(forms.Form):
@@ -28,8 +26,7 @@ def search(request):
     q = None
     if form.is_valid():
         q = form.cleaned_data['q']
-    ctx = RequestContext(request, {'form': form, 'q': q})
-    return render_to_response('get_form.html', ctx)
+    return render(request, 'get_form.html', {'form': form, 'q': q})
 
 def set_session(request):
     request.session['test'] = 'foo'

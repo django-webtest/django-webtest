@@ -7,11 +7,13 @@ CHANGES
 
 - Fixed issue #40 - combining ``app.get`` ``auto_follow=True`` with other
   keyword args.
+- Add compatibility to the MIDDLEWARE setting introduced in django 1.10
+- Drop support for django 1.2
 
 1.7.9 (2016-04-19)
 ------------------
 
-- Add set_user() to allow to set a user globaly for the app
+- Add set_user() to allow to set a user globally for the app
 
 - Allow 'click' to be given a user param
 

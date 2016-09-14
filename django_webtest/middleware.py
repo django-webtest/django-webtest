@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
+import django
 from django.contrib.auth.middleware import RemoteUserMiddleware
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib import auth
+if django.VERSION >= (1, 10):
+    from django.utils.deprecation import MiddlewareMixin
+else:
+    MiddlewareMixin = object
 
 
 class WebtestUserMiddleware(RemoteUserMiddleware):
@@ -55,6 +60,6 @@ class WebtestUserMiddleware(RemoteUserMiddleware):
             auth.login(request, user)
 
 
-class DisableCSRFCheckMiddleware(object):
+class DisableCSRFCheckMiddleware(MiddlewareMixin):
     def process_request(self, request):
         request._dont_enforce_csrf_checks = True

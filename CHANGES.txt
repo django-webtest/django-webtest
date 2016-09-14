@@ -2,12 +2,14 @@
 CHANGES
 =======
 
-1.7.10 (unreleased)
+1.8.0 (unreleased)
 -------------------
 
 - Fixed issue #40 - combining ``app.get`` ``auto_follow=True`` with other
   keyword args.
+
 - Add compatibility to the MIDDLEWARE setting introduced in django 1.10
+
 - Drop support for django 1.2
 
 1.7.9 (2016-04-19)

@@ -227,6 +227,12 @@ class AuthTest(BaseAuthTest):
         user = resp.context['user']
         self.assertEqual(user, self.user)
 
+        self.assertIn('sessionid', self.app.cookies)
+
+        resp = self.app.get(reverse('protected'))
+        self.assertEquals(resp.status_int, 200)
+        resp.mustcontain('ok: {}'.format(self.user.username))
+
     def test_reusing_custom_user(self):
         if django.VERSION >= (1, 5):
             from django_webtest_tests.testapp_tests.models import MyCustomUser

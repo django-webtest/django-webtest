@@ -231,7 +231,7 @@ class AuthTest(BaseAuthTest):
 
         resp = self.app.get(reverse('protected'))
         self.assertEquals(resp.status_int, 200)
-        resp.mustcontain('ok: {}'.format(self.user.username))
+        resp.mustcontain('ok: {0}'.format(self.user.username))
 
     def test_reusing_custom_user(self):
         if django.VERSION >= (1, 5):

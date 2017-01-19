@@ -92,6 +92,10 @@ class MethodsTest(WebTest):
                                 auto_follow=True, expect_errors=True)
         self.assertEqual(response.status_code, 404)
 
+    def test_get_with_positional_args(self):
+        with self.assertRaises(TypeError):
+            self.app.get('/', {})
+
 
 class PostRequestTest(WebTest):
     csrf_checks = False

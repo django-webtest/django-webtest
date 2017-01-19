@@ -155,6 +155,10 @@ class DjangoTestApp(TestApp):
                    url, params, headers, extra_environ, status,
                    upload_files, expect_errors, content_type, **kwargs)
 
+    def head(self, url, extra_environ=None, user=None, **kwargs):
+        extra_environ = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).head(url, extra_environ=extra_environ, **kwargs)
+
     def options(self, url, extra_environ=None, user=None, **kwargs):
         extra_environ = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).options(url, extra_environ=extra_environ, **kwargs)

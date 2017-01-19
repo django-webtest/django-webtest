@@ -52,8 +52,9 @@ class DjangoTestApp(TestApp):
             self.extra_environ = self._update_environ(self.extra_environ, user)
 
     def _update_environ(self, environ, user):
+        environ = environ or {}
+        environ.setdefault('HTTP_HOST', 'testserver')
         if user:
-            environ = environ or {}
             username = _get_username(user)
             environ['WEBTEST_USER'] = to_wsgi_safe_string(username)
         return environ

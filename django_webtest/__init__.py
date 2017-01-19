@@ -155,12 +155,9 @@ class DjangoTestApp(TestApp):
                    url, params, headers, extra_environ, status,
                    upload_files, expect_errors, content_type, **kwargs)
 
-    def options(self, url, params='', headers=None, extra_environ=None,
-                status=None, upload_files=None, expect_errors=False,
-                content_type=None, user=None, **kwargs):
+    def options(self, url, extra_environ=None, user=None, **kwargs):
         extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).options(
-                   url, params, headers, extra_environ, status, **kwargs)
+        return super(DjangoTestApp, self).options(url, extra_environ=extra_environ, **kwargs)
 
     def delete(self, url, params=NoDefault, headers=None, extra_environ=None,
                status=None, expect_errors=False,

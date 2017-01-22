@@ -6,6 +6,12 @@ from .compat import from_wsgi_safe_string
 class WebtestUserBackend(RemoteUserBackend):
     """ Auth backend for django-webtest auth system """
 
+    # Although it appears that we're just creating work for ourselves here
+    # because we're calling super(WebtestUserBackend, self).authenticate with
+    # unchanged arguments, what matters is the name of the arguments.
+    # Specifically, django.contrib.auth.authenticate looks at the names of the
+    # arguments of a backend's authenticate method to decide whether the
+    # backend can be used to authenticate a particular request.
     if get_complete_version() >= (1, 11):
         def authenticate(self, request, django_webtest_user):
             return super(WebtestUserBackend, self).authenticate(

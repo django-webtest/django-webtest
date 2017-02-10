@@ -5,7 +5,18 @@ CHANGES
 1.8.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added support for Django 1.11
+
+- Dropped support for Django <= 1.7
+
+- Dropped support for Python 2.6
+
+- Changed value of `HTTP_HOST` header from `localhost` to `testserver`, to
+  match behaviour of Django test client.
+
+- Fixed `DjangoTestApp.options`
+
+- Added `DjangoTestApp.head`
 
 
 1.8.0 (2016-09-14)

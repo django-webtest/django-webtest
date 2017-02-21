@@ -52,8 +52,9 @@ class DjangoTestApp(TestApp):
             self.extra_environ = self._update_environ(self.extra_environ, user)
 
     def _update_environ(self, environ, user):
+        environ = environ or {}
+        environ.setdefault('HTTP_HOST', 'testserver')
         if user:
-            environ = environ or {}
             username = _get_username(user)
             environ['WEBTEST_USER'] = to_wsgi_safe_string(username)
         return environ
@@ -114,93 +115,80 @@ class DjangoTestApp(TestApp):
             else:  # Django < 1.6
                 signals.request_finished.connect(close_connection)
 
-    def get(self, url, params=None, headers=None, extra_environ=None,
-            status=None, expect_errors=False, user=None, auto_follow=False,
-            content_type=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
-        all_kwargs_but_url = dict(
-            params=params, headers=headers, extra_environ=extra_environ,
-            status=status, expect_errors=expect_errors, **kwargs)
-        response = super(DjangoTestApp, self).get(url, **all_kwargs_but_url)
+    def get(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        auto_follow = kwargs.pop('auto_follow', False)
+
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        response = super(DjangoTestApp, self).get(url, **kwargs)
 
         def is_redirect(r):
             return r.status_int >= 300 and r.status_int < 400
         while auto_follow and is_redirect(response):
-            response = response.follow(**all_kwargs_but_url)
+            response = response.follow(**kwargs)
 
         return response
 
-    def post(self, url, params='', headers=None, extra_environ=None,
-             status=None, upload_files=None, expect_errors=False,
-             content_type=None, user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).post(
-                   url, params, headers, extra_environ, status,
-                   upload_files, expect_errors, content_type, **kwargs)
+    def post(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).post(url, **kwargs)
 
-    def put(self, url, params='', headers=None, extra_environ=None,
-            status=None, upload_files=None, expect_errors=False,
-            content_type=None, user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).put(
-                   url, params, headers, extra_environ, status,
-                   upload_files, expect_errors, content_type)
+    def put(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).put(url, **kwargs)
 
-    def patch(self, url, params='', headers=None, extra_environ=None,
-              status=None, upload_files=None, expect_errors=False,
-              content_type=None, user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).patch(
-                   url, params, headers, extra_environ, status,
-                   upload_files, expect_errors, content_type, **kwargs)
+    def patch(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).patch(url, **kwargs)
 
-    def options(self, url, params='', headers=None, extra_environ=None,
-                status=None, upload_files=None, expect_errors=False,
-                content_type=None, user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).options(
-                   url, params, headers, extra_environ, status, **kwargs)
+    def head(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).head(url, **kwargs)
 
-    def delete(self, url, params=NoDefault, headers=None, extra_environ=None,
-               status=None, expect_errors=False,
-               content_type=None, user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).delete(
-                   url, params, headers, extra_environ, status,
-                   expect_errors, content_type, **kwargs)
+    def options(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).options(url, **kwargs)
 
-    def post_json(self, url, params='', headers=None, extra_environ=None,
-                  status=None, upload_files=None, expect_errors=False,
-                  user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).post_json(
-                   url, params, headers=headers, extra_environ=extra_environ,
-                   status=status, expect_errors=expect_errors, **kwargs)
+    def delete(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).delete(url, **kwargs)
 
-    def put_json(self, url, params='', headers=None, extra_environ=None,
-                 status=None, expect_errors=False,
-                 user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).put_json(
-                   url, params, headers=headers, extra_environ=extra_environ,
-                   status=status, expect_errors=expect_errors, **kwargs)
+    def post_json(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).post_json(url, **kwargs)
 
-    def patch_json(self, url, params='', headers=None, extra_environ=None,
-                   status=None, upload_files=None, expect_errors=False,
-                   user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).patch_json(
-                   url, params, headers=headers, extra_environ=extra_environ,
-                   status=status, upload_files=upload_files,
-                   expect_errors=expect_errors, **kwargs)
+    def put_json(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).put_json(url, **kwargs)
 
-    def delete_json(self, url, params=NoDefault, headers=None,
-                    extra_environ=None, status=None, expect_errors=False,
-                    user=None, **kwargs):
-        extra_environ = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).delete_json(
-                   url, params, headers=headers, extra_environ=extra_environ,
-                   status=status, expect_errors=expect_errors, **kwargs)
+    def patch_json(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).patch_json(url, **kwargs)
+
+    def delete_json(self, url, **kwargs):
+        extra_environ = kwargs.get('extra_environ')
+        user = kwargs.pop('user', None)
+        kwargs['extra_environ'] = self._update_environ(extra_environ, user)
+        return super(DjangoTestApp, self).delete_json(url, **kwargs)
 
     @property
     def session(self):

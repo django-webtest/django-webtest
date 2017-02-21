@@ -21,8 +21,10 @@ env:
 '''
 
 if __name__ == '__main__':
-    import subprocess
+    import subprocess, sys
     p = subprocess.check_output('tox -l', shell=True)
+    if sys.version_info.major == 3:
+        p = p.decode('utf-8')
     with open('.travis.yml', 'w') as fd:
         fd.write(TRAVIS_CONF)
         for env in p.split('\n'):

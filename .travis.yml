@@ -17,10 +17,6 @@ script:
   - tox
 env:
   - TOXENV=pypy-django19-std
-  - TOXENV=py26-django18-std
-  - TOXENV=py26-django19-std
-  - TOXENV=py26-django110-std
-  - TOXENV=py26-django111-std
   - TOXENV=py27-django18-std
   - TOXENV=py27-django18-clocale
   - TOXENV=py27-django18-postgres

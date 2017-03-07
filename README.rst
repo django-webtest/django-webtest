@@ -15,7 +15,7 @@ django-webtest
    :alt: Build Status
 
 django-webtest is an app for instant integration of Ian Bicking's
-WebTest (http://webtest.pythonpaste.org/) with django's
+WebTest (http://docs.pylonsproject.org/projects/webtest/) with django's
 testing framework.
 
 Installation
@@ -107,8 +107,8 @@ All of these features can be easily set up manually (thanks to WebTest
 architecture) and they are even not neccessary for using WebTest with django but
 it is nice to have some sort of integration instantly.
 
-See http://webtest.pythonpaste.org/ for API help. Webtest can follow links,
-submit forms, parse html, xml and json responses with different
+See http://docs.pylonsproject.org/projects/webtest/ for API help. Webtest can
+follow links, submit forms, parse html, xml and json responses with different
 parsing libraries, upload files and more.
 
 Why?

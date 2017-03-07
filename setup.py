@@ -30,8 +30,9 @@ setup(
 
     url='https://github.com/django-webtest/django-webtest',
     license='MIT license',
-    description=""" Instant integration of Ian Bicking's WebTest
-(http://webtest.pythonpaste.org/) with django's testing framework.""",
+    description="""Instant integration of Ian Bicking's WebTest
+(http://docs.pylonsproject.org/projects/webtest/) with django's testing
+framework.""",
 
     long_description=get_long_description(),
     install_requires=['webtest >= 1.3.3'],

@@ -37,6 +37,11 @@ framework.""",
     long_description=get_long_description(),
     install_requires=['webtest >= 1.3.3'],
 
+    entry_points="""
+    [pytest11]
+    django_webtest = django_webtest.pytest_plugin
+    """,
+
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',

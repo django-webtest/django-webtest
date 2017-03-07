@@ -210,11 +210,6 @@ class WebTestMixin(object):
     setup_auth = True
     app_class = DjangoTestApp
 
-    if hasattr(settings, 'MIDDLEWARE') and settings.MIDDLEWARE:
-        middleware_setting_name = 'MIDDLEWARE'
-    else:
-        middleware_setting_name = 'MIDDLEWARE_CLASSES'
-
     def _patch_settings(self):
         '''
         Patches settings to add support for django-webtest authorization
@@ -272,6 +267,18 @@ class WebTestMixin(object):
     def _setup_auth_backend(self):
         backend_name = 'django_webtest.backends.WebtestUserBackend'
         settings.AUTHENTICATION_BACKENDS.insert(0, backend_name)
+
+    @property
+    def middleware_setting_name(self):
+        try:
+            return self._middleware_setting_name
+        except AttributeError:
+            if hasattr(settings, 'MIDDLEWARE') and settings.MIDDLEWARE:
+                name = 'MIDDLEWARE'
+            else:
+                name = 'MIDDLEWARE_CLASSES'
+            self._middleware_setting_name = name
+            return name
 
     @property
     def settings_middleware(self):

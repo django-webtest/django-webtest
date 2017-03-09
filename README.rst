@@ -111,6 +111,22 @@ See http://docs.pylonsproject.org/projects/webtest/ for API help. Webtest can
 follow links, submit forms, parse html, xml and json responses with different
 parsing libraries, upload files and more.
 
+Usage with pytest
+=================
+
+You need to install `pytest-django <https://pytest-django.readthedocs.io/>`_::
+
+    $ pip install pytest-django
+
+Then you can use ``django-webtest``'s fixtures::
+
+    def test_1(django_app):
+        resp = django_app.get('/')
+
+    def test_2(django_app_factory):
+        app = django_app_factory(csrf_checks=False, extra_environ={})
+        resp = app.get('/')
+
 Why?
 ====
 

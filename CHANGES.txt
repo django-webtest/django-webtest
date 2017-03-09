@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.8.1 (unreleased)
+1.9.0 (unreleased)
 ------------------
 
 - Added support for Django 1.11

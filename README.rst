@@ -114,7 +114,7 @@ parsing libraries, upload files and more.
 Usage with pytest
 =================
 
-You need to install `pytest-django <https://pytest-django.readthedocs.io/>`_::
+You need to install `pytest-django <https://pytest-django.readthedocs.io>`_::
 
     $ pip install pytest-django
 

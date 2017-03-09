@@ -17,7 +17,7 @@ def _read(name):
 
 
 def get_long_description():
-    return _read('README.rst') + "\n\n" + _read('CHANGES.txt')
+    return _read('README.rst') + "\n\n" + _read('CHANGES.rst')
 
 
 setup(

@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.1 (unreleased)
+1.9.1 (2017-03-09)
 ------------------
 
 - Fix package description (multiline are no longer allowed by pypi)

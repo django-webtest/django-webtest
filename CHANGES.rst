@@ -5,7 +5,7 @@ CHANGES
 1.9.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix package description (multiline are no longer allowed by pypi)
 
 
 1.9.0 (2017-03-09)

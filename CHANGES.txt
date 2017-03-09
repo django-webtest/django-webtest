@@ -18,6 +18,8 @@ CHANGES
 
 - Added `DjangoTestApp.head`
 
+- Added pytest fixtures
+
 
 1.8.0 (2016-09-14)
 ------------------

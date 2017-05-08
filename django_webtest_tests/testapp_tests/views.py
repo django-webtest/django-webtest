@@ -41,3 +41,7 @@ def protected(request):
 
 def remove_prefix_redirect(request, arg):
     return HttpResponseRedirect("/" + arg)
+
+def cookie_test(request):
+    cookie = request.COOKIES.get(str('test_cookie'), None)
+    return HttpResponse('cookie: {0}'.format(cookie))

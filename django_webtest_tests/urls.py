@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.contrib.auth.views import login
 
 from testapp_tests.views import check_password, search, set_session, \
-    protected, redirect_to_protected, remove_prefix_redirect
+    protected, redirect_to_protected, remove_prefix_redirect, cookie_test \
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -36,4 +36,5 @@ urlpatterns = (
     url(r'^protected/$', protected, name='protected'),
     url(r'^redirect-to-protected/$', redirect_to_protected, name='redirect-to-protected'),
     url(r'^remove-prefix-redirect/(.*)/$', remove_prefix_redirect, name='remove-prefix-redirect'),
+    url(r'^cookie-test/$', cookie_test, name='cookie_test'),
 )

@@ -409,3 +409,9 @@ class TestHeaderAccess(WebTest):
             response = self.app.get('/')
             response['X-Unknown-Header']
         self.assertRaises(KeyError, access_bad_header)
+
+class TestCookies(WebTest):
+    def test_cookies(self):
+        self.app.set_cookie(str('test_cookie'), str('cookie monster!'))
+        rsp = self.app.get(reverse('cookie_test'))
+        self.assertContains(rsp, 'cookie monster!')

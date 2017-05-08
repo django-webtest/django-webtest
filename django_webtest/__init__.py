@@ -51,7 +51,7 @@ class DjangoTestApp(TestApp):
         if user is not None:
             self.extra_environ = self._update_environ(self.extra_environ, user)
 
-    def _update_environ(self, environ, user):
+    def _update_environ(self, environ, user=None):
         environ = environ or {}
         environ.setdefault('HTTP_HOST', 'testserver')
         if user:
@@ -202,6 +202,9 @@ class DjangoTestApp(TestApp):
                 return engine.SessionStore(cookie)
         return {}
 
+    def set_cookie(self, *args, **kwargs):
+        self.extra_environ = self._update_environ(self.extra_environ)
+        return super(DjangoTestApp, self).set_cookie(*args, **kwargs)
 
 class WebTestMixin(object):
 

@@ -5,7 +5,9 @@ CHANGES
 1.9.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- silence warnings about is_authenticated on 1.11
+
+- include correct hostname (testserver) when using set_cookie
 
 
 1.9.1 (2017-03-09)
@@ -16,6 +18,9 @@ CHANGES
 
 1.9.0 (2017-03-09)
 ------------------
+
+- Backward incompatibility: positionnal arguments are no longer supported.
+  You'll need to replace them by keywords arguments.
 
 - Added support for Django 1.11
 

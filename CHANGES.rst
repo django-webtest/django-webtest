@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.2 (unreleased)
+1.9.2 (2017-05-17)
 ------------------
 
 - silence warnings about is_authenticated on 1.11

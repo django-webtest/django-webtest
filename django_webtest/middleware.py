@@ -8,6 +8,8 @@ if django.VERSION >= (1, 10):
 else:
     MiddlewareMixin = object
 
+from .compat import is_authenticated
+
 
 class WebtestUserMiddleware(RemoteUserMiddleware):
     """
@@ -42,7 +44,7 @@ class WebtestUserMiddleware(RemoteUserMiddleware):
         # If the user is already authenticated and that user is the user we are
         # getting passed in the headers, then the correct user is already
         # persisted in the session and we don't need to continue.
-        if request.user.is_authenticated():
+        if is_authenticated(request.user):
             if hasattr(request.user, "get_username"):
                 authenticated_username = request.user.get_username()
             else:

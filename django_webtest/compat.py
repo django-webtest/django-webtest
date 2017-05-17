@@ -1,6 +1,8 @@
 import sys
 import urllib
 
+import django
+
 PY3 = sys.version_info[0] == 3
 
 if PY3:
@@ -28,3 +30,9 @@ else:
 
     def from_wsgi_safe_string(s):
         return urllib.unquote(s).decode('utf8')
+
+
+def is_authenticated(user):
+    if django.VERSION < (1, 10):
+        return user.is_authenticated()
+    return user.is_authenticated

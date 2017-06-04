@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from django.utils.version import get_complete_version
 from django.contrib.auth.backends import RemoteUserBackend
-from .compat import from_wsgi_safe_string
+from django_webtest.compat import from_wsgi_safe_string
 
 class WebtestUserBackend(RemoteUserBackend):
     """ Auth backend for django-webtest auth system """

@@ -8,7 +8,7 @@ if django.VERSION >= (1, 10):
 else:
     MiddlewareMixin = object
 
-from .compat import is_authenticated
+from django_webtest.compat import is_authenticated
 
 
 class WebtestUserMiddleware(RemoteUserMiddleware):

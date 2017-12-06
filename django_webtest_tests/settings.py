@@ -1,14 +1,15 @@
 # Django settings for django_webtest_tests project.
 import os, sys
 import django
+
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 join = lambda p: os.path.abspath(os.path.join(PROJECT_ROOT, p))
 
+# TODO configure pytest testpaths instead of doing this
 sys.path.insert(0, join('..'))
 
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -74,6 +75,7 @@ TEMPLATES = [
         'DIRS': [ ],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': DEBUG,
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
@@ -87,19 +89,20 @@ TEMPLATES = [
     },
 ]
 
-# List of callables that know how to import templates from various sources.
-# left here for compatibility with django < 1.8
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
+if django.VERSION < (1, 8):
+    TEMPLATE_DEBUG = DEBUG
 
-TEMPLATE_DIRS = (
-    join('templates'),
-)
+    TEMPLATE_LOADERS = (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )
 
-MIDDLEWARE_CLASSES = (
+    TEMPLATE_DIRS = (
+        join('templates'),
+    )
+
+
+MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -108,8 +111,10 @@ MIDDLEWARE_CLASSES = (
     'testapp_tests.middleware.UserMiddleware',
 )
 
-if django.VERSION >= (1, 10):
-    MIDDLEWARE = MIDDLEWARE_CLASSES
+if django.VERSION < (1, 8):
+    MIDDLEWARE_CLASSES = MIDDLEWARE
+    del MIDDLEWARE
+
 
 ROOT_URLCONF = 'urls'
 

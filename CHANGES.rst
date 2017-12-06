@@ -5,7 +5,8 @@ CHANGES
 1.9.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Passing `user=None` to get/post/etc. methods will clear a user
+  previously set with `set_user` instead of doing nothing.
 
 
 1.9.2 (2017-05-17)

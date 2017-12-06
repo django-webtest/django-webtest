@@ -33,6 +33,10 @@ from django_webtest.response import DjangoWebtestResponse
 from django_webtest.compat import to_string, to_wsgi_safe_string
 
 
+# sentinel to differentiate user=None / user param not given
+_notgiven = object()
+
+
 class DjangoTestApp(TestApp):
     response_class = DjangoWebtestResponse
 
@@ -51,16 +55,23 @@ class DjangoTestApp(TestApp):
         if user is not None:
             self.extra_environ = self._update_environ(self.extra_environ, user)
 
-    def _update_environ(self, environ, user=None):
+    def _update_environ(self, environ, user=_notgiven):
         environ = environ or {}
         environ.setdefault('HTTP_HOST', 'testserver')
-        if user:
-            username = _get_username(user)
-            environ['WEBTEST_USER'] = to_wsgi_safe_string(username)
+
+        if user is not _notgiven:
+            if user is None:
+                # We can't just delete the key here, the test request is built
+                # from self.extra_environ + this environ, so the header defined
+                # by set_user will be found in self.extra_environ.
+                environ['WEBTEST_USER'] = ''
+            else:
+                username = _get_username(user)
+                environ['WEBTEST_USER'] = to_wsgi_safe_string(username)
+
         return environ
 
     def do_request(self, req, status, expect_errors):
-
         # Django closes the database connection after every request;
         # this breaks the use of transactions in your tests.
         if close_old_connections is not None:  # Django 1.6+
@@ -117,7 +128,7 @@ class DjangoTestApp(TestApp):
 
     def get(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         auto_follow = kwargs.pop('auto_follow', False)
 
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
@@ -132,61 +143,61 @@ class DjangoTestApp(TestApp):
 
     def post(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).post(url, **kwargs)
 
     def put(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).put(url, **kwargs)
 
     def patch(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).patch(url, **kwargs)
 
     def head(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).head(url, **kwargs)
 
     def options(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).options(url, **kwargs)
 
     def delete(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).delete(url, **kwargs)
 
     def post_json(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).post_json(url, **kwargs)
 
     def put_json(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).put_json(url, **kwargs)
 
     def patch_json(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).patch_json(url, **kwargs)
 
     def delete_json(self, url, **kwargs):
         extra_environ = kwargs.get('extra_environ')
-        user = kwargs.pop('user', None)
+        user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
         return super(DjangoTestApp, self).delete_json(url, **kwargs)
 
@@ -206,8 +217,8 @@ class DjangoTestApp(TestApp):
         self.extra_environ = self._update_environ(self.extra_environ)
         return super(DjangoTestApp, self).set_cookie(*args, **kwargs)
 
-class WebTestMixin(object):
 
+class WebTestMixin(object):
     extra_environ = {}
     csrf_checks = True
     setup_auth = True
@@ -264,8 +275,7 @@ class WebTestMixin(object):
             self.settings_middleware.append(webtest_auth_middleware)
         else:
             index = self.settings_middleware.index(django_auth_middleware)
-            self.settings_middleware.insert(index + 1,
-                                               webtest_auth_middleware)
+            self.settings_middleware.insert(index + 1, webtest_auth_middleware)
 
     def _setup_auth_backend(self):
         backend_name = 'django_webtest.backends.WebtestUserBackend'

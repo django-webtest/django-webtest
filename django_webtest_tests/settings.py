@@ -89,7 +89,8 @@ TEMPLATES = [
     },
 ]
 
-if django.VERSION < (1, 8):
+
+if django.VERSION < (1, 10):
     TEMPLATE_DEBUG = DEBUG
 
     TEMPLATE_LOADERS = (
@@ -103,15 +104,15 @@ if django.VERSION < (1, 8):
 
 
 MIDDLEWARE = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'testapp_tests.middleware.UserMiddleware',
 )
 
-if django.VERSION < (1, 8):
+if django.VERSION < (1, 10):
     MIDDLEWARE_CLASSES = MIDDLEWARE
     del MIDDLEWARE
 

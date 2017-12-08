@@ -21,6 +21,7 @@ def simple_method_test(request):
 
 def simple_template_render(request, template_name):
     return render(request, template_name, {
+        'user': request.user,
         'foo': ('a', 'b', 'c'),
         'bar': True,
         'spam': None,

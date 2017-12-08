@@ -55,11 +55,14 @@ django-webtest provides a django.test.TestCase subclass
 (``django_webtest.WebTest``) that creates ``webtest.TestApp`` around
 django wsgi interface and makes it available in tests as ``self.app``.
 
-It also features optional ``user`` argument for ``self.app.get`` and
-``self.app.post`` methods to help making authorized requests. This argument
+It also features an optional ``user`` argument for ``self.app.get``,
+``self.app.post``, etc. to help making authorized requests. This argument
 should be a django.contrib.auth.models.User instance or a string with user's
 ``username`` for the user who is supposed to be logged in. To log out again,
-call ``self.app.reset``, clearing all cookies.
+call ``self.app.reset``, clearing all cookies.  To make a bunch of calls
+with the same user, call ``app.set_user(user)`` before your requests; if
+you want to disable that user, call ``app.get(..., user=None)`` for one
+request or ``app.set_user(None)`` to unset the user for all following calls.
 
 For 500 errors original traceback is shown instead of usual html result
 from handler500.
@@ -97,6 +100,7 @@ csrf tokens become hard to construct. CSRF checks can be disabled by setting
 
     class MyTestCase(WebTest):
         csrf_checks = False
+
         def test_post(self)
             self.app.post('/')
 

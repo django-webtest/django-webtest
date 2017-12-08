@@ -7,6 +7,7 @@ from django_webtest import WebTest
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
+
 class MethodsTest(WebTest):
 
     csrf_checks = False
@@ -268,15 +269,43 @@ class GlobalAuthTest(BaseAuthTest):
     def test_set_user(self):
         self.app.set_user(self.user.username)
         environ = self.app.extra_environ
-        self.assertTrue(environ['WEBTEST_USER'] == self.user.username)
+        self.assertEqual(environ['WEBTEST_USER'], self.user.username)
 
         resp = self.app.get('/template/index.html')
-        environ = resp.request.environ
-        self.assertTrue(environ['WEBTEST_USER'] == self.user.username)
 
-        self.app.set_user()
+        environ = resp.request.environ
+        self.assertEqual(environ['WEBTEST_USER'], self.user.username)
+        resp.mustcontain('User: {}'.format(self.user.username))
+
+    def test_set_user_reset(self):
+        self.app.set_user(self.user.username)
+        self.app.set_user(None)
         environ = self.app.extra_environ
-        self.assertTrue('WEBTEST_USER' not in environ)
+        self.assertNotIn('WEBTEST_USER', environ)
+
+        resp = self.app.get('/template/index.html')
+
+        environ = resp.request.environ
+        self.assertNotIn('WEBTEST_USER', environ)
+        resp.mustcontain('User: AnonymousUser')
+
+    def test_user_param(self):
+        resp = self.app.get('/template/index.html', user='bob_morane')
+
+        self.assertEqual(resp.request.environ['WEBTEST_USER'], 'bob_morane')
+
+        resp.mustcontain('User: bob_morane')
+
+    def test_user_param_reset(self):
+        self.app.set_user(self.user.username)
+        resp = self.app.get('/template/index.html', user=None)
+
+        # this request had no user
+        self.assertEqual(resp.request.environ['WEBTEST_USER'], '')
+        resp.mustcontain('User: AnonymousUser')
+        # app object is unchanged
+        self.assertEqual(self.app.extra_environ['WEBTEST_USER'],
+                         self.user.username)
 
 
 class EnvironTest(BaseAuthTest):
@@ -291,7 +320,7 @@ class EnvironTest(BaseAuthTest):
 
         resp2 = self.app.get('/template/index.html')
         environ = resp2.request.environ
-        self.assertTrue('WEBTEST_USER' not in environ)
+        self.assertNotIn('WEBTEST_USER', environ)
         self.assertEqual(environ['REMOTE_ADDR'], '127.0.0.2')
 
         resp3 = self.app.get('/template/index.html',
@@ -394,7 +423,7 @@ class TestSession(WebTest):
         self.assertEqual({}, self.app.session)
 
     def test_session_not_empty(self):
-        response = self.app.get(reverse('set_session'))
+        self.app.get(reverse('set_session'))
         self.assertEqual('foo', self.app.session['test'])
 
 

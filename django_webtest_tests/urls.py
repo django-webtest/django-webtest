@@ -1,5 +1,3 @@
-
-# prevent DeprecationWarning for more recent django versions
 try:
     from django.conf.urls import url
 except ImportError:
@@ -12,12 +10,10 @@ from django.contrib.auth.views import login
 from testapp_tests.views import check_password, search, set_session, \
     protected, redirect_to_protected, remove_prefix_redirect, cookie_test \
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
 
 def simple_method_test(request):
     return HttpResponse(str(request.method))
+
 
 def simple_template_render(request, template_name):
     return render(request, template_name, {
@@ -26,6 +22,7 @@ def simple_template_render(request, template_name):
         'bar': True,
         'spam': None,
     })
+
 
 urlpatterns = (
     url(r'^$', simple_method_test, name='simple-method-test'),

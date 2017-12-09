@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, absolute_import
-from webtest import AppError, TestApp
+
 
 import django
-from django_webtest import WebTest
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
+
+from webtest import AppError, TestApp
+
+from django_webtest import WebTest
+from django_webtest.compat import is_authenticated, is_anonymous
 
 
 class MethodsTest(WebTest):
@@ -176,7 +183,7 @@ class BaseAuthTest(WebTest):
     def assertCanLogin(self, user):
         response = self.app.get('/template/index.html', user=user)
         res_user = response.context['user']
-        assert res_user.is_authenticated()
+        assert is_authenticated(res_user)
 
         if isinstance(user, User):
             self.assertEqual(res_user, user)
@@ -189,7 +196,7 @@ class AuthTest(BaseAuthTest):
     def test_not_logged_in(self):
         response = self.app.get('/template/index.html')
         user = response.context['user']
-        assert not user.is_authenticated()
+        assert not is_authenticated(user)
 
     def test_logged_using_username(self):
         self.assertCanLogin('foo')
@@ -254,7 +261,7 @@ class AuthTest(BaseAuthTest):
                 response = self.app.get('/template/index.html',
                         user=custom_user)
                 user = response.context['user']
-                assert user.is_authenticated()
+                assert is_authenticated(user)
                 self.assertEqual(user, custom_user)
 
     def test_normal_user(self):
@@ -342,7 +349,7 @@ class RenewAppTest(BaseAuthTest):
 
         # cookies were dropped
         page2 = self.app.get('/template/form.html')
-        self.assertTrue(page2.context['user'].is_anonymous())
+        self.assertTrue(is_anonymous(page2.context['user']))
 
         # but cookies are still there while browsing from stored page
         page1_1 = page1.click('Login')
@@ -400,7 +407,8 @@ class DisableAuthSetupTest(WebTest):
 
     def test_no_auth(self):
         from django.conf import settings
-        assert 'django_webtest.middleware.WebtestUserMiddleware' not in settings.MIDDLEWARE_CLASSES
+        middleware = getattr(settings, 'MIDDLEWARE', None) or settings.MIDDLEWARE_CLASSES
+        assert 'django_webtest.middleware.WebtestUserMiddleware' not in middleware
         assert 'django_webtest.backends.WebtestUserBackend' not in settings.AUTHENTICATION_BACKENDS
 
 

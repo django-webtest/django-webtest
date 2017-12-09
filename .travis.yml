@@ -1,6 +1,6 @@
 
 language: python
-python: 3.5  # this is needed to get travis to have python3.5 as well
+python: 3.6  # this is needed to get travis to have python3.6 as well
 
 sudo: false
 
@@ -53,3 +53,21 @@ env:
   - TOXENV=py35-django111-std
   - TOXENV=py35-django111-clocale
   - TOXENV=py35-django111-postgres
+  - TOXENV=py35-django20-std
+  - TOXENV=py35-django20-clocale
+  - TOXENV=py35-django20-postgres
+  - TOXENV=py36-django18-std
+  - TOXENV=py36-django18-clocale
+  - TOXENV=py36-django18-postgres
+  - TOXENV=py36-django19-std
+  - TOXENV=py36-django19-clocale
+  - TOXENV=py36-django19-postgres
+  - TOXENV=py36-django110-std
+  - TOXENV=py36-django110-clocale
+  - TOXENV=py36-django110-postgres
+  - TOXENV=py36-django111-std
+  - TOXENV=py36-django111-clocale
+  - TOXENV=py36-django111-postgres
+  - TOXENV=py36-django20-std
+  - TOXENV=py36-django20-clocale
+  - TOXENV=py36-django20-postgres

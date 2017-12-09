@@ -2,7 +2,7 @@
 
 TRAVIS_CONF = '''
 language: python
-python: 3.5  # this is needed to get travis to have python3.5 as well
+python: 3.6  # this is needed to get travis to have python3.6 as well
 
 sudo: false
 

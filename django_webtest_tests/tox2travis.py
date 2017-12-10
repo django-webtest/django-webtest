@@ -2,8 +2,6 @@
 
 TRAVIS_CONF = '''
 language: python
-python: 3.6  # this is needed to get travis to have python3.6 as well
-
 sudo: false
 
 addons:
@@ -17,11 +15,13 @@ install:
   - pip install tox
 script:
   - tox
-env:
+matrix:
+  include:
 '''
 
 if __name__ == '__main__':
-    import subprocess, sys
+    import subprocess
+    import sys
     p = subprocess.check_output('tox -l', shell=True)
     if sys.version_info.major == 3:
         p = p.decode('utf-8')
@@ -30,4 +30,9 @@ if __name__ == '__main__':
         for env in p.split('\n'):
             env = env.strip()
             if env and env not in ('travis',):
-                fd.write('  - TOXENV={}\n'.format(env))
+                if env.startswith('pypy'):
+                    py = 'pypy'
+                else:
+                    py = '{0}.{1}'.format(env[2], env[3])
+                fd.write('    - python: "{}"\n'.format(py))
+                fd.write('      env: TOXENV={}\n'.format(env))

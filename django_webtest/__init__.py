@@ -330,9 +330,9 @@ def _get_username(user):
     """
     meth = getattr(user, 'get_username', None)
     if meth is not None:  # custom user, django 1.5+
-        return meth()
+        return str(meth())
     username = getattr(user, 'username', None)
     if username is not None:    # standard User
-        return username
+        return str(username)
     else:                              # assume user is just an username
         return user

@@ -8,6 +8,9 @@ try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
+from django.test.testcases import override_settings
+from unittest import skipIf
+
 
 from webtest import AppError, TestApp
 
@@ -452,3 +455,14 @@ class TestCookies(WebTest):
         self.app.set_cookie(str('test_cookie'), str('cookie monster!'))
         rsp = self.app.get(reverse('cookie_test'))
         self.assertContains(rsp, 'cookie monster!')
+
+
+@skipIf(django.VERSION < (1, 10), 'MIDDLEWARE is added in Django 1.10')
+@override_settings(MIDDLEWARE=[])
+class MiddlewareTest(WebTest):
+
+    def test_middleware_setting_name(self):
+        self.assertEqual(
+            self.middleware_setting_name,
+            'MIDDLEWARE'
+        )

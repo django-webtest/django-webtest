@@ -285,7 +285,7 @@ class WebTestMixin(object):
         try:
             return self._middleware_setting_name
         except AttributeError:
-            if hasattr(settings, 'MIDDLEWARE') and settings.MIDDLEWARE:
+            if hasattr(settings, 'MIDDLEWARE'):
                 name = 'MIDDLEWARE'
             else:
                 name = 'MIDDLEWARE_CLASSES'

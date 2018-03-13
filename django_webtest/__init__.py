@@ -328,9 +328,11 @@ def _get_username(user):
     Return user's username. ``user`` can be standard Django User
     instance, a custom user model or just an username (as string).
     """
-    if hasattr(user, 'get_username'):  # custom user, django 1.5+
-        return user.get_username()
-    elif hasattr(user, 'username'):    # standard User
-        return user.username
+    meth = getattr(user, 'get_username', None)
+    if meth is not None:  # custom user, django 1.5+
+        return meth()
+    username = getattr(user, 'username', None)
+    if username is not None:    # standard User
+        return username
     else:                              # assume user is just an username
         return user

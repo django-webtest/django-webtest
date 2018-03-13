@@ -328,11 +328,17 @@ def _get_username(user):
     Return user's username. ``user`` can be standard Django User
     instance, a custom user model or just an username (as string).
     """
-    meth = getattr(user, 'get_username', None)
-    if meth is not None:  # custom user, django 1.5+
-        return str(meth())
-    username = getattr(user, 'username', None)
-    if username is not None:    # standard User
-        return str(username)
-    else:                              # assume user is just an username
-        return user
+    value = None
+    # custom user, django 1.5+
+    get_username = getattr(user, 'get_username', None)
+    if get_username is not None:
+        value = get_username()
+    if value is None:
+        # standard User
+        username = getattr(user, 'username', None)
+        if username is not None:
+            value = username
+        else:
+            # assume user is just an username
+            value = user
+    return value

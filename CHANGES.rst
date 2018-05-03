@@ -8,6 +8,10 @@ CHANGES
 - Passing `user=None` to get/post/etc. methods will clear a user
   previously set with `set_user` instead of doing nothing.
 
+- Avoid sharing settings between tests in pytest plugin
+
+- Fix middleware settings name used
+
 
 1.9.2 (2017-05-17)
 ------------------

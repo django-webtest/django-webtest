@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.3 (unreleased)
+1.9.3 (2018-05-03)
 ------------------
 
 - Passing `user=None` to get/post/etc. methods will clear a user

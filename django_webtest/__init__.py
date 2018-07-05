@@ -272,7 +272,7 @@ class WebTestMixin(object):
             # middleware to the end.  If appending causes problems
             # _setup_auth_middleware method can be overriden by a subclass.
             self.settings_middleware.append(webtest_auth_middleware)
-        else:
+        elif webtest_auth_middleware not in self.settings_middleware:
             index = self.settings_middleware.index(django_auth_middleware)
             self.settings_middleware.insert(index + 1, webtest_auth_middleware)
 

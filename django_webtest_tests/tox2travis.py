@@ -30,9 +30,14 @@ if __name__ == '__main__':
         for env in p.split('\n'):
             env = env.strip()
             if env and env not in ('travis',):
+                dist = None
                 if env.startswith('pypy'):
                     py = 'pypy'
                 else:
                     py = '{0}.{1}'.format(env[2], env[3])
+                    if int(env[2] + env[3]) > 36:
+                        dist = 'xenial'
                 fd.write('    - python: "{}"\n'.format(py))
                 fd.write('      env: TOXENV={}\n'.format(env))
+                if dist is not None:
+                    fd.write('      dist: {}\n'.format(dist))

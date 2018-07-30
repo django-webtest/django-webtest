@@ -1,4 +1,5 @@
 
+sudo: false
 language: python
 
 addons:
@@ -124,48 +125,3 @@ matrix:
       env: TOXENV=py36-django20-clocale
     - python: "3.6"
       env: TOXENV=py36-django20-postgres
-    - python: "3.7"
-      env: TOXENV=py37-django18-std
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django18-clocale
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django18-postgres
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django19-std
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django19-clocale
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django19-postgres
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django110-std
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django110-clocale
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django110-postgres
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django111-std
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django111-clocale
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django111-postgres
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django20-std
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django20-clocale
-      dist: xenial
-    - python: "3.7"
-      env: TOXENV=py37-django20-postgres
-      dist: xenial

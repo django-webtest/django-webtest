@@ -466,3 +466,15 @@ class MiddlewareTest(WebTest):
             self.middleware_setting_name,
             'MIDDLEWARE'
         )
+
+
+@skipIf(django.VERSION < (1, 10) or django.VERSION >= (2, 0),
+        'MIDDLEWARE is added in Django 1.10')
+@override_settings(MIDDLEWARE=None, MIDDLEWARE_CLASSES=[])
+class MiddlewareClassesTest(WebTest):
+
+    def test_middleware_setting_name(self):
+        self.assertEqual(
+            self.middleware_setting_name,
+            'MIDDLEWARE_CLASSES'
+        )

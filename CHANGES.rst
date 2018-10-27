@@ -5,8 +5,17 @@ CHANGES
 1.9.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- py34 and Django 1.8 are no longer tested (but may works)
 
+- allow to use positionnal args; fixed #89
+
+- remove deprecated pytest.yield_fixture functions. use pytest.fixture instead;
+  fixed #88
+
+- Don't add duplicate WebtestUserMiddleware to the list of middlewares in
+  WebTestMixin. fixed #87
+
+- restore MIDDLEWARE_CLASSES support; fixed #84
 
 1.9.3 (2018-05-03)
 ------------------

@@ -3,6 +3,10 @@
 TRAVIS_CONF = '''
 language: python
 
+cache:
+  directories:
+    - $HOME/.cache/pip
+
 addons:
   postgresql: "9.3"
 services:

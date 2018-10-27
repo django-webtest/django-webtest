@@ -125,13 +125,13 @@ class DjangoTestApp(TestApp):
             else:  # Django < 1.6
                 signals.request_finished.connect(close_connection)
 
-    def get(self, url, **kwargs):
+    def get(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         auto_follow = kwargs.pop('auto_follow', False)
 
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        response = super(DjangoTestApp, self).get(url, **kwargs)
+        response = super(DjangoTestApp, self).get(url, *args, **kwargs)
 
         def is_redirect(r):
             return r.status_int >= 300 and r.status_int < 400
@@ -140,65 +140,65 @@ class DjangoTestApp(TestApp):
 
         return response
 
-    def post(self, url, **kwargs):
+    def post(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).post(url, **kwargs)
+        return super(DjangoTestApp, self).post(url, *args, **kwargs)
 
-    def put(self, url, **kwargs):
+    def put(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).put(url, **kwargs)
+        return super(DjangoTestApp, self).put(url, *args, **kwargs)
 
-    def patch(self, url, **kwargs):
+    def patch(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).patch(url, **kwargs)
+        return super(DjangoTestApp, self).patch(url, *args, **kwargs)
 
-    def head(self, url, **kwargs):
+    def head(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).head(url, **kwargs)
+        return super(DjangoTestApp, self).head(url, *args, **kwargs)
 
-    def options(self, url, **kwargs):
+    def options(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).options(url, **kwargs)
+        return super(DjangoTestApp, self).options(url, *args, **kwargs)
 
-    def delete(self, url, **kwargs):
+    def delete(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).delete(url, **kwargs)
+        return super(DjangoTestApp, self).delete(url, *args, **kwargs)
 
-    def post_json(self, url, **kwargs):
+    def post_json(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).post_json(url, **kwargs)
+        return super(DjangoTestApp, self).post_json(url, *args, **kwargs)
 
-    def put_json(self, url, **kwargs):
+    def put_json(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).put_json(url, **kwargs)
+        return super(DjangoTestApp, self).put_json(url, *args, **kwargs)
 
-    def patch_json(self, url, **kwargs):
+    def patch_json(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).patch_json(url, **kwargs)
+        return super(DjangoTestApp, self).patch_json(url, *args, **kwargs)
 
-    def delete_json(self, url, **kwargs):
+    def delete_json(self, url, *args, **kwargs):
         extra_environ = kwargs.get('extra_environ')
         user = kwargs.pop('user', _notgiven)
         kwargs['extra_environ'] = self._update_environ(extra_environ, user)
-        return super(DjangoTestApp, self).delete_json(url, **kwargs)
+        return super(DjangoTestApp, self).delete_json(url, *args, **kwargs)
 
     @property
     def session(self):

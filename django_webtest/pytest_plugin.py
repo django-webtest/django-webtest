@@ -21,7 +21,7 @@ def django_app_mixin():
     return app_mixin
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def django_app(django_app_mixin):
     django_app_mixin._patch_settings()
     django_app_mixin.renew_app()
@@ -29,7 +29,7 @@ def django_app(django_app_mixin):
     django_app_mixin._unpatch_settings()
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def django_app_factory():
     def factory(csrf_checks=True, extra_environ=None):
         app_mixin = MixinWithInstanceVariables()

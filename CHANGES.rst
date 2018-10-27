@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.4 (unreleased)
+1.9.4 (2018-10-27)
 ------------------
 
 - py34 and Django 1.8 are no longer tested (but may works)

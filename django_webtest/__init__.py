@@ -40,9 +40,8 @@ _notgiven = object()
 class DjangoTestApp(TestApp):
     response_class = DjangoWebtestResponse
 
-    def __init__(self, extra_environ=None, relative_to=None):
-        super(DjangoTestApp, self).__init__(self.get_wsgi_handler(),
-                                            extra_environ, relative_to)
+    def __init__(self, *args, **kwargs):
+        super(DjangoTestApp, self).__init__(self.get_wsgi_handler(), *args, **kwargs)
 
     def get_wsgi_handler(self):
         return StaticFilesHandler(WSGIHandler())

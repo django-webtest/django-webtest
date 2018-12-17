@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import copy
+
 from django.conf import settings
 from django.test.signals import template_rendered
 from django.core.handlers.wsgi import WSGIHandler
@@ -230,10 +232,13 @@ class WebTestMixin(object):
         self._DEBUG_PROPAGATE_EXCEPTIONS = settings.DEBUG_PROPAGATE_EXCEPTIONS
         self._MIDDLEWARE = self.settings_middleware[:]
         self._AUTHENTICATION_BACKENDS = settings.AUTHENTICATION_BACKENDS[:]
+        self._REST_FRAMEWORK = getattr(
+            settings, 'REST_FRAMEWORK', {'DEFAULT_AUTHENTICATION_CLASSES': []})
 
         self.settings_middleware = list(self.settings_middleware)
         settings.AUTHENTICATION_BACKENDS = list(
             settings.AUTHENTICATION_BACKENDS)
+        settings.REST_FRAMEWORK = copy.deepcopy(self._REST_FRAMEWORK)
         settings.DEBUG_PROPAGATE_EXCEPTIONS = True
 
         if not self.csrf_checks:
@@ -247,11 +252,13 @@ class WebTestMixin(object):
         self.settings_middleware = self._MIDDLEWARE
         settings.AUTHENTICATION_BACKENDS = self._AUTHENTICATION_BACKENDS
         settings.DEBUG_PROPAGATE_EXCEPTIONS = self._DEBUG_PROPAGATE_EXCEPTIONS
+        settings.REST_FRAMEWORK = self._REST_FRAMEWORK
 
     def _setup_auth(self):
         ''' Setups django-webtest authorization '''
         self._setup_auth_middleware()
         self._setup_auth_backend()
+        self._setup_auth_class()
 
     def _disable_csrf_checks(self):
         disable_csrf_middleware = (
@@ -278,6 +285,11 @@ class WebTestMixin(object):
     def _setup_auth_backend(self):
         backend_name = 'django_webtest.backends.WebtestUserBackend'
         settings.AUTHENTICATION_BACKENDS.insert(0, backend_name)
+
+    def _setup_auth_class(self):
+        class_name = 'django_webtest.rest_framework.WebtestAuthentication'
+        auth_classes = settings.REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES']
+        auth_classes.insert(0, class_name)
 
     @property
     def middleware_setting_name(self):

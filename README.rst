@@ -115,6 +115,16 @@ See http://docs.pylonsproject.org/projects/webtest/ for API help. Webtest can
 follow links, submit forms, parse html, xml and json responses with different
 parsing libraries, upload files and more.
 
+Integration with django-rest-framework
+======================================
+
+If your project uses django-rest-framework__, the setting
+``REST_FRAMEWORK['AUTHENTICATION_CLASSES']`` will be patched
+automatically to include a class that links the rest-framework
+authentication system with ``app.get(user=user)``.
+
+.. __: https://www.django-rest-framework.org/
+
 Usage with pytest
 =================
 

@@ -18,38 +18,12 @@ script:
   - tox
 matrix:
   include:
-    - python: "pypy"
-      env: TOXENV=pypy-django19-std
-    - python: "2.7"
-      env: TOXENV=py27-django19-std
-    - python: "2.7"
-      env: TOXENV=py27-django19-clocale
-    - python: "2.7"
-      env: TOXENV=py27-django19-postgres
-    - python: "2.7"
-      env: TOXENV=py27-django110-std
-    - python: "2.7"
-      env: TOXENV=py27-django110-clocale
-    - python: "2.7"
-      env: TOXENV=py27-django110-postgres
     - python: "2.7"
       env: TOXENV=py27-django111-std
     - python: "2.7"
       env: TOXENV=py27-django111-clocale
     - python: "2.7"
       env: TOXENV=py27-django111-postgres
-    - python: "3.5"
-      env: TOXENV=py35-django19-std
-    - python: "3.5"
-      env: TOXENV=py35-django19-clocale
-    - python: "3.5"
-      env: TOXENV=py35-django19-postgres
-    - python: "3.5"
-      env: TOXENV=py35-django110-std
-    - python: "3.5"
-      env: TOXENV=py35-django110-clocale
-    - python: "3.5"
-      env: TOXENV=py35-django110-postgres
     - python: "3.5"
       env: TOXENV=py35-django111-std
     - python: "3.5"
@@ -62,18 +36,12 @@ matrix:
       env: TOXENV=py35-django20-clocale
     - python: "3.5"
       env: TOXENV=py35-django20-postgres
-    - python: "3.6"
-      env: TOXENV=py36-django19-std
-    - python: "3.6"
-      env: TOXENV=py36-django19-clocale
-    - python: "3.6"
-      env: TOXENV=py36-django19-postgres
-    - python: "3.6"
-      env: TOXENV=py36-django110-std
-    - python: "3.6"
-      env: TOXENV=py36-django110-clocale
-    - python: "3.6"
-      env: TOXENV=py36-django110-postgres
+    - python: "3.5"
+      env: TOXENV=py35-django21-std
+    - python: "3.5"
+      env: TOXENV=py35-django21-clocale
+    - python: "3.5"
+      env: TOXENV=py35-django21-postgres
     - python: "3.6"
       env: TOXENV=py36-django111-std
     - python: "3.6"
@@ -86,3 +54,9 @@ matrix:
       env: TOXENV=py36-django20-clocale
     - python: "3.6"
       env: TOXENV=py36-django20-postgres
+    - python: "3.6"
+      env: TOXENV=py36-django21-std
+    - python: "3.6"
+      env: TOXENV=py36-django21-clocale
+    - python: "3.6"
+      env: TOXENV=py36-django21-postgres

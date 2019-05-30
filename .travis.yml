@@ -5,8 +5,6 @@ cache:
   directories:
     - $HOME/.cache/pip
 
-addons:
-  postgresql: "9.3"
 services:
   - postgresql
 before_script:

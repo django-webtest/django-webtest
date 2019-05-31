@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.5 (unreleased)
+1.9.5 (2019-05-31)
 ------------------
 
 - Fix compatibility with django 3. See #96

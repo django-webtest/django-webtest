@@ -5,8 +5,11 @@ CHANGES
 1.9.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix compatibility with django 3. See #96
 
+- Add integration with django-rest-framework auth
+
+- Add missing args to DjangoTestApp. Fixed #86
 
 1.9.4 (2018-10-27)
 ------------------

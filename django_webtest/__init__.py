@@ -288,9 +288,17 @@ class WebTestMixin(object):
         settings.AUTHENTICATION_BACKENDS.insert(0, backend_name)
 
     def _setup_auth_class(self):
-        class_name = 'django_webtest.rest_framework.WebtestAuthentication'
-        auth_classes = settings.REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES']
-        auth_classes.insert(0, class_name)
+        class_name = 'django_webtest.rest_framework_auth.WebtestAuthentication'
+        drf_settings = settings.REST_FRAMEWORK
+        try:
+            classes = drf_settings['DEFAULT_AUTHENTICATION_CLASSES']
+        except KeyError:
+            classes = []
+        if class_name not in classes:
+            if isinstance(classes, tuple):
+                classes = list(classes)
+            classes.insert(0, class_name)
+            drf_settings['DEFAULT_AUTHENTICATION_CLASSES'] = classes
 
     @property
     def middleware_setting_name(self):

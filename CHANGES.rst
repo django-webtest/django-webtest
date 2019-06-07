@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.6 (unreleased)
+1.9.6 (2019-06-07)
 ------------------
 
 - rest_framework auth class. Fixed #98 #100

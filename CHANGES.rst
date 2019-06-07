@@ -5,7 +5,7 @@ CHANGES
 1.9.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- rest_framework auth class. Fixed #98 #100
 
 
 1.9.5 (2019-05-31)

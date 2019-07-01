@@ -44,6 +44,9 @@ class DjangoTestApp(TestApp):
     response_class = DjangoWebtestResponse
 
     def __init__(self, *args, **kwargs):
+        extra_environ = kwargs.get('extra_environ', {}).copy()
+        extra_environ.setdefault('HTTP_HOST', 'testserver')
+        kwargs['extra_environ'] = extra_environ
         super(DjangoTestApp, self).__init__(self.get_wsgi_handler(), *args, **kwargs)
 
     def get_wsgi_handler(self):
@@ -58,7 +61,6 @@ class DjangoTestApp(TestApp):
 
     def _update_environ(self, environ, user=_notgiven):
         environ = environ or {}
-        environ.setdefault('HTTP_HOST', 'testserver')
 
         if user is not _notgiven:
             if user is None:

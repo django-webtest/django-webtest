@@ -5,7 +5,7 @@ CHANGES
 1.9.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- allow overriding HTTP_HOST with DjangoTestApp.__init__. Fixed #102
 
 
 1.9.6 (2019-06-07)

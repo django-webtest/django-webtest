@@ -44,7 +44,7 @@ class DjangoTestApp(TestApp):
     response_class = DjangoWebtestResponse
 
     def __init__(self, *args, **kwargs):
-        extra_environ = kwargs.get('extra_environ', {}).copy()
+        extra_environ = (kwargs.get('extra_environ') or {}).copy()
         extra_environ.setdefault('HTTP_HOST', 'testserver')
         kwargs['extra_environ'] = extra_environ
         super(DjangoTestApp, self).__init__(self.get_wsgi_handler(), *args, **kwargs)

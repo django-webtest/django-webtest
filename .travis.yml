@@ -58,3 +58,9 @@ matrix:
       env: TOXENV=py36-django22-clocale
     - python: "3.6"
       env: TOXENV=py36-django22-postgres
+    - python: "3.6"
+      env: TOXENV=py36-django30-std
+    - python: "3.6"
+      env: TOXENV=py36-django30-clocale
+    - python: "3.6"
+      env: TOXENV=py36-django30-postgres

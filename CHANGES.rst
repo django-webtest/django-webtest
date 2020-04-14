@@ -5,7 +5,12 @@ CHANGES
 1.9.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update testing configurations for Django and Python as per Django documentation
+    - https://docs.djangoproject.com/en/3.0/faq/install/#what-python-version-can-i-use-with-django
+
+- Add some useful metadata for the project's PyPI listing
+
+- Minor changes to documentation
 
 
 1.9.7 (2019-07-05)

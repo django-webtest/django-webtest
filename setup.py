@@ -33,7 +33,7 @@ setup(
     description=(
         "Instant integration of Ian Bicking's WebTest "
         "(http://docs.pylonsproject.org/projects/webtest/) "
-        "with django's testing framework."
+        "with Django's testing framework."
     ),
 
     long_description=get_long_description(),
@@ -48,6 +48,11 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
+        'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.1',
+        'Framework :: Django :: 2.2',
+        'Framework :: Django :: 3.0',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
@@ -62,4 +67,10 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Software Development :: Testing',
     ],
+    project_urls={
+        'Code': 'https://github.com/django-webtest/django-webtest',
+        'Issue Tracker': 'https://github.com/django-webtest/django-webtest/issues',
+        'Changelog': 'https://github.com/django-webtest/django-webtest/blob/master/CHANGES.rst',
+    },
+    keywords=['django', 'webtest', 'pytest'],
 )

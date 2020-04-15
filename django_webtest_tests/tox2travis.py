@@ -36,7 +36,7 @@ if __name__ == '__main__':
                     py = 'pypy'
                 else:
                     py = '{0}.{1}'.format(env[2], env[3])
-                    if int(env[2] + env[3]) > 36:
+                    if int(env[2] + env[3]) > 38:
                         # looks like psql dos not work on xenial... skip 3.7
                         # for now
                         continue

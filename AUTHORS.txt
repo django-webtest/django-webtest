@@ -23,3 +23,4 @@ Authors
 * Max Kharandziuk <https://github.com/kharandziuk>
 * Helen Sherwood-Taylor <https://github.com/helenst>
 * Éric Araujo <https://github.com/merwok>
+* Wayne Lambert <https://github.com/WayneLambert>

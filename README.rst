@@ -15,7 +15,7 @@ django-webtest
    :alt: Build Status
 
 django-webtest is an app for instant integration of Ian Bicking's
-WebTest (http://docs.pylonsproject.org/projects/webtest/) with django's
+WebTest (http://docs.pylonsproject.org/projects/webtest/) with Django's
 testing framework.
 
 Installation
@@ -68,17 +68,17 @@ For 500 errors original traceback is shown instead of usual html result
 from handler500.
 
 You also get the ``response.templates`` and ``response.context`` goodness that
-is usually only available if you use django's native test client. These
+is usually only available if you use Django's native test client. These
 attributes contain a list of templates that were used to render the response
-and the context used to render these templates. All of django's native asserts (
+and the context used to render these templates. All of Django's native asserts (
 ``assertFormError``,  ``assertTemplateUsed``, ``assertTemplateNotUsed``,
 ``assertContains``, ``assertNotContains``, ``assertRedirects``) are
 also supported for WebTest responses.
 
 The session dictionary is available via ``self.app.session``, and has the
-same content than django's native test client.
+same content than Django's native test client.
 
-Unlike django's native test client CSRF checks are not suppressed
+Unlike Django's native test client CSRF checks are not suppressed
 by default so missing CSRF tokens will cause test fails (and that's good).
 
 If forms are submitted via WebTest forms API then all form fields (including
@@ -87,7 +87,7 @@ CSRF token) are submitted automagically::
     class AuthTest(WebTest):
         fixtures = ['users.json']
 
-        def test_login(self)
+        def test_login(self):
             form = self.app.get(reverse('auth_login')).form
             form['username'] = 'foo'
             form['password'] = 'bar'
@@ -101,14 +101,14 @@ csrf tokens become hard to construct. CSRF checks can be disabled by setting
     class MyTestCase(WebTest):
         csrf_checks = False
 
-        def test_post(self)
+        def test_post(self):
             self.app.post('/')
 
-When a subclass of django's ``TransactionTestCase`` is desired,
+When a subclass of Django's ``TransactionTestCase`` is desired,
 use ``django_webtest.TransactionWebTest``.
 
 All of these features can be easily set up manually (thanks to WebTest
-architecture) and they are even not neccessary for using WebTest with django but
+architecture) and they are even not neccessary for using WebTest with Django but
 it is nice to have some sort of integration instantly.
 
 See http://docs.pylonsproject.org/projects/webtest/ for API help. Webtest can
@@ -125,7 +125,7 @@ authentication system with ``app.get(user=user)``.
 
 .. __: https://www.django-rest-framework.org/
 
-Usage with pytest
+Usage with PyTest
 =================
 
 You need to install `pytest-django <https://pytest-django.readthedocs.io>`_::
@@ -136,16 +136,18 @@ Then you can use ``django-webtest``'s fixtures::
 
     def test_1(django_app):
         resp = django_app.get('/')
+        assert resp.status_code == 200, 'Should return a 200 status code'
 
     def test_2(django_app_factory):
         app = django_app_factory(csrf_checks=False, extra_environ={})
         resp = app.get('/')
+        assert resp.status_code == 200, 'Should return a 200 status code'
 
 Why?
 ====
 
 While django.test.client.Client is fine for its purposes, it is not
-well-suited for functional or integration testing. From django's test client
+well-suited for functional or integration testing. From Django's test client
 docstring:
 
     This is not intended as a replacement for Twill/Selenium or
@@ -157,7 +159,7 @@ WebTest plays on the same field as twill. WebTest has a nice API,
 is fast, small, talks to the django application via WSGI instead of HTTP
 and is an easy way to write functional/integration/acceptance tests.
 django-webtest is able to provide access to the names of rendered templates
-and template context just like native django TestClient.
+and template context just like native Django TestClient.
 
 Contributing
 ============
@@ -179,4 +181,3 @@ Make sure `tox`_ is installed and run
 from the source checkout.
 
 .. _tox: http://tox.testrun.org
-

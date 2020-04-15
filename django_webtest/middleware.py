@@ -29,10 +29,9 @@ class WebtestUserMiddleware(RemoteUserMiddleware):
             raise ImproperlyConfigured(
                 "The django-webtest auth middleware requires the "
                 "'django.contrib.auth.middleware.AuthenticationMiddleware' "
-                "to be installed. Add it to your MIDDLEWARE_CLASSES setting "
-                "or disable django-webtest auth support "
-                "by setting 'setup_auth' property of your WebTest subclass "
-                "to False."
+                "to be installed. Add it to your MIDDLEWARE setting "
+                "or disable django-webtest auth support by setting "
+                "'setup_auth' property of your WebTest subclass to False."
             )
         try:
             username = request.META[self.header]

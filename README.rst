@@ -21,14 +21,14 @@ testing framework.
 Installation
 ============
 
-::
+.. code-block:: console
 
     $ pip install django-webtest
 
 Usage
 =====
 
-::
+.. code-block:: python
 
     from django_webtest import WebTest
 
@@ -82,7 +82,9 @@ Unlike Django's native test client CSRF checks are not suppressed
 by default so missing CSRF tokens will cause test fails (and that's good).
 
 If forms are submitted via WebTest forms API then all form fields (including
-CSRF token) are submitted automagically::
+CSRF token) are submitted automagically:
+
+.. code-block:: python
 
     class AuthTest(WebTest):
         fixtures = ['users.json']
@@ -96,7 +98,9 @@ CSRF token) are submitted automagically::
 
 However if forms are submitted via raw POST requests using ``app.post`` then
 csrf tokens become hard to construct. CSRF checks can be disabled by setting
-``csrf_checks`` attribute to False in this case::
+``csrf_checks`` attribute to False in this case:
+
+.. code-block:: python
 
     class MyTestCase(WebTest):
         csrf_checks = False
@@ -128,11 +132,15 @@ authentication system with ``app.get(user=user)``.
 Usage with PyTest
 =================
 
-You need to install `pytest-django <https://pytest-django.readthedocs.io>`_::
+You need to install `pytest-django <https://pytest-django.readthedocs.io>`_:
+
+.. code-block:: console
 
     $ pip install pytest-django
 
-Then you can use ``django-webtest``'s fixtures::
+Then you can use ``django-webtest``'s fixtures:
+
+.. code-block:: python
 
     def test_1(django_app):
         resp = django_app.get('/')
@@ -172,9 +180,9 @@ Feel free to submit ideas, bugs or pull requests.
 Running tests
 -------------
 
-Make sure `tox`_ is installed and run
+Make sure `tox`_ is installed and run:
 
-::
+.. code-block:: console
 
     $ tox
 

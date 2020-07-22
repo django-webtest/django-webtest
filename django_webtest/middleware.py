@@ -53,7 +53,7 @@ class WebtestUserMiddleware(RemoteUserMiddleware):
                 return
         # We are seeing this user for the first time in this session, attempt
         # to authenticate the user.
-        user = auth.authenticate(django_webtest_user=username)
+        user = auth.authenticate(request=request, django_webtest_user=username)
         if user:
             # User is valid.  Set request.user and persist user in the session
             # by logging the user in.

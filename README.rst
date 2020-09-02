@@ -111,6 +111,9 @@ csrf tokens become hard to construct. CSRF checks can be disabled by setting
 When a subclass of Django's ``TransactionTestCase`` is desired,
 use ``django_webtest.TransactionWebTest``.
 
+For disabling CSRF checks in a ``pytest-django`` fixture, see
+`Usage with PyTest`_.
+
 All of these features can be easily set up manually (thanks to WebTest
 architecture) and they are even not neccessary for using WebTest with Django but
 it is nice to have some sort of integration instantly.
@@ -146,10 +149,20 @@ Then you can use ``django-webtest``'s fixtures:
         resp = django_app.get('/')
         assert resp.status_code == 200, 'Should return a 200 status code'
 
-    def test_2(django_app_factory):
-        app = django_app_factory(csrf_checks=False, extra_environ={})
-        resp = app.get('/')
-        assert resp.status_code == 200, 'Should return a 200 status code'
+We have a ``django_app_factory`` fixture we can use to create custom fixtures.
+For example, one that doesn't do CSRF checks:
+
+.. code-block:: python
+
+    # conftest.py
+
+    @pytest.fixture
+    def csrf_exempt_django_app(django_app_factory):
+        return django_app_factory(csrf_checks=False)
+
+``csrf_checks`` and ``extra_environ`` are the only arguments to
+``django_app_factory``.
+
 
 Why?
 ====

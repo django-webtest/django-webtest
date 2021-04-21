@@ -12,6 +12,8 @@ CHANGES
 
 - Minor changes to documentation
 
+- Update getting session in DjangoTestApp.  Fixed #113
+
 
 1.9.7 (2019-07-05)
 ------------------

@@ -209,12 +209,12 @@ class DjangoTestApp(TestApp):
         """
         Obtains the current session variables.
         """
-        if 'django.contrib.sessions' in settings.INSTALLED_APPS:
-            engine = import_module(settings.SESSION_ENGINE)
-            cookie = self.cookies.get(settings.SESSION_COOKIE_NAME, None)
-            if cookie:
-                return engine.SessionStore(cookie)
-        return {}
+        engine = import_module(settings.SESSION_ENGINE)
+        cookie = self.cookies.get(settings.SESSION_COOKIE_NAME, None)
+        if cookie:
+            return engine.SessionStore(cookie)
+        else:
+            return {}
 
     def set_cookie(self, *args, **kwargs):
         self.extra_environ = self._update_environ(self.extra_environ)

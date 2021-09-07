@@ -82,3 +82,39 @@ matrix:
       env: TOXENV=py38-django30-clocale
     - python: "3.8"
       env: TOXENV=py38-django30-postgres
+    - python: "3.6"
+      env: TOXENV=py36-django31-std
+    - python: "3.6"
+      env: TOXENV=py36-django31-clocale
+    - python: "3.6"
+      env: TOXENV=py36-django31-postgres
+    - python: "3.7"
+      env: TOXENV=py37-django31-std
+    - python: "3.7"
+      env: TOXENV=py37-django31-clocale
+    - python: "3.7"
+      env: TOXENV=py37-django31-postgres
+    - python: "3.8"
+      env: TOXENV=py38-django31-std
+    - python: "3.8"
+      env: TOXENV=py38-django31-clocale
+    - python: "3.8"
+      env: TOXENV=py38-django31-postgres
+    - python: "3.6"
+      env: TOXENV=py36-django32-std
+    - python: "3.6"
+      env: TOXENV=py36-django32-clocale
+    - python: "3.6"
+      env: TOXENV=py36-django32-postgres
+    - python: "3.7"
+      env: TOXENV=py37-django32-std
+    - python: "3.7"
+      env: TOXENV=py37-django32-clocale
+    - python: "3.7"
+      env: TOXENV=py37-django32-postgres
+    - python: "3.8"
+      env: TOXENV=py38-django32-std
+    - python: "3.8"
+      env: TOXENV=py38-django32-clocale
+    - python: "3.8"
+      env: TOXENV=py38-django32-postgres

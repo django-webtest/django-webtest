@@ -22,5 +22,4 @@ jobs:
         run: pip install tox
       - name: Run Tox
         run:
-            PY=$(echo ${{ matrix.python }} | sed 's/\.//')
-            tox -e py$(PY)-django${{ matrix.django}}-{{ matrix.suffix}}
+            tox -e py$(${{ matrix.python }} | sed 's/\.//')-django${{ matrix.django}}-{{ matrix.suffix}}

@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.8 (unreleased)
+1.9.8 (2021-10-06)
 ------------------
 
 - Update testing configurations for Django and Python as per Django documentation

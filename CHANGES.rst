@@ -14,6 +14,8 @@ CHANGES
 
 - Update getting session in DjangoTestApp.  Fixed #113
 
+- Remove py27/py35 support
+
 
 1.9.7 (2019-07-05)
 ------------------

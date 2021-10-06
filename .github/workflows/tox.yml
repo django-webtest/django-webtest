@@ -36,6 +36,7 @@ jobs:
         run: pip install tox
       - name: Run Tox
         env:
+            POSTGRES_HOST: localhost
             POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
             POSTGRES_NAME: django_webtest_tests_${{ matrix.python }}
         run: tox -e py$(echo ${{ matrix.python }} | sed 's/\.//')-django${{ matrix.django }}-${{ matrix.suffix }}

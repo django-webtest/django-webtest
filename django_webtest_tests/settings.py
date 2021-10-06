@@ -23,8 +23,10 @@ if os.environ.get('USE_POSTGRES'):
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
     DATABASES['default']['HOST'] = os.environ.get('POSTGRES_HOST', '')
     DATABASES['default']['PORT'] = int(os.environ.get('POSTGRES_PORT', '5432'))
+    DATABASES['default']['USER'] = os.environ.get('POSTGRES_USER', '')
+    DATABASES['default']['PASSWORD'] = os.environ.get('POSTGRES_PASSWORD', '')
     DATABASES['default']['NAME'] = os.environ.get(
-            'POSTGRES_NAME', 'django_webtest_tests'
+            'POSTGRES_DB', 'django_webtest_tests'
     )
 
 SITE_ID = 1

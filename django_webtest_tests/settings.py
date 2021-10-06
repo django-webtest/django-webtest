@@ -21,8 +21,10 @@ DATABASES = {
 
 if os.environ.get('USE_POSTGRES'):
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
-    DATABASES['default']['NAME'] = 'django_webtest_tests'
-
+    DATABASES['default']['PORT'] = int(os.environ.get('POSTGRES_PORT', '5432'))
+    DATABASES['default']['NAME'] = os.environ.get(
+            'POSTGRES_NAME', 'django_webtest_tests'
+    )
 
 SITE_ID = 1
 ROOT_URLCONF = 'urls'

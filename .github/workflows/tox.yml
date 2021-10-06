@@ -6,11 +6,25 @@ jobs:
   tox:
 
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         python: [3.6, 3.7, 3.8, 3.9]
         django: [21, 22, 30, 31, 32]
-        suffix: [std, clocale]
+        suffix: [std, clocale, postgres]
+
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+        # will assign a random free host port
+        - 5432/tcp
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - uses: actions/checkout@v2
@@ -21,4 +35,7 @@ jobs:
       - name: Install Tox and any other packages
         run: pip install tox
       - name: Run Tox
+        env:
+            POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+            POSTGRES_NAME: django_webtest_tests_${{ matrix.python }}
         run: tox -e py$(echo ${{ matrix.python }} | sed 's/\.//')-django${{ matrix.django }}-${{ matrix.suffix }}

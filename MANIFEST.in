@@ -1,5 +1,7 @@
 include *.txt
 include *.rst
 include *.ini
+prune .github
+prune .vscode
 recursive-include django_webtest_tests *.html
 recursive-include django_webtest_tests *.py

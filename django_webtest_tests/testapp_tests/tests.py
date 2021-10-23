@@ -248,7 +248,7 @@ class AuthTest(BaseAuthTest):
         self.assertIn('sessionid', self.app.cookies)
 
         resp = self.app.get(reverse('protected'))
-        self.assertEquals(resp.status_int, 200)
+        self.assertEqual(resp.status_int, 200)
         resp.mustcontain('ok: {0}'.format(self.user.username))
 
     def test_reusing_custom_user(self):

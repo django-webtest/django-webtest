@@ -5,7 +5,9 @@ CHANGES
 1.9.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add Django 4 support
+
+- Remove Django 2 support
 
 
 1.9.8 (2021-10-06)

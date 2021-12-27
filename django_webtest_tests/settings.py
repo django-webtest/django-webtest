@@ -103,3 +103,5 @@ INSTALLED_APPS = (
     'django_webtest_tests',
     'django_webtest_tests.testapp_tests',
 )
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.9 (unreleased)
+1.9.9 (2021-12-27)
 ------------------
 
 - Add Django 4 support

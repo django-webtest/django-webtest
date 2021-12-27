@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         python: [3.8, 3.9]
-        django: [21, 22, 30, 31, 32, 40]
+        django: [30, 31, 32, 40]
         suffix: [std, clocale, postgres]
 
     services:

@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals, absolute_import
-
+from __future__ import absolute_import, unicode_literals
 
 import django
 from django.contrib.auth.models import User
+
 try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
-from django.test.testcases import override_settings
+
 from unittest import skipIf
+from unittest.mock import patch
 
-
+from django.test.testcases import override_settings
 from webtest import AppError, TestApp
 
 from django_webtest import WebTest
-from django_webtest.compat import is_authenticated, is_anonymous
+from django_webtest.compat import is_anonymous, is_authenticated
 
 
 class MethodsTest(WebTest):
@@ -265,7 +266,7 @@ class AuthTest(BaseAuthTest):
 
                 # Middleware authentication check shouldn't crash
                 response = self.app.get('/template/index.html',
-                        user=custom_user)
+                                        user=custom_user)
                 user = response.context['user']
                 assert is_authenticated(user)
                 self.assertEqual(user, custom_user)
@@ -275,6 +276,34 @@ class AuthTest(BaseAuthTest):
         normal django users"""
         self.app.get('/template/index.html', user=self.user)
         self.app.get('/template/index.html', user=self.user)
+
+
+@override_settings(
+    WEBTEST_AUTHENTICATION_BACKEND=(
+        'django_webtest.backends.WebtestUserWithoutPermissionsBackend'),
+    AUTHENTICATION_BACKENDS=['testapp_tests.SimpleBackend'],
+)
+class CustomAuthTest(BaseAuthTest):
+
+    def test_backend_is_enabled(self):
+        from django.conf import settings
+
+        assert len(settings.AUTHENTICATION_BACKENDS) == 2
+        assert (
+            settings.AUTHENTICATION_BACKENDS[0]
+            == 'django_webtest.backends.WebtestUserWithoutPermissionsBackend'
+        )
+
+    def test_permission_passthrough(self):
+        from django.contrib.auth.backends import ModelBackend
+
+        class SimpleBackend(ModelBackend):
+            def has_perm(self, user_obj, perm, obj=None):
+                return perm == 'tests.allow'
+
+        with patch('testapp_tests.SimpleBackend', SimpleBackend, create=True):
+            assert self.user.has_perm('tests.allow') is True
+            assert self.user.has_perm('tests.deny') is False
 
 
 class GlobalAuthTest(BaseAuthTest):
@@ -362,7 +391,6 @@ class RenewAppTest(BaseAuthTest):
         self.assertEqual(page1_1.context['user'], self.user)
 
 
-
 class DjangoAssertsTest(BaseAuthTest):
 
     def test_assert_template_used(self):
@@ -407,7 +435,6 @@ class DjangoAssertsTest(BaseAuthTest):
         self.assertRedirects(page, reverse('protected'))
 
 
-
 class DisableAuthSetupTest(WebTest):
     setup_auth = False
 
@@ -430,7 +457,7 @@ class TestSession(WebTest):
 
         apps = list(settings.INSTALLED_APPS)
         apps.remove("django.contrib.sessions")
-        settings.INSTALLED_APPS= apps
+        settings.INSTALLED_APPS = apps
 
         response = self.app.get('/')
         self.assertEqual(response.status_int, 200)
@@ -452,6 +479,7 @@ class TestHeaderAccess(WebTest):
             response = self.app.get('/')
             response['X-Unknown-Header']
         self.assertRaises(KeyError, access_bad_header)
+
 
 class TestCookies(WebTest):
     def test_cookies(self):

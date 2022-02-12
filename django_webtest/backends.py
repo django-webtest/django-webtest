@@ -23,3 +23,15 @@ class WebtestUserBackend(RemoteUserBackend):
 
     def clean_username(self, username):
         return from_wsgi_safe_string(username)
+
+
+class WebtestUserWithoutPermissionsBackend(WebtestUserBackend):
+    """
+    Auth backend that passes-through any permission check to further backends
+    """
+
+    def get_perm(self, user_obj, perm, obj=None):
+        # Indicate that this backend does not handle permissions and
+        # allow Django's django.contrib.auth.models._user_has_perm
+        # utility to move on to other enabled authentication backends.
+        return False

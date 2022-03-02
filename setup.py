@@ -4,7 +4,7 @@ import sys
 from setuptools import setup
 
 
-version = '1.9.10'
+version = '1.9.11.dev0'
 
 
 def _read(name):

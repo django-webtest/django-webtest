@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.10 (unreleased)
+1.9.10 (2022-03-02)
 -------------------
 
 - Add an optional WebTest backend that does not interfere with handling of permissions by

@@ -286,7 +286,9 @@ class WebTestMixin(object):
             self.settings_middleware.insert(index + 1, webtest_auth_middleware)
 
     def _setup_auth_backend(self):
-        backend_name = 'django_webtest.backends.WebtestUserBackend'
+        backend_name = getattr(
+            settings, 'WEBTEST_AUTHENTICATION_BACKEND',
+            'django_webtest.backends.WebtestUserBackend')
         settings.AUTHENTICATION_BACKENDS.insert(0, backend_name)
 
     def _setup_auth_class(self):

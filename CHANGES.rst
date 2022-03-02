@@ -5,7 +5,8 @@ CHANGES
 1.9.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add an optional WebTest backend that does not interfere with handling of permissions by
+  custom backends. Accessible via WEBTEST_AUTHENTICATION_BACKEND setting. Fixed #123
 
 
 1.9.9 (2021-12-27)
@@ -52,6 +53,7 @@ CHANGES
 
 - Add missing args to DjangoTestApp. Fixed #86
 
+
 1.9.4 (2018-10-27)
 ------------------
 
@@ -66,6 +68,7 @@ CHANGES
   WebTestMixin. fixed #87
 
 - restore MIDDLEWARE_CLASSES support; fixed #84
+
 
 1.9.3 (2018-05-03)
 ------------------

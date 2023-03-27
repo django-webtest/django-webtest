@@ -9,8 +9,8 @@ jobs:
 
     strategy:
       matrix:
-        python: [3.8, 3.9]
-        django: [30, 31, 32, 40]
+        python: [3.8, 3.9, '3.10', 3.11]
+        django: [30, 31, 32, 40, 41]
         suffix: [std, clocale, postgres]
 
     services:
@@ -27,9 +27,9 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
       - name: Install Tox and any other packages

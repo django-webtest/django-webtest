@@ -301,7 +301,7 @@ class WebTestMixin(object):
         if class_name not in classes:
             if isinstance(classes, tuple):
                 classes = list(classes)
-            classes.insert(0, class_name)
+            classes.append(class_name)
             drf_settings['DEFAULT_AUTHENTICATION_CLASSES'] = classes
 
     @property

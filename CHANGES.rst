@@ -5,8 +5,9 @@ CHANGES
 1.9.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add support for official Python & Django versions
 
+- Do not insert  WebtestAuthentication to the head of DEFAULT_AUTHENTICATION_CLASSES.
 
 1.9.10 (2022-03-02)
 -------------------

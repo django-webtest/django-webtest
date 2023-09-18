@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.11 (unreleased)
+1.9.11 (2023-09-18)
 -------------------
 
 - Add support for official Python & Django versions

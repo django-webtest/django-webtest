@@ -467,6 +467,12 @@ class TestSession(WebTest):
         self.app.get(reverse('set_session'))
         self.assertEqual('foo', self.app.session['test'])
 
+    def test_second_request_has_session_key(self):
+        test_user = User.objects.create(username='test_user')
+        second_user = User.objects.create(username='second_user')
+        self.app.get('/', user=test_user)
+        self.app.get('/', user=second_user)
+
 
 class TestHeaderAccess(WebTest):
     def test_headers(self):

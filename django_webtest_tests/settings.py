@@ -86,6 +86,7 @@ MIDDLEWARE = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'testapp_tests.middleware.UserMiddleware',
+    'allauth.usersessions.middleware.UserSessionsMiddleware',
 )
 
 if django.VERSION < (1, 10):
@@ -102,6 +103,9 @@ INSTALLED_APPS = (
     'django_webtest',
     'django_webtest_tests',
     'django_webtest_tests.testapp_tests',
+    'allauth',
+    'allauth.usersessions',
 )
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+USERSESSIONS_TRACK_ACTIVITY = True

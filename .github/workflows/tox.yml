@@ -9,9 +9,12 @@ jobs:
 
     strategy:
       matrix:
-        python: [3.8, 3.9, "3.10", "3.11"]
-        django: [32, 41, 42]
+        python: ["3.9", "3.10", "3.11", "3.12"]
+        django: ["32", "41", "42", "50"]
         suffix: [std, clocale, postgres]
+        exclude:
+          - python: "3.9"
+            django: "50"
 
     services:
       postgres:
@@ -29,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
       - name: Install Tox and any other packages

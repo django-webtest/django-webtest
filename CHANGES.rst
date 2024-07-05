@@ -5,7 +5,9 @@ CHANGES
 1.9.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add support for Django 5
+
+- No longer compatible with assertFormError
 
 
 1.9.11 (2023-09-18)

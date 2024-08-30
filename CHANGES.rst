@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.12 (unreleased)
+1.9.12 (2024-08-30)
 -------------------
 
 - Add support for Django 5

@@ -9,6 +9,8 @@ CHANGES
 
 - No longer compatible with assertFormError
 
+- pytest fixture now unpatch Django settings after fixture run
+
 
 1.9.11 (2023-09-18)
 -------------------

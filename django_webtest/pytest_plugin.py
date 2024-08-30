@@ -31,8 +31,9 @@ def django_app(django_app_mixin):
 
 @pytest.fixture
 def django_app_factory():
+    app_mixin = MixinWithInstanceVariables()
+
     def factory(csrf_checks=True, extra_environ=None):
-        app_mixin = MixinWithInstanceVariables()
         app_mixin.csrf_checks = csrf_checks
         if extra_environ:
             app_mixin.extra_environ = extra_environ
@@ -41,3 +42,5 @@ def django_app_factory():
         return app_mixin.app
 
     yield factory
+    
+    app_mixin._unpatch_settings()

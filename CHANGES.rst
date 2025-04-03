@@ -5,7 +5,8 @@ CHANGES
 1.9.13 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Drop support for Django 3.x and 4.1
+- Add support for Django 5.2
 
 
 1.9.12 (2024-08-30)

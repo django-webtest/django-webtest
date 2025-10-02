@@ -39,6 +39,8 @@ class WebtestUserMiddleware(RemoteUserMiddleware):
             # If specified header doesn't exist then return (leaving
             # request.user set to AnonymousUser by the
             # AuthenticationMiddleware).
+            username = None
+        if username is None:    
             return self.get_response(request)
         # If the user is already authenticated and that user is the user we are
         # getting passed in the headers, then the correct user is already

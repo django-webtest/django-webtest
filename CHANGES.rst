@@ -5,7 +5,7 @@ CHANGES
 1.9.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Do not return response from an exception handler, do it after. Fixed #137
 
 
 1.9.13 (2025-04-03)

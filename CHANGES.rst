@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.14 (unreleased)
+1.9.14 (2025-10-06)
 -------------------
 
 - Do not return response from an exception handler, do it after. Fixed #137

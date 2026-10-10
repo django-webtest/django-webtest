@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.9.15 (unreleased)
+1.9.15 (2026-10-10)
 -------------------
 
 - Add Django 6.x support

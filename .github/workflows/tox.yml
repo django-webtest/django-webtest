@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         python: ["3.9", "3.10", "3.11", "3.12"]
-        django: ["42", "50", "51", "52"]
+        django: ["42", "50", "51", "52", "60", "61"]
         suffix: [std, clocale, postgres]
         exclude:
           - python: "3.9"
@@ -19,6 +19,18 @@ jobs:
             django: "51"
           - python: "3.9"
             django: "52"
+          - python: "3.9"
+            django: "60"
+          - python: "3.10"
+            django: "60"
+          - python: "3.11"
+            django: "60"
+          - python: "3.9"
+            django: "61"
+          - python: "3.10"
+            django: "61"
+          - python: "3.11"
+            django: "61"
 
     services:
       postgres:

@@ -5,7 +5,7 @@ CHANGES
 1.9.15 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add Django 6.x support
 
 
 1.9.14 (2025-10-06)
